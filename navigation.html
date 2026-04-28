@@ -1,0 +1,1155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Navigation – Andrew Gaskell</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Lato:wght@400;500;600;700&display=swap"
+    rel="stylesheet"
+  />
+  <style>
+    :root {
+      --dark: #302a3f;
+      --text: #4a4d5e;
+      --text-secondary: #626567;
+      --muted: #7a7a7a;
+      --surface: #f7f9fc;
+      --border: #c7c7d0;
+      --divider: #d8d6e5;
+      --black: #090909;
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: "Lato", sans-serif;
+      background: #fff;
+      color: var(--black);
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    img { display: block; max-width: 100%; }
+    a { color: inherit; }
+
+    /* ---------- HEADER ---------- */
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 40px;
+      padding: 24px 60px;
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: saturate(180%) blur(10px);
+      -webkit-backdrop-filter: saturate(180%) blur(10px);
+      border-bottom: 1px solid transparent;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .site-header--scrolled {
+      border-bottom-color: rgba(0, 0, 0, 0.06);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+    }
+
+    .site-header__left {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+    }
+
+    .site-header__logo {
+      font-family: "Bebas Neue", sans-serif;
+      font-size: 24px;
+      color: #000;
+      text-decoration: none;
+    }
+
+    .site-header__links {
+      display: flex;
+      gap: 40px;
+      align-items: center;
+    }
+
+    .header-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      color: var(--dark);
+      font-weight: 700;
+      font-size: 13px;
+      letter-spacing: -0.065px;
+      text-decoration: none;
+    }
+
+    .header-link a,
+    .header-link span.underline {
+      text-decoration: underline;
+      color: var(--dark);
+    }
+
+    /* ---------- BUTTONS ---------- */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: -0.065px;
+      cursor: pointer;
+      text-decoration: none;
+      border: 1px solid transparent;
+      font-family: "Lato", sans-serif;
+      transition: background 0.2s ease, transform 0.1s ease;
+    }
+
+    .btn:hover { transform: translateY(-1px); }
+
+    .btn--secondary {
+      background: #fff;
+      color: #000;
+      border-color: var(--dark);
+    }
+
+    .btn--secondary:hover { background: #f1efee; }
+
+    .btn svg { width: 20px; height: 20px; flex-shrink: 0; }
+    .btn--back svg { transform: rotate(180deg); }
+
+    /* ---------- BODY ---------- */
+    .body-wrap {
+      max-width: 954px;
+      margin: 0 auto;
+      padding: 60px 20px 140px;
+      display: flex;
+      flex-direction: column;
+      gap: 120px;
+    }
+
+    /* ---------- HERO ---------- */
+    .hero {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      min-height: 312px;
+      position: relative;
+    }
+
+    .hero__media {
+      position: relative;
+      width: 736px;
+      height: 395px;
+      flex-shrink: 0;
+      border-radius: 18px;
+      overflow: hidden;
+      box-shadow: 0 13px 21px rgba(0, 0, 0, 0.06), 0 7px 7px rgba(0, 0, 0, 0.03), 0 3px 2px rgba(0, 0, 0, 0.03);
+      margin-right: -135px;
+    }
+
+    .hero__media img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .hero__title {
+      font-family: "Bebas Neue", sans-serif;
+      font-size: 64px;
+      color: #000;
+      font-weight: 400;
+      line-height: 1;
+      text-transform: uppercase;
+      width: 409px;
+      margin-right: -135px;
+      position: relative;
+      z-index: 2;
+    }
+
+    /* ---------- LEAD / BIG PARAGRAPH ---------- */
+    .lede {
+      font-size: 32px;
+      font-weight: 500;
+      color: var(--text);
+      letter-spacing: -0.16px;
+      line-height: 1.34;
+    }
+
+    .lede strong { font-weight: 700; }
+
+    /* ---------- INFO TABLE ---------- */
+    .info-table {
+      display: flex;
+      flex-direction: column;
+      border-top: 1px solid var(--divider);
+    }
+
+    .info-row {
+      display: flex;
+      gap: 123px;
+      align-items: flex-start;
+      padding: 24px 0;
+      border-bottom: 1px solid var(--divider);
+      font-size: 16px;
+      letter-spacing: -0.08px;
+      line-height: 1.34;
+    }
+
+    .info-row__label {
+      width: 210px;
+      color: var(--muted);
+      flex-shrink: 0;
+    }
+
+    .info-row__value {
+      color: var(--text);
+      flex: 1;
+    }
+
+    .info-row__value ul {
+      list-style: disc;
+      padding-left: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .info-row__value ul li {
+      line-height: 1.44;
+    }
+
+    /* ---------- SECTION BLOCK ---------- */
+    .section-block {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .section-block--lg { gap: 40px; }
+
+    .section-title {
+      font-family: "Bebas Neue", sans-serif;
+      font-weight: 400;
+      font-size: 32px;
+      color: #000;
+      text-transform: uppercase;
+      line-height: 1;
+    }
+
+    /* ---------- PROSE WIDTH CONSTRAINT ---------- */
+    .prose { max-width: 680px; }
+
+    /* ---------- SECTION EYEBROW (01 — CONTEXT) ---------- */
+    .section-head {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .section-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      font-family: "Lato", sans-serif;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+    }
+
+    .section-eyebrow__num {
+      color: var(--dark);
+      font-weight: 700;
+    }
+
+    .section-eyebrow__rule {
+      display: inline-block;
+      width: 28px;
+      height: 1px;
+      background: currentColor;
+      opacity: 0.5;
+    }
+
+    .section-subtitle {
+      font-family: "Bebas Neue", sans-serif;
+      font-weight: 400;
+      font-size: 24px;
+      color: #000;
+      text-transform: uppercase;
+      line-height: 1;
+    }
+
+    .pull-quote {
+      font-size: 32px;
+      font-weight: 500;
+      color: var(--text);
+      letter-spacing: -0.16px;
+      line-height: 1.34;
+    }
+
+    .two-col {
+      display: flex;
+      gap: 20px;
+      align-items: flex-start;
+    }
+
+    .two-col > * {
+      flex: 1;
+      font-size: 16px;
+      color: var(--text);
+      letter-spacing: -0.08px;
+      line-height: 1.34;
+    }
+
+    /* ---------- GOALS ---------- */
+    .goals {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      font-size: 16px;
+      color: var(--text);
+      letter-spacing: -0.08px;
+      line-height: 1.34;
+    }
+
+    .goals__row {
+      display: flex;
+      gap: 20px;
+      align-items: flex-start;
+    }
+
+    .goals__label {
+      width: 128px;
+      flex-shrink: 0;
+    }
+
+    .goals__value { flex: 1; }
+
+    /* ---------- ORDERED NOTES ---------- */
+    .notes {
+      display: flex;
+      flex-direction: column;
+      gap: 30px;
+      counter-reset: list;
+      font-size: 16px;
+      color: var(--text);
+      letter-spacing: -0.08px;
+      line-height: 1.34;
+      list-style: none;
+      padding-left: 0;
+    }
+
+    .notes__item {
+      padding-left: 24px;
+      position: relative;
+    }
+
+    .notes__item::before {
+      counter-increment: list;
+      content: counter(list) ".";
+      position: absolute;
+      left: 0;
+      top: 0;
+    }
+
+    .notes__item strong { font-weight: 700; }
+
+    /* ---------- DECISIONS / NUMBERED LISTS ---------- */
+    .decisions {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      counter-reset: decisions;
+      font-size: 16px;
+      color: var(--text);
+      letter-spacing: -0.08px;
+      line-height: 1.34;
+      list-style: none;
+      padding-left: 0;
+    }
+
+    .decisions__item {
+      padding-left: 24px;
+      position: relative;
+    }
+
+    .decisions__item::before {
+      counter-increment: decisions;
+      content: counter(decisions) ".";
+      position: absolute;
+      left: 0;
+      top: 0;
+    }
+
+    .decisions__item--italic {
+      font-style: italic;
+    }
+
+    /* ---------- VIDEO ---------- */
+    .clip-video {
+      width: 100%;
+      aspect-ratio: 1130 / 636;
+      border-radius: 24px;
+      background: #1e1f27;
+      display: block;
+      object-fit: cover;
+      box-shadow: 0 4px 24.5px rgba(0, 0, 0, 0.12);
+    }
+
+    /* ---------- RESEARCH ROW ---------- */
+    .research-row {
+      display: flex;
+      gap: 20px;
+      align-items: flex-start;
+    }
+
+    .research-row__img-wide {
+      width: 378px;
+      height: 372px;
+      object-fit: cover;
+      flex-shrink: 0;
+      border-radius: 4px;
+    }
+
+    .research-row__img-narrow {
+      width: 198px;
+      height: 372px;
+      object-fit: cover;
+      flex-shrink: 0;
+      border-radius: 16px;
+    }
+
+    .research-row__notes {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 30px;
+      font-size: 16px;
+      color: var(--text);
+      letter-spacing: -0.08px;
+      line-height: 1.34;
+    }
+
+    .research-row__notes ol {
+      list-style: none;
+      counter-reset: research;
+      padding-left: 0;
+    }
+
+    .research-row__notes ol li {
+      padding-left: 24px;
+      position: relative;
+    }
+
+    .research-row__notes ol li::before {
+      counter-increment: research;
+      content: counter(research) ".";
+      position: absolute;
+      left: 0;
+      top: 0;
+    }
+
+    /* ---------- USER JOURNEY (BEFORE / REDESIGN) ---------- */
+    .journey-row {
+      display: flex;
+      gap: 24px;
+      align-items: stretch;
+    }
+
+    .journey-block {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .journey-block__label {
+      font-size: 16px;
+      letter-spacing: -0.08px;
+      line-height: 1.34;
+      color: #000;
+    }
+
+    .journey-block__before {
+      width: 660px;
+      aspect-ratio: 660 / 274;
+      object-fit: cover;
+      border-radius: 8px;
+      flex-shrink: 0;
+    }
+
+    .journey-block__redesign {
+      width: 100%;
+      aspect-ratio: 660 / 354;
+      object-fit: cover;
+      border-radius: 16px;
+      flex-shrink: 0;
+      box-shadow: 0 13px 19px rgba(0, 0, 0, 0.06), 0 7px 6px rgba(0, 0, 0, 0.03), 0 3px 2px rgba(0, 0, 0, 0.03);
+    }
+
+    .journey-callout {
+      flex: 1;
+      min-width: 0;
+      background: var(--surface);
+      border-radius: 8px;
+      padding: 16px;
+      display: flex;
+      align-items: center;
+      font-size: 16px;
+      color: var(--text);
+      letter-spacing: -0.08px;
+      line-height: 1.34;
+    }
+
+    .user-journey__lead {
+      font-weight: 500;
+      color: var(--text);
+      font-size: 16px;
+      letter-spacing: -0.08px;
+    }
+
+    /* ---------- VALIDATION / AB TESTING ---------- */
+    .ab-image {
+      width: 100%;
+      aspect-ratio: 1206 / 182;
+      object-fit: contain;
+      border-radius: 4px;
+    }
+
+    .ab-row {
+      display: flex;
+      gap: 24px;
+      align-items: stretch;
+      justify-content: space-between;
+      width: 100%;
+    }
+
+    .ab-row__copy {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      font-size: 16px;
+      color: var(--text);
+      letter-spacing: -0.08px;
+      line-height: 1.34;
+      max-width: 670px;
+    }
+
+    .ab-stat {
+      background: var(--surface);
+      border-radius: 8px;
+      padding: 16px 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      align-items: center;
+      justify-content: center;
+      color: var(--text);
+      flex-shrink: 0;
+    }
+
+    .ab-stat__num {
+      font-weight: 700;
+      font-size: 32px;
+      letter-spacing: -0.16px;
+      line-height: 1.34;
+    }
+
+    .ab-stat__label {
+      font-size: 16px;
+      letter-spacing: -0.08px;
+      line-height: 1.34;
+      white-space: nowrap;
+    }
+
+    /* ---------- RESULTS & IMPACT ---------- */
+    .impact-grid {
+      display: flex;
+      gap: 24px;
+      align-items: stretch;
+      width: 100%;
+    }
+
+    .impact-card {
+      flex: 1;
+      min-width: 0;
+      background: var(--dark);
+      border-radius: 8px;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+
+    .impact-card__num {
+      font-weight: 700;
+      font-size: 36px;
+      letter-spacing: -0.18px;
+      line-height: 1.34;
+      color: #f1f1ff;
+    }
+
+    .impact-card__label {
+      font-size: 20px;
+      letter-spacing: -0.1px;
+      line-height: 1.34;
+      color: #d7daf5;
+    }
+
+    /* ---------- REFLECTIONS ---------- */
+    .reflection-card {
+      background: var(--surface);
+      border-radius: 8px;
+      padding: 16px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      font-size: 16px;
+      letter-spacing: -0.08px;
+      line-height: 1.34;
+    }
+
+    .reflection-card__title {
+      color: #000;
+      font-weight: 700;
+    }
+
+    .reflection-card__body { color: var(--text); }
+
+    .reflection-card__heading {
+      color: var(--text);
+      font-style: italic;
+      margin-top: 4px;
+    }
+
+    .reflection-card ul {
+      list-style: disc;
+      padding-left: 24px;
+      color: var(--text);
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    /* ---------- NEXT STEPS ---------- */
+    .next-steps__quote {
+      font-size: 32px;
+      font-weight: 500;
+      color: var(--text);
+      letter-spacing: -0.16px;
+      line-height: 1.34;
+    }
+
+    .next-steps__body {
+      display: flex;
+      gap: 20px;
+      align-items: flex-end;
+    }
+
+    .next-steps__mock {
+      width: 375px;
+      flex-shrink: 0;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 6px 24px rgba(0, 0, 0, 0.08);
+    }
+
+    .next-steps__mock img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .next-steps__notes {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      font-size: 16px;
+      color: var(--text);
+      letter-spacing: -0.08px;
+      line-height: 1.34;
+      padding-bottom: 24px;
+    }
+
+    /* ---------- RESPONSIVE ---------- */
+    @media (max-width: 900px) {
+      .site-header {
+        padding: 16px 20px;
+        flex-wrap: wrap;
+        gap: 16px;
+      }
+      .site-header__links {
+        gap: 16px;
+        flex-wrap: wrap;
+      }
+      .body-wrap {
+        padding: 48px 20px 80px;
+        gap: 80px;
+      }
+      .hero {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .hero__media {
+        width: 100%;
+        height: auto;
+        aspect-ratio: 736 / 395;
+        margin-right: 0;
+      }
+      .hero__title {
+        font-size: 48px;
+        margin-right: 0;
+        width: 100%;
+      }
+      .lede, .pull-quote, .next-steps__quote { font-size: 22px; }
+      .prose { max-width: 100%; }
+      .info-row { flex-direction: column; gap: 12px; }
+      .info-row__label { width: 100%; }
+      .two-col { flex-direction: column; }
+      .goals__row { flex-direction: column; }
+      .research-row { flex-direction: column; }
+      .research-row__img-wide,
+      .research-row__img-narrow { width: 100%; height: auto; aspect-ratio: 1.02; }
+      .journey-row { flex-direction: column; }
+      .journey-block__before { width: 100%; }
+      .ab-row { flex-direction: column; }
+      .impact-grid { flex-direction: column; }
+      .next-steps__body { flex-direction: column; align-items: stretch; }
+      .next-steps__mock { width: 100%; max-width: 375px; margin: 0 auto; }
+    }
+  </style>
+</head>
+<body>
+  <!-- HEADER -->
+  <header class="site-header">
+    <div class="site-header__left">
+      <a class="btn btn--secondary btn--back" href="index.html">
+        <svg viewBox="0 0 20 20" fill="none" aria-hidden="true">
+          <path d="M7.5 5l5 5-5 5" stroke="#302a3f" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+        Back
+      </a>
+      <a class="site-header__logo" href="index.html">Andrew Gaskell</a>
+    </div>
+
+    <div class="site-header__links">
+      <a class="header-link" href="mailto:andygaskell10@outlook.com">
+        <svg width="20" height="18" viewBox="0 0 20 18" fill="none" aria-hidden="true">
+          <rect x="1" y="2" width="18" height="14" rx="2" stroke="#302a3f" stroke-width="1.5" />
+          <path d="M2 3.5l8 6.5 8-6.5" stroke="#302a3f" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+        <span>andygaskell10@outlook.com</span>
+      </a>
+
+      <span class="header-link">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="#302a3f" aria-hidden="true">
+          <path d="M4.98 3.5A2.49 2.49 0 002.5 6a2.5 2.5 0 105 0 2.49 2.49 0 00-2.52-2.5zM3 8.5h4v10H3v-10zM9 8.5h3.8v1.37h.05c.53-1 1.83-2.07 3.77-2.07 4.03 0 4.78 2.65 4.78 6.1v5.1h-4v-4.52c0-1.08-.02-2.47-1.5-2.47-1.5 0-1.73 1.17-1.73 2.39v4.6h-4V8.5z"/>
+        </svg>
+        <a
+          href="https://www.linkedin.com/in/andrew-gaskell-4092a5191?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app"
+          target="_blank"
+          rel="noopener"
+        >Click here for my profile</a>
+      </span>
+    </div>
+  </header>
+
+  <main class="body-wrap">
+    <!-- HERO -->
+    <section class="hero">
+      <div class="hero__media">
+        <img
+          src="https://www.figma.com/api/mcp/asset/d49edc06-ed14-4a1a-83ab-9a1a620a4247"
+          alt="Tote desktop navigation – left panel redesign"
+        />
+      </div>
+      <h1 class="hero__title">Navigation</h1>
+    </section>
+
+    <!-- INTRO LEDE -->
+    <section>
+      <p class="lede prose">
+        Introduced a left panel navigation to improve navigation, as the
+        previous drop down was landing customers on races that they did not
+        intend to bet on. The panel enabled signposting 'featured' pages,
+        which has <strong>1.5M events</strong> in 6 months.
+      </p>
+    </section>
+
+    <!-- INFO TABLE -->
+    <section>
+      <dl class="info-table">
+        <div class="info-row">
+          <div class="info-row__label">ROLE</div>
+          <div class="info-row__value">Lead Designer</div>
+        </div>
+        <div class="info-row">
+          <div class="info-row__label">RESPONSIBILITIES</div>
+          <div class="info-row__value">
+            <ul>
+              <li>Identified the problem through surveys and using clips from other initiative's interviews.</li>
+              <li>Collaborated with BI to build dashboards displaying conversion and number of clicks to achieve goals.</li>
+              <li>Conducted competitor analysis, also used NN to understand best practices.</li>
+              <li>Conducted A/B tests to validate design.</li>
+            </ul>
+          </div>
+        </div>
+        <div class="info-row">
+          <div class="info-row__label">COLLABORATORS</div>
+          <div class="info-row__value">
+            UX Design, Product, Engineering, BI, Product Analyst, Operations.
+          </div>
+        </div>
+        <div class="info-row">
+          <div class="info-row__label">TIMELINE</div>
+          <div class="info-row__value">Tactical item Mar – May 2025.</div>
+        </div>
+      </dl>
+    </section>
+
+    <!-- 01 — CONTEXT: THE PROBLEM -->
+    <section class="section-block">
+      <div class="section-head">
+        <div class="section-eyebrow">
+          <span class="section-eyebrow__num">01</span>
+          <span class="section-eyebrow__rule"></span>
+          <span>Context</span>
+        </div>
+        <h2 class="section-title">The Problem</h2>
+      </div>
+      <p class="pull-quote prose">
+        Customers were not in control of where they were navigating to when
+        they clicked on a 'single leg' bet.
+      </p>
+      <ol class="decisions prose">
+        <li class="decisions__item decisions__item--italic">Customer would click on the bet type drop down.</li>
+        <li class="decisions__item decisions__item--italic">Customer then clicks on win/place.</li>
+        <li class="decisions__item decisions__item--italic">Customer lands on the next chronological race.</li>
+        <li class="decisions__item decisions__item--italic">Customer then clicks meeting drop down.</li>
+        <li class="decisions__item decisions__item--italic">Customer then clicks on the race they wanted to navigate to.</li>
+      </ol>
+      <video
+        class="clip-video"
+        controls
+        preload="metadata"
+        playsinline
+        aria-label="Navigating to win/place clip"
+      >
+        <source src="navigating-winplace-clip.mp4" type="video/mp4" />
+        Your browser does not support the video tag.
+      </video>
+    </section>
+
+    <!-- 02 — NORTH STAR: GOALS & SUCCESS METRICS -->
+    <section class="section-block">
+      <div class="section-head">
+        <div class="section-eyebrow">
+          <span class="section-eyebrow__num">02</span>
+          <span class="section-eyebrow__rule"></span>
+          <span>North Star</span>
+        </div>
+        <h2 class="section-title">Goals &amp; Success Metrics</h2>
+      </div>
+      <div class="goals prose">
+        <div class="goals__row">
+          <div class="goals__label">Design Goal:</div>
+          <div class="goals__value">
+            Reduce the amount of clicks for the customer to achieve their goals.
+            Increase the traffic of customers going to key areas of the website.
+          </div>
+        </div>
+        <div class="goals__row">
+          <div class="goals__label">Business Goal:</div>
+          <div class="goals__value">
+            Increase the amount of bets placed per customer.
+          </div>
+        </div>
+        <div class="goals__row">
+          <div class="goals__label">Success Metrics:</div>
+          <div class="goals__value">
+            Win conversion rates, number of impressions for key pages.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 03 — DISCOVERY: RESEARCH -->
+    <section class="section-block">
+      <div class="section-head">
+        <div class="section-eyebrow">
+          <span class="section-eyebrow__num">03</span>
+          <span class="section-eyebrow__rule"></span>
+          <span>Discovery</span>
+        </div>
+        <h2 class="section-title">Research &amp; Discovery</h2>
+      </div>
+      <div class="research-row">
+        <img
+          class="research-row__img-wide"
+          src="https://www.figma.com/api/mcp/asset/ea9394fb-eb88-444f-9daf-972784685f82"
+          alt="Survey results dashboard"
+        />
+        <img
+          class="research-row__img-narrow"
+          src="https://www.figma.com/api/mcp/asset/c1c6604b-e109-4df6-92f9-31985a3f11dd"
+          alt="Competitor research – left hand panel example"
+        />
+        <div class="research-row__notes">
+          <ol>
+            <li>Quarterly surveys identified that navigation was a key problem for customers.</li>
+            <li>Competitor research showed that left hand panels were common place within the industry and used to highlight popular / featured events.</li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <!-- 04 — DESIGN: USER JOURNEY -->
+    <section class="section-block">
+      <div class="section-head">
+        <div class="section-eyebrow">
+          <span class="section-eyebrow__num">04</span>
+          <span class="section-eyebrow__rule"></span>
+          <span>Design</span>
+        </div>
+        <h2 class="section-title">User Journey</h2>
+      </div>
+      <div class="journey-row">
+        <div class="journey-block">
+          <p class="journey-block__label">Before</p>
+          <img
+            class="journey-block__before"
+            src="https://www.figma.com/api/mcp/asset/8403f89e-7811-49f0-87d0-d126001b3f16"
+            alt="Before – existing dropdown navigation"
+          />
+        </div>
+        <div class="journey-callout">
+          All single leg bets in the dropdown would navigate to the next
+          chronological race, including international races. Our customers
+          primarily bet on domestic races and would voice their frustration at
+          being taken to racing that they have no interest in.
+        </div>
+      </div>
+
+      <div class="journey-block">
+        <p class="journey-block__label">Redesign</p>
+        <img
+          class="journey-block__redesign"
+          src="https://www.figma.com/api/mcp/asset/b79fa0f8-d5a1-4e7b-9d47-d89f6b3fb767"
+          alt="Redesign – left hand panel navigation"
+        />
+      </div>
+
+      <p class="user-journey__lead prose">Key design decisions</p>
+      <ol class="decisions prose">
+        <li class="decisions__item">
+          <strong>Removing the win/place bet type</strong> – competitor analysis
+          showed that to navigate to place a win bet, punters must go through
+          the racecards. Therefore, customers will expect the same behaviour
+          when using the Tote, meaning they can be in control of what race they
+          navigate to.
+        </li>
+        <li class="decisions__item">
+          <strong>Featured</strong> – Collaborated with the Ops team about what
+          to populate in the featured area. We agreed on football and in-play
+          being a constant whilst creating the requirement that they can add
+          any sport or event they feel appropriate.
+        </li>
+        <li class="decisions__item">
+          <strong>Mobile View</strong> – Building a burger menu with the left
+          hand panel's content. As there is less signposting if a customer
+          wanted to navigate via a bet type, we agreed to an A/B test to
+          measure if the tabs were still effective for mobile.
+        </li>
+      </ol>
+    </section>
+
+    <!-- 05 — VALIDATION: AB TESTING -->
+    <section class="section-block">
+      <div class="section-head">
+        <div class="section-eyebrow">
+          <span class="section-eyebrow__num">05</span>
+          <span class="section-eyebrow__rule"></span>
+          <span>Validation</span>
+        </div>
+        <h2 class="section-title">AB Testing</h2>
+      </div>
+      <img
+        class="ab-image"
+        src="https://www.figma.com/api/mcp/asset/0ef9884e-b772-4eff-9b92-6f8747c7c00f"
+        alt="AB test results bar comparison"
+      />
+      <div class="ab-row">
+        <div class="ab-row__copy">
+          <p>
+            Using LaunchDarkly and working with BI, we created an A/B test by
+            using a cohort of active win bettors against a control of the
+            existing journey.
+          </p>
+          <p>
+            We used the Tote Bet Club research cohort to test the new layout,
+            they showed an increase in win bet conversion with no impact to the
+            number of bets.
+          </p>
+        </div>
+        <div class="ab-stat">
+          <p class="ab-stat__num">6.48%</p>
+          <p class="ab-stat__label">Increase in bet conversion</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 06 — IMPACT: RESULTS -->
+    <section class="section-block">
+      <div class="section-head">
+        <div class="section-eyebrow">
+          <span class="section-eyebrow__num">06</span>
+          <span class="section-eyebrow__rule"></span>
+          <span>Impact</span>
+        </div>
+        <h2 class="section-title">Results &amp; Impact</h2>
+      </div>
+      <p class="prose" style="font-size:16px; color: var(--text); letter-spacing:-0.08px; line-height:1.34;">
+        The left panel navigation has enabled us to create content managed
+        components, where our operations team can select popular sports and
+        events to be signposted for customers. This has had an added benefit of
+        increasing the amount of traffic for customers. Furthermore, for win
+        bets customers are navigating by selecting their desired time on the
+        meeting component, meaning the win racecard is now one click away.
+      </p>
+      <div class="impact-grid">
+        <div class="impact-card">
+          <p class="impact-card__num">1.6M</p>
+          <p class="impact-card__label">Events in 6 months</p>
+        </div>
+        <div class="impact-card">
+          <p class="impact-card__num">8%</p>
+          <p class="impact-card__label">Increase in win conversion</p>
+        </div>
+        <div class="impact-card">
+          <p class="impact-card__num">7.3%</p>
+          <p class="impact-card__label">Increase in football impressions</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 07 — REFLECTIONS AND LEARNINGS -->
+    <section class="section-block">
+      <div class="section-head">
+        <div class="section-eyebrow">
+          <span class="section-eyebrow__num">07</span>
+          <span class="section-eyebrow__rule"></span>
+          <span>Reflections</span>
+        </div>
+        <h2 class="section-title">Reflections and Learnings</h2>
+      </div>
+      <div class="reflection-card">
+        <p class="reflection-card__title">Technology Limitations</p>
+        <p class="reflection-card__body">
+          With the sportsbook being a 3rd party integration, the options for
+          combining the Tote homepage and the sports page are limited.
+        </p>
+        <p class="reflection-card__heading">What I did:</p>
+        <ul>
+          <li>
+            Persuaded stakeholders that making it easier for customers to
+            navigate to our sportsbook, as by signposting the entry points to
+            the sportsbook would boost conversion at a low cost would be a
+            compelling business case.
+          </li>
+        </ul>
+        <p class="reflection-card__heading">What I learned:</p>
+        <ul>
+          <li>
+            Working closely with the developers to understand the limitations
+            and opportunities with not just the Tote, but also third party
+            priorities.
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- 08 — NEXT STEPS -->
+    <section class="section-block section-block--lg">
+      <div class="section-head">
+        <div class="section-eyebrow">
+          <span class="section-eyebrow__num">08</span>
+          <span class="section-eyebrow__rule"></span>
+          <span>Looking ahead</span>
+        </div>
+        <h2 class="section-title">Next Steps</h2>
+      </div>
+      <p class="next-steps__quote prose">
+        "I didn't know you had a sportsbook" – app user
+      </p>
+      <p class="prose" style="font-size:16px; color: var(--text); letter-spacing:-0.08px; line-height:1.34;">
+        The changes were isolated to the website, as the app did not have the
+        resource to improve the navigation. Therefore, the next step is to
+        replicate this navigation on the apps.
+      </p>
+      <div class="next-steps__body">
+        <div class="next-steps__mock">
+          <img
+            src="https://www.figma.com/api/mcp/asset/5dd75c90-6aae-4f43-b005-8134fb558892"
+            alt="Mobile app mockup with new sports navigation"
+          />
+        </div>
+        <div class="next-steps__notes">
+          <p>
+            The Tote platform and the third party sportsbook can only be
+            integrated through links, rather than widgets or a native component.
+          </p>
+          <p>
+            To work around this issue, I created another level of navigation
+            for the app that includes the most popular sports for our customers,
+            as currently the only signposting for other sports is a button on
+            the footer.
+          </p>
+          <p>
+            With the web proving the concept that customers will click on links
+            to football, I want to replicate that behaviour on the apps.
+          </p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    (function () {
+      var header = document.querySelector('.site-header');
+      if (!header) return;
+      var toggle = function () {
+        if (window.scrollY > 8) {
+          header.classList.add('site-header--scrolled');
+        } else {
+          header.classList.remove('site-header--scrolled');
+        }
+      };
+      toggle();
+      window.addEventListener('scroll', toggle, { passive: true });
+    })();
+  </script>
+</body>
+</html>

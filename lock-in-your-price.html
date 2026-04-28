@@ -1,0 +1,1066 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lock In Your Price – Andrew Gaskell</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Lato:wght@400;500;600;700&display=swap"
+    rel="stylesheet"
+  />
+  <style>
+    :root {
+      --dark: #302a3f;
+      --text: #4a4d5e;
+      --text-secondary: #626567;
+      --muted: #7a7a7a;
+      --surface: #f7f9fc;
+      --border: #c7c7d0;
+      --divider: #d8d6e5;
+      --black: #090909;
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: "Lato", sans-serif;
+      background: #fff;
+      color: var(--black);
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    img { display: block; max-width: 100%; }
+    a { color: inherit; }
+
+    /* ---------- HEADER ---------- */
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 40px;
+      padding: 24px 60px;
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: saturate(180%) blur(10px);
+      -webkit-backdrop-filter: saturate(180%) blur(10px);
+      border-bottom: 1px solid transparent;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .site-header--scrolled {
+      border-bottom-color: rgba(0, 0, 0, 0.06);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+    }
+
+    .site-header__left {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+    }
+
+    .site-header__logo {
+      font-family: "Bebas Neue", sans-serif;
+      font-size: 24px;
+      color: #000;
+      text-decoration: none;
+    }
+
+    .site-header__links {
+      display: flex;
+      gap: 40px;
+      align-items: center;
+    }
+
+    .header-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      color: var(--dark);
+      font-weight: 700;
+      font-size: 13px;
+      letter-spacing: -0.065px;
+      text-decoration: none;
+    }
+
+    .header-link a,
+    .header-link span.underline {
+      text-decoration: underline;
+      color: var(--dark);
+    }
+
+    /* ---------- BUTTONS ---------- */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: -0.065px;
+      cursor: pointer;
+      text-decoration: none;
+      border: 1px solid transparent;
+      font-family: "Lato", sans-serif;
+      transition: background 0.2s ease, transform 0.1s ease;
+    }
+
+    .btn:hover { transform: translateY(-1px); }
+
+    .btn--secondary {
+      background: #fff;
+      color: #000;
+      border-color: var(--dark);
+    }
+
+    .btn--secondary:hover { background: #f1efee; }
+
+    .btn svg { width: 20px; height: 20px; flex-shrink: 0; }
+    .btn--back svg { transform: rotate(180deg); }
+
+    /* ---------- BODY ---------- */
+    .body-wrap {
+      max-width: 954px;
+      margin: 0 auto;
+      padding: 60px 20px 140px;
+      display: flex;
+      flex-direction: column;
+      gap: 120px;
+    }
+
+    /* ---------- HERO ---------- */
+    .hero {
+      display: flex;
+      align-items: center;
+      gap: 61px;
+      min-height: 312px;
+    }
+
+    .hero__media {
+      position: relative;
+      width: 452px;
+      height: 546px;
+      flex-shrink: 0;
+    }
+
+    .hero__media img {
+      position: absolute;
+      object-fit: cover;
+    }
+
+    .hero__media .img-back {
+      left: 0;
+      top: 57px;
+      width: 243px;
+      height: 431px;
+    }
+
+    .hero__media .img-front {
+      left: 144px;
+      top: 0;
+      width: 308px;
+      height: 546px;
+    }
+
+    .hero__title {
+      font-family: "Bebas Neue", sans-serif;
+      font-size: 64px;
+      color: #000;
+      font-weight: 400;
+      line-height: 1;
+      text-transform: uppercase;
+      max-width: 409px;
+    }
+
+    /* ---------- LEAD / BIG PARAGRAPH ---------- */
+    .lede {
+      font-size: 32px;
+      font-weight: 500;
+      color: var(--text);
+      letter-spacing: -0.16px;
+      line-height: 1.34;
+    }
+
+    /* ---------- INFO TABLE ---------- */
+    .info-table {
+      display: flex;
+      flex-direction: column;
+      border-top: 1px solid var(--divider);
+    }
+
+    .info-row {
+      display: flex;
+      gap: 123px;
+      align-items: flex-start;
+      padding: 24px 0;
+      border-bottom: 1px solid var(--divider);
+      font-size: 16px;
+      letter-spacing: -0.08px;
+      line-height: 1.34;
+    }
+
+    .info-row__label {
+      width: 210px;
+      color: var(--muted);
+      flex-shrink: 0;
+    }
+
+    .info-row__value {
+      color: var(--text);
+      flex: 1;
+    }
+
+    .info-row__value ul {
+      list-style: disc;
+      padding-left: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .info-row__value ul li {
+      line-height: 1.44;
+    }
+
+    /* ---------- SECTION BLOCK ---------- */
+    .section-block {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .section-block--lg { gap: 40px; }
+
+    .section-title {
+      font-family: "Bebas Neue", sans-serif;
+      font-weight: 400;
+      font-size: 32px;
+      color: #000;
+      text-transform: uppercase;
+      line-height: 1;
+    }
+
+    /* ---------- PROSE WIDTH CONSTRAINT ---------- */
+    .prose { max-width: 680px; }
+
+    /* ---------- SECTION EYEBROW (01 — CONTEXT) ---------- */
+    .section-head {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .section-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      font-family: "Lato", sans-serif;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+    }
+
+    .section-eyebrow__num {
+      color: var(--dark);
+      font-weight: 700;
+    }
+
+    .section-eyebrow__rule {
+      display: inline-block;
+      width: 28px;
+      height: 1px;
+      background: currentColor;
+      opacity: 0.5;
+    }
+
+    .section-subtitle {
+      font-family: "Bebas Neue", sans-serif;
+      font-weight: 400;
+      font-size: 24px;
+      color: #000;
+      text-transform: uppercase;
+      line-height: 1;
+    }
+
+    .pull-quote {
+      font-size: 32px;
+      font-weight: 500;
+      color: var(--text);
+      letter-spacing: -0.16px;
+      line-height: 1.34;
+    }
+
+    .two-col {
+      display: flex;
+      gap: 20px;
+      align-items: flex-start;
+    }
+
+    .two-col > * {
+      flex: 1;
+      font-size: 16px;
+      color: var(--text);
+      letter-spacing: -0.08px;
+      line-height: 1.34;
+    }
+
+    /* ---------- GOALS ---------- */
+    .goals {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      font-size: 16px;
+      color: var(--text);
+      letter-spacing: -0.08px;
+      line-height: 1.34;
+    }
+
+    .goals__row {
+      display: flex;
+      gap: 20px;
+      align-items: flex-start;
+    }
+
+    .goals__label {
+      width: 128px;
+      flex-shrink: 0;
+    }
+
+    .goals__value { flex: 1; }
+
+    /* ---------- IMAGE ROW ---------- */
+    .image-row {
+      display: flex;
+      gap: 20px;
+      align-items: stretch;
+    }
+
+    .image-row > img {
+      flex: 1;
+      min-width: 0;
+      border-radius: 8px;
+      object-fit: cover;
+    }
+
+    /* ---------- ORDERED NOTES ---------- */
+    .notes {
+      display: flex;
+      flex-direction: column;
+      gap: 30px;
+      counter-reset: list;
+      font-size: 16px;
+      color: var(--text);
+      letter-spacing: -0.08px;
+      line-height: 1.34;
+      list-style: none;
+      padding-left: 0;
+    }
+
+    .notes__item {
+      padding-left: 24px;
+      position: relative;
+    }
+
+    .notes__item::before {
+      counter-increment: list;
+      content: counter(list) ".";
+      position: absolute;
+      left: 0;
+      top: 0;
+    }
+
+    .notes__item strong { font-weight: 700; }
+
+    .notes__item--next strong { font-weight: 700; }
+
+    .iteration-link {
+      color: var(--dark);
+      font-weight: 700;
+      text-decoration: underline;
+    }
+    .iteration-link:hover { color: #000; }
+
+    /* ---------- EXPLORATION ---------- */
+    .exploration-body {
+      display: flex;
+      gap: 20px;
+      align-items: flex-start;
+    }
+
+    .exploration-body img.explore-screens {
+      width: 710px;
+      height: 431px;
+      object-fit: cover;
+      flex-shrink: 0;
+      border-radius: 4px;
+    }
+
+    .exploration-body__notes {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      font-size: 13px;
+      color: var(--text);
+      letter-spacing: -0.065px;
+      line-height: 1.34;
+    }
+
+    /* ---------- USER JOURNEY ---------- */
+    .user-journey__image {
+      width: 100%;
+      height: auto;
+      aspect-ratio: 954 / 549;
+      object-fit: cover;
+      border-radius: 8px;
+    }
+
+    .user-journey__lead {
+      font-weight: 500;
+      color: var(--text);
+      font-size: 16px;
+      letter-spacing: -0.08px;
+    }
+
+    .decisions {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      counter-reset: decisions;
+      font-size: 16px;
+      color: var(--text);
+      letter-spacing: -0.08px;
+      line-height: 1.34;
+      list-style: none;
+      padding-left: 0;
+    }
+
+    .decisions__item {
+      padding-left: 24px;
+      position: relative;
+    }
+
+    .decisions__item::before {
+      counter-increment: decisions;
+      content: counter(decisions) ".";
+      position: absolute;
+      left: 0;
+      top: 0;
+    }
+
+    /* ---------- VALIDATION / INSIGHTS ---------- */
+    .insight-card {
+      background: var(--surface);
+      border-radius: 8px;
+      padding: 16px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      font-size: 16px;
+      letter-spacing: -0.08px;
+      line-height: 1.34;
+    }
+
+    .insight-card__title {
+      color: #000;
+      font-weight: 700;
+    }
+
+    .insight-card__body { color: var(--text); }
+
+    .user-testing-video {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      border-radius: 8px;
+      background: #000;
+      display: block;
+      object-fit: cover;
+      box-shadow: 0 4px 24.5px rgba(0, 0, 0, 0.12);
+    }
+
+    /* ---------- ITERATIONS ---------- */
+    .iterations {
+      display: flex;
+      gap: 40px;
+      align-items: flex-end;
+    }
+
+    .iterations__card {
+      flex: 1;
+      min-width: 0;
+      background: var(--surface);
+      border-radius: 16px;
+      padding: 4px 20px;
+      display: flex;
+      gap: 37px;
+      align-items: flex-start;
+      overflow: hidden;
+    }
+
+    .iterations__image {
+      width: 249px;
+      height: 457px;
+      flex-shrink: 0;
+      object-fit: cover;
+    }
+
+    .iterations__content {
+      flex: 1;
+      min-width: 0;
+      padding: 46px 0 32px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .iterations__side {
+      width: 266px;
+      font-weight: 700;
+      font-size: 16px;
+      color: var(--text);
+      letter-spacing: -0.08px;
+      line-height: 1.34;
+      flex-shrink: 0;
+    }
+
+    /* ---------- END-OF-CURRENT RULE ---------- */
+    .divider-line {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      align-items: center;
+      text-align: center;
+    }
+
+    .divider-line p {
+      font-size: 24px;
+      color: #000;
+      letter-spacing: -0.12px;
+      line-height: 1.34;
+    }
+
+    .divider-line hr {
+      width: 100%;
+      border: 0;
+      border-top: 1px dashed var(--border);
+    }
+
+    /* ---------- COMING UP ---------- */
+    .coming-up {
+      display: flex;
+      flex-direction: column;
+      gap: 60px;
+      color: #000;
+    }
+
+    .coming-up__item {
+      font-family: "Bebas Neue", sans-serif;
+      font-weight: 400;
+      font-size: 24px;
+      text-transform: uppercase;
+      opacity: 0.35;
+      padding-bottom: 20px;
+      border-bottom: 1px dashed var(--border);
+    }
+
+    /* ---------- RESPONSIVE ---------- */
+    @media (max-width: 900px) {
+      .site-header {
+        padding: 16px 20px;
+        flex-wrap: wrap;
+        gap: 16px;
+      }
+      .site-header__links {
+        gap: 16px;
+        flex-wrap: wrap;
+      }
+      .body-wrap {
+        padding: 48px 20px 80px;
+        gap: 80px;
+      }
+      .hero {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .hero__media {
+        width: 100%;
+        height: 460px;
+      }
+      .hero__media .img-back { left: 0; }
+      .hero__media .img-front { left: 40%; }
+      .hero__title { font-size: 48px; }
+      .lede, .pull-quote { font-size: 22px; }
+      .prose { max-width: 100%; }
+      .info-row { flex-direction: column; gap: 12px; }
+      .info-row__label { width: 100%; }
+      .two-col { flex-direction: column; }
+      .image-row { flex-direction: column; }
+      .image-row > img { width: 100%; }
+      .exploration-body { flex-direction: column; }
+      .exploration-body img.explore-screens { width: 100%; height: auto; }
+      .iterations { flex-direction: column; align-items: stretch; }
+      .iterations__card { flex-direction: column; padding: 20px; }
+      .iterations__image { width: 100%; height: auto; }
+      .iterations__side { width: 100%; }
+      .goals__row { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+  <!-- HEADER -->
+  <header class="site-header">
+    <div class="site-header__left">
+      <a class="btn btn--secondary btn--back" href="index.html">
+        <svg viewBox="0 0 20 20" fill="none" aria-hidden="true">
+          <path d="M7.5 5l5 5-5 5" stroke="#302a3f" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+        Back
+      </a>
+      <a class="site-header__logo" href="index.html">Andrew Gaskell</a>
+    </div>
+
+    <div class="site-header__links">
+      <a class="header-link" href="mailto:andygaskell10@outlook.com">
+        <svg width="20" height="18" viewBox="0 0 20 18" fill="none" aria-hidden="true">
+          <rect x="1" y="2" width="18" height="14" rx="2" stroke="#302a3f" stroke-width="1.5" />
+          <path d="M2 3.5l8 6.5 8-6.5" stroke="#302a3f" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+        <span>andygaskell10@outlook.com</span>
+      </a>
+
+      <span class="header-link">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="#302a3f" aria-hidden="true">
+          <path d="M4.98 3.5A2.49 2.49 0 002.5 6a2.5 2.5 0 105 0 2.49 2.49 0 00-2.52-2.5zM3 8.5h4v10H3v-10zM9 8.5h3.8v1.37h.05c.53-1 1.83-2.07 3.77-2.07 4.03 0 4.78 2.65 4.78 6.1v5.1h-4v-4.52c0-1.08-.02-2.47-1.5-2.47-1.5 0-1.73 1.17-1.73 2.39v4.6h-4V8.5z"/>
+        </svg>
+        <a
+          href="https://www.linkedin.com/in/andrew-gaskell-4092a5191?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app"
+          target="_blank"
+          rel="noopener"
+        >Click here for my profile</a>
+      </span>
+    </div>
+  </header>
+
+  <main class="body-wrap">
+    <!-- HERO -->
+    <section class="hero">
+      <div class="hero__media">
+        <img
+          class="img-back"
+          src="https://www.figma.com/api/mcp/asset/f73df5f6-78a1-45ce-8a25-0e6f2a151d6e"
+          alt="Lock in your price – secondary screen"
+        />
+        <img
+          class="img-front"
+          src="https://www.figma.com/api/mcp/asset/96bea0f4-0681-457b-8cd7-a8b9c9720188"
+          alt="Lock in your price – primary screen"
+        />
+      </div>
+      <h1 class="hero__title">Lock in your price</h1>
+    </section>
+
+    <!-- INTRO LEDE -->
+    <section>
+      <p class="lede prose">
+        Revolutionising pools betting by allowing customers to 'take a price'
+        after research showed that not having guaranteed returns was the biggest
+        obstacle to customer adoption.
+      </p>
+    </section>
+
+    <!-- INFO TABLE -->
+    <section>
+      <dl class="info-table">
+        <div class="info-row">
+          <div class="info-row__label">ROLE</div>
+          <div class="info-row__value">Lead Designer</div>
+        </div>
+        <div class="info-row">
+          <div class="info-row__label">RESPONSIBILITIES</div>
+          <div class="info-row__value">
+            <ul>
+              <li>Identified the problem through surveys.</li>
+              <li>Conducted internal usability testing with colleagues.</li>
+              <li>Conducted 10 user interviews with existing customers and 'prospect customers'.</li>
+              <li>Redesigned the Racecard and Betslip.</li>
+              <li>Collaborated closely with CSO, senior stakeholders, and product for design and research strategy.</li>
+            </ul>
+          </div>
+        </div>
+        <div class="info-row">
+          <div class="info-row__label">COLLABORATORS</div>
+          <div class="info-row__value">
+            UX Design, Product, Engineering, SLT, C-Suite, BI, Product Analyst, Business Planning, Head of Racing.
+          </div>
+        </div>
+        <div class="info-row">
+          <div class="info-row__label">TIMELINE</div>
+          <div class="info-row__value">Key Strategic item for FY 2025–26 (Sept–Sept).</div>
+        </div>
+      </dl>
+    </section>
+
+    <!-- 01 — CONTEXT: THE PROBLEM -->
+    <section class="section-block">
+      <div class="section-head">
+        <div class="section-eyebrow">
+          <span class="section-eyebrow__num">01</span>
+          <span class="section-eyebrow__rule"></span>
+          <span>Context</span>
+        </div>
+        <h2 class="section-title">The Problem</h2>
+      </div>
+      <p class="pull-quote prose">
+        "When I place the bet the dividend is paying 5.00, but when the race goes off you suddenly change it to 3.50"
+      </p>
+      <div class="two-col">
+        <p>
+          Customers have voiced their frustration that they initially do not
+          know what returns they will get for their bet and that the dividend
+          when they placed the bet can be vastly different from what they will
+          receive.
+        </p>
+        <p>
+          New customers will have some level of experience with fixed odds
+          betting, therefore they will be expecting to be receiving the dividend
+          payout from when they placed the bet. By breaking these expectations
+          new customers become confused and do not stick.
+        </p>
+      </div>
+    </section>
+
+    <!-- 02 — NORTH STAR: GOALS & SUCCESS METRICS -->
+    <section class="section-block">
+      <div class="section-head">
+        <div class="section-eyebrow">
+          <span class="section-eyebrow__num">02</span>
+          <span class="section-eyebrow__rule"></span>
+          <span>North Star</span>
+        </div>
+        <h2 class="section-title">Goals &amp; Success Metrics</h2>
+      </div>
+      <div class="goals prose">
+        <div class="goals__row">
+          <div class="goals__label">Design Goal:</div>
+          <div class="goals__value">
+            Design a racecard that does not compromise the experience for
+            existing customers that enjoy betting in the pool yet building a
+            parallel experience for customers that have a need of taking a
+            fixed price.
+          </div>
+        </div>
+        <div class="goals__row">
+          <div class="goals__label">Business Goal:</div>
+          <div class="goals__value">
+            Increase customer ASPU.
+          </div>
+        </div>
+        <div class="goals__row">
+          <div class="goals__label">Success Metrics:</div>
+          <div class="goals__value">
+            Retention Rates, Bets per Active, Stake per Active, Win Bet Conversion.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 03 — DISCOVERY: RESEARCH & DISCOVERY -->
+    <section class="section-block">
+      <div class="section-head">
+        <div class="section-eyebrow">
+          <span class="section-eyebrow__num">03</span>
+          <span class="section-eyebrow__rule"></span>
+          <span>Discovery</span>
+        </div>
+        <h2 class="section-title">Research &amp; Discovery</h2>
+      </div>
+      <div class="image-row">
+        <img
+          src="https://www.figma.com/api/mcp/asset/a05cd3a7-3bc6-446a-983d-d24fcd233639"
+          alt="Research synthesis whiteboard"
+          style="aspect-ratio: 1100/500;"
+        />
+        <img
+          src="https://www.figma.com/api/mcp/asset/03eee3d2-8ec6-4a71-b2d2-1e547c28fd9d"
+          alt="Survey results"
+          style="aspect-ratio: 684/351;"
+        />
+      </div>
+      <ol class="notes">
+        <li class="notes__item">
+          Quarterly surveys identified that not offering fixed odds was an
+          obstacle to customers using the Tote.
+        </li>
+        <li class="notes__item">
+          A focused survey on taking a price was sent to the Tote Bet Club, a
+          research group with some of our most engaged customers.
+          <strong>49%</strong> would take a
+          <strong>worse price if their returns were guaranteed</strong> over
+          the pool price.
+        </li>
+        <li class="notes__item">
+          Collaborated with senior stakeholders to create a research plan
+          where we would use interviews to get feedback from existing and
+          prospect customers. The latter would require further input from
+          marketing on how we recruit through our partners.
+        </li>
+        <li class="notes__item">
+          Tested the validity of the interview questions and reliability of the
+          prototype through internal usability testing. Presented the findings
+          to stakeholders and agreed timelines for interviews.
+        </li>
+        <li class="notes__item">
+          Conducted customer interviews with 6 existing customers, played the
+          results back to the Lock in Your Price working group.
+        </li>
+        <li class="notes__item notes__item--next">
+          <strong>Next Step…</strong> Create an interactive prototype with
+          Claude to test with a wider sample group. Also, based on initial
+          findings, I have created a prospect customer survey as the business
+          want more clarity on what Lock in Your Price is potentially worth.
+        </li>
+      </ol>
+    </section>
+
+    <!-- 04 — DESIGN: EXPLORATION -->
+    <section class="section-block">
+      <div class="section-head">
+        <div class="section-eyebrow">
+          <span class="section-eyebrow__num">04</span>
+          <span class="section-eyebrow__rule"></span>
+          <span>Design</span>
+        </div>
+        <h2 class="section-title">Exploration</h2>
+      </div>
+      <div class="exploration-body">
+        <img
+          class="explore-screens"
+          src="https://www.figma.com/api/mcp/asset/8ad69084-2a8d-4ae8-a830-3c3f284e5d2d"
+          alt="Design exploration – racecard variations with annotations"
+        />
+        <div class="exploration-body__notes">
+          <p>
+            Feedback for differentiating the pricing by decimal and odds was
+            that it was difficult to compare the value of the two prices.
+          </p>
+          <p>
+            Secondly, we looked at having the Pool and Price Lock within
+            separate tabs and just exposing the top of the market. Feedback
+            from the CSO was that Price Lock must be pushed for the business
+            case to work.
+          </p>
+          <p>
+            Icons were too subjective and not immediately obvious what they
+            meant.
+          </p>
+          <p>
+            Our current iterations uses labels over iconography as well as
+            colours to differentiate to the customer which is pool and which is
+            PL. This iteration was accepted by stakeholders to be researched
+            with customers.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 05 — SOLUTION: USER JOURNEY -->
+    <section class="section-block">
+      <div class="section-head">
+        <div class="section-eyebrow">
+          <span class="section-eyebrow__num">05</span>
+          <span class="section-eyebrow__rule"></span>
+          <span>Solution</span>
+        </div>
+        <h2 class="section-title">User Journey</h2>
+      </div>
+      <img
+        class="user-journey__image"
+        src="https://www.figma.com/api/mcp/asset/2eb3ac4a-9d5d-423f-ae04-44ee0580f800"
+        alt="User journey flow"
+      />
+      <p class="user-journey__lead prose">Key design decisions</p>
+      <ol class="decisions prose">
+        <li class="decisions__item">
+          <strong>Racecard Redesign</strong> – Applied minimalist design
+          principles to make the racecard look less 'cluttered', which had the
+          further benefit of bringing more runners above the fold.
+        </li>
+        <li class="decisions__item">
+          <strong>Sticky Headers</strong> – Making it so the race times stick at
+          the top of the page will make it easier for customers to add more
+          selections to their betslip from different races – which has a higher
+          margin for the business.
+        </li>
+        <li class="decisions__item">
+          <strong>Animation</strong> – I added animation on the bet receipt to
+          empathise the success messaging from the system that the customer has
+          completed an action.
+        </li>
+      </ol>
+    </section>
+
+    <!-- 06 — VALIDATION + INSIGHTS -->
+    <section class="section-block section-block--lg">
+      <div class="section-block">
+        <div class="section-head">
+          <div class="section-eyebrow">
+            <span class="section-eyebrow__num">06</span>
+            <span class="section-eyebrow__rule"></span>
+            <span>Validation</span>
+          </div>
+          <h2 class="section-title">Validation</h2>
+        </div>
+        <p class="prose" style="font-size:16px; color: var(--text); letter-spacing:-0.08px; line-height:1.5;">
+          6 interviews with Tote customers were conducted, that resulted from
+          collaboration from key stakeholders for the research plan. There were
+          5 key objectives for the interviews:
+        </p>
+        <ol class="decisions prose" style="gap: 4px;">
+          <li class="decisions__item">
+            Gather insight into whether customers find it clear which option is
+            the pool and which is LIYP.
+          </li>
+          <li class="decisions__item">Gather feedback on racecard redesign.</li>
+          <li class="decisions__item">
+            Gather insight into whether customers can see what their returns will
+            be for a LIYP bet.
+          </li>
+          <li class="decisions__item">
+            Gather feedback on the multiples experiences, within one meeting and
+            across meetings.
+          </li>
+        </ol>
+      </div>
+
+      <div class="section-block">
+        <h3 class="section-subtitle">Insights</h3>
+      <div class="insight-card">
+        <p class="insight-card__title">
+          Lock in Your Price is a good thing, but 3/6 selected the locked value
+        </p>
+        <p class="insight-card__body">
+          The functionality was attractive to customers, but with having two
+          prices next to each other, they were more likely to select the
+          bigger value which was the pool.
+        </p>
+      </div>
+      <div class="insight-card">
+        <p class="insight-card__title">
+          Biggest motivator to using lock in your price is value
+        </p>
+        <p class="insight-card__body">
+          This contradicts the view of stakeholders that customers aren't price
+          sensitive. However, the sense of value is subjective, so how do we
+          make customers feel that they're getting value for their money.
+        </p>
+      </div>
+      <div class="insight-card">
+        <p class="insight-card__title">Further research required</p>
+        <p class="insight-card__body">
+          The static racecard meant it didn't represent what customers would
+          be using in real life, with the prices constantly changing which
+          would impact on their decision making.
+        </p>
+      </div>
+
+      <video
+        class="user-testing-video"
+        controls
+        preload="metadata"
+        playsinline
+        aria-label="User testing clip"
+      >
+        <source src="user-testing-clip.mp4" type="video/mp4" />
+        Your browser does not support the video tag.
+      </video>
+
+      <div class="iterations">
+        <div class="iterations__card">
+          <img
+            class="iterations__image"
+            src="https://www.figma.com/api/mcp/asset/f73df5f6-78a1-45ce-8a25-0e6f2a151d6e"
+            alt="Iteration screen"
+          />
+          <div class="iterations__content">
+            <h3 class="section-subtitle">Iterations</h3>
+            <ol class="decisions">
+              <li class="decisions__item">
+                Reduced the amount of 'brand' red on the racecard, because of
+                the clash with errors, but mainly so the main CTA stands out
+                on the page.
+              </li>
+              <li class="decisions__item">
+                Customers didn't realise you could click the price to change
+                it to the pool on the betslip, so a toggle will be used to
+                make it more visible.
+              </li>
+              <li class="decisions__item">
+                <a
+                  href="https://claude.ai/public/artifacts/9da9c362-636c-490e-a019-787fadacc257"
+                  target="_blank"
+                  rel="noopener"
+                  class="iteration-link"
+                >View interactive prototype →</a>
+              </li>
+            </ol>
+          </div>
+        </div>
+        <p class="iterations__side">
+          The next round of research with existing customers would be using an
+          interactive prototype, that would replicate real life pricing. This
+          is because a static figma prototype does not include showing a price
+          shortening or drifting, two factors that influence whether a customer
+          wants to 'lock in' a price.
+        </p>
+      </div>
+      </div>
+    </section>
+
+    <!-- DIVIDER -->
+    <section class="divider-line">
+      <p>You're up to date with my current project</p>
+      <hr />
+    </section>
+
+    <!-- COMING UP -->
+    <section class="coming-up" aria-label="Coming up">
+      <div class="coming-up__item">Results &amp; Impact</div>
+      <div class="coming-up__item">Reflections and Learnings</div>
+      <div class="coming-up__item">Next steps</div>
+    </section>
+  </main>
+
+  <script>
+    (function () {
+      var header = document.querySelector('.site-header');
+      if (!header) return;
+      var toggle = function () {
+        if (window.scrollY > 8) {
+          header.classList.add('site-header--scrolled');
+        } else {
+          header.classList.remove('site-header--scrolled');
+        }
+      };
+      toggle();
+      window.addEventListener('scroll', toggle, { passive: true });
+    })();
+  </script>
+</body>
+</html>

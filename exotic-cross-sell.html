@@ -1,0 +1,1220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Exotic Cross-Sell – Andrew Gaskell</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Lato:wght@400;500;600;700&display=swap"
+    rel="stylesheet"
+  />
+  <style>
+    :root {
+      --dark: #302a3f;
+      --text: #4a4d5e;
+      --text-secondary: #626567;
+      --muted: #7a7a7a;
+      --surface: #f7f9fc;
+      --border: #c7c7d0;
+      --divider: #d8d6e5;
+      --black: #090909;
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: "Lato", sans-serif;
+      background: #fff;
+      color: var(--black);
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    img { display: block; max-width: 100%; }
+    a { color: inherit; }
+
+    /* ---------- HEADER ---------- */
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 40px;
+      padding: 24px 60px;
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: saturate(180%) blur(10px);
+      -webkit-backdrop-filter: saturate(180%) blur(10px);
+      border-bottom: 1px solid transparent;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .site-header--scrolled {
+      border-bottom-color: rgba(0, 0, 0, 0.06);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+    }
+
+    .site-header__left {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+    }
+
+    .site-header__logo {
+      font-family: "Bebas Neue", sans-serif;
+      font-size: 24px;
+      color: #000;
+      text-decoration: none;
+    }
+
+    .site-header__links {
+      display: flex;
+      gap: 40px;
+      align-items: center;
+    }
+
+    .header-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      color: var(--dark);
+      font-weight: 700;
+      font-size: 13px;
+      letter-spacing: -0.065px;
+      text-decoration: none;
+    }
+
+    .header-link a,
+    .header-link span.underline {
+      text-decoration: underline;
+      color: var(--dark);
+    }
+
+    /* ---------- BUTTONS ---------- */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: -0.065px;
+      cursor: pointer;
+      text-decoration: none;
+      border: 1px solid transparent;
+      font-family: "Lato", sans-serif;
+      transition: background 0.2s ease, transform 0.1s ease;
+    }
+
+    .btn:hover { transform: translateY(-1px); }
+
+    .btn--secondary {
+      background: #fff;
+      color: #000;
+      border-color: var(--dark);
+    }
+
+    .btn--secondary:hover { background: #f1efee; }
+
+    .btn svg { width: 20px; height: 20px; flex-shrink: 0; }
+    .btn--back svg { transform: rotate(180deg); }
+
+    /* ---------- BODY ---------- */
+    .body-wrap {
+      max-width: 954px;
+      margin: 0 auto;
+      padding: 60px 20px 140px;
+      display: flex;
+      flex-direction: column;
+      gap: 120px;
+    }
+
+    /* ---------- HERO ---------- */
+    .hero {
+      display: flex;
+      align-items: center;
+      gap: 61px;
+      min-height: 312px;
+    }
+
+    .hero__media {
+      position: relative;
+      width: 452px;
+      height: 546px;
+      flex-shrink: 0;
+    }
+
+    .hero__media img {
+      position: absolute;
+      object-fit: cover;
+    }
+
+    .hero__media .img-back {
+      left: 0;
+      top: 57px;
+      width: 243px;
+      height: 431px;
+    }
+
+    .hero__media .img-front {
+      left: 144px;
+      top: 0;
+      width: 308px;
+      height: 546px;
+    }
+
+    .hero__title {
+      font-family: "Bebas Neue", sans-serif;
+      font-size: 64px;
+      color: #000;
+      font-weight: 400;
+      line-height: 1;
+      text-transform: uppercase;
+      max-width: 409px;
+    }
+
+    /* ---------- LEAD / BIG PARAGRAPH ---------- */
+    .lede {
+      font-size: 32px;
+      font-weight: 500;
+      color: var(--text);
+      letter-spacing: -0.16px;
+      line-height: 1.34;
+    }
+
+    .lede strong { font-weight: 700; }
+
+    /* ---------- INFO TABLE ---------- */
+    .info-table {
+      display: flex;
+      flex-direction: column;
+      border-top: 1px solid var(--divider);
+    }
+
+    .info-row {
+      display: flex;
+      gap: 123px;
+      align-items: flex-start;
+      padding: 24px 0;
+      border-bottom: 1px solid var(--divider);
+      font-size: 16px;
+      letter-spacing: -0.08px;
+      line-height: 1.34;
+    }
+
+    .info-row__label {
+      width: 210px;
+      color: var(--muted);
+      flex-shrink: 0;
+    }
+
+    .info-row__value {
+      color: var(--text);
+      flex: 1;
+    }
+
+    .info-row__value ul {
+      list-style: disc;
+      padding-left: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .info-row__value ul li {
+      line-height: 1.44;
+    }
+
+    /* ---------- SECTION BLOCK ---------- */
+    .section-block {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .section-block--lg { gap: 40px; }
+
+    .section-title {
+      font-family: "Bebas Neue", sans-serif;
+      font-weight: 400;
+      font-size: 32px;
+      color: #000;
+      text-transform: uppercase;
+      line-height: 1;
+    }
+
+    /* ---------- PROSE WIDTH CONSTRAINT ---------- */
+    .prose { max-width: 680px; }
+
+    /* ---------- SECTION EYEBROW (01 — CONTEXT) ---------- */
+    .section-head {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .section-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      font-family: "Lato", sans-serif;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+    }
+
+    .section-eyebrow__num {
+      color: var(--dark);
+      font-weight: 700;
+    }
+
+    .section-eyebrow__rule {
+      display: inline-block;
+      width: 28px;
+      height: 1px;
+      background: currentColor;
+      opacity: 0.5;
+    }
+
+    .section-subtitle {
+      font-family: "Bebas Neue", sans-serif;
+      font-weight: 400;
+      font-size: 24px;
+      color: #000;
+      text-transform: uppercase;
+      line-height: 1;
+    }
+
+    .pull-quote {
+      font-size: 32px;
+      font-weight: 500;
+      color: var(--text);
+      letter-spacing: -0.16px;
+      line-height: 1.34;
+    }
+
+    .two-col {
+      display: flex;
+      gap: 20px;
+      align-items: flex-start;
+    }
+
+    .two-col > * {
+      flex: 1;
+      font-size: 16px;
+      color: var(--text);
+      letter-spacing: -0.08px;
+      line-height: 1.34;
+    }
+
+    /* ---------- GOALS ---------- */
+    .goals {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      font-size: 16px;
+      color: var(--text);
+      letter-spacing: -0.08px;
+      line-height: 1.34;
+    }
+
+    .goals__row {
+      display: flex;
+      gap: 20px;
+      align-items: flex-start;
+    }
+
+    .goals__label {
+      width: 128px;
+      flex-shrink: 0;
+    }
+
+    .goals__value { flex: 1; }
+
+    /* ---------- DECISIONS / NUMBERED LISTS ---------- */
+    .decisions {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      counter-reset: decisions;
+      font-size: 16px;
+      color: var(--text);
+      letter-spacing: -0.08px;
+      line-height: 1.34;
+      list-style: none;
+      padding-left: 0;
+    }
+
+    .decisions__item {
+      padding-left: 24px;
+      position: relative;
+    }
+
+    .decisions__item::before {
+      counter-increment: decisions;
+      content: counter(decisions) ".";
+      position: absolute;
+      left: 0;
+      top: 0;
+    }
+
+    /* ---------- INSIGHT CARD ---------- */
+    .insight-card {
+      background: var(--surface);
+      border-radius: 8px;
+      padding: 16px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      font-size: 16px;
+      letter-spacing: -0.08px;
+      line-height: 1.34;
+    }
+
+    .insight-card__title {
+      color: #000;
+      font-weight: 700;
+    }
+
+    .insight-card__quote {
+      color: var(--text);
+      font-style: italic;
+    }
+
+    .insight-card__body { color: var(--text); }
+
+    /* ---------- COMPETITOR ANALYSIS ---------- */
+    .competitor-row {
+      display: flex;
+      gap: 32px;
+      align-items: flex-end;
+    }
+
+    .competitor-row__copy {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+      font-size: 16px;
+      color: var(--text);
+      letter-spacing: -0.08px;
+      line-height: 1.34;
+    }
+
+    .competitor-row__images {
+      display: flex;
+      gap: 20px;
+      width: 601px;
+      height: 396px;
+      flex-shrink: 0;
+    }
+
+    .competitor-row__images img {
+      flex: 1;
+      min-width: 0;
+      border-radius: 8px;
+      object-fit: cover;
+      height: 100%;
+    }
+
+    /* ---------- EXPLORATION ---------- */
+    .exploration-body {
+      display: flex;
+      gap: 20px;
+      align-items: flex-start;
+    }
+
+    .exploration-body img.explore-image {
+      width: 690px;
+      height: 397px;
+      object-fit: contain;
+      flex-shrink: 0;
+      border-radius: 4px;
+    }
+
+    .exploration-body__notes {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      font-size: 13px;
+      color: var(--text);
+      letter-spacing: -0.065px;
+      line-height: 1.34;
+    }
+
+    /* ---------- USER JOURNEY ---------- */
+    .user-journey__image {
+      width: 100%;
+      height: auto;
+      aspect-ratio: 954 / 549;
+      object-fit: cover;
+      border-radius: 8px;
+    }
+
+    .user-journey__lead {
+      font-weight: 500;
+      color: var(--text);
+      font-size: 16px;
+      letter-spacing: -0.08px;
+    }
+
+    /* ---------- USABILITY TESTING ---------- */
+    .usability-row {
+      display: flex;
+      gap: 20px;
+      align-items: flex-start;
+    }
+
+    .usability-col {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .usability-col__label {
+      font-size: 14px;
+      letter-spacing: -0.07px;
+      color: var(--text);
+      line-height: 1.34;
+    }
+
+    .usability-col__image {
+      width: 100%;
+      aspect-ratio: 827 / 292;
+      object-fit: cover;
+      border-radius: 4px;
+      border: 1px solid var(--divider);
+    }
+
+    .usability-summary {
+      display: flex;
+      gap: 20px;
+      align-items: flex-start;
+    }
+
+    .usability-summary__lead {
+      width: 444px;
+      flex-shrink: 0;
+      font-size: 16px;
+      letter-spacing: -0.16px;
+      line-height: 1.36;
+      color: var(--text);
+    }
+
+    .usability-summary__quotes {
+      flex: 1;
+      min-width: 0;
+      list-style: disc;
+      padding-left: 24px;
+      color: var(--text);
+      font-size: 16px;
+      letter-spacing: -0.08px;
+      line-height: 1.34;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    /* ---------- BUSINESS CASE CARD ---------- */
+    .business-case {
+      background: var(--surface);
+      border-radius: 8px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .business-case__title {
+      font-weight: 700;
+      font-size: 18px;
+      letter-spacing: -0.09px;
+      line-height: 1.34;
+      color: var(--text);
+    }
+
+    .business-case__body {
+      display: flex;
+      gap: 16px;
+      align-items: flex-end;
+    }
+
+    .business-case__image {
+      width: 487px;
+      height: auto;
+      aspect-ratio: 487 / 435;
+      flex-shrink: 0;
+      object-fit: cover;
+      border-radius: 4px;
+    }
+
+    .business-case__notes {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      font-size: 16px;
+      color: var(--text);
+      letter-spacing: -0.08px;
+      line-height: 1.34;
+      padding-bottom: 16px;
+    }
+
+    /* ---------- IMPACT ---------- */
+    .impact-grid {
+      display: flex;
+      gap: 24px;
+      align-items: stretch;
+      width: 100%;
+    }
+
+    .impact-card {
+      flex: 1;
+      min-width: 0;
+      background: var(--dark);
+      border-radius: 8px;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+
+    .impact-card__num {
+      font-weight: 700;
+      font-size: 36px;
+      letter-spacing: -0.18px;
+      line-height: 1.34;
+      color: #f1f1ff;
+    }
+
+    .impact-card__label {
+      font-size: 20px;
+      letter-spacing: -0.1px;
+      line-height: 1.34;
+      color: #d7daf5;
+    }
+
+    .impact-card__label--small {
+      font-size: 16px;
+      letter-spacing: -0.08px;
+    }
+
+    /* ---------- AB TESTING (RESULTS) ---------- */
+    .ab-image {
+      width: 100%;
+      aspect-ratio: 1374 / 194;
+      object-fit: contain;
+      border-radius: 4px;
+    }
+
+    .ab-label {
+      font-weight: 700;
+      font-size: 16px;
+      letter-spacing: -0.16px;
+      line-height: 1.36;
+      color: var(--text);
+    }
+
+    /* ---------- NEXT STEPS ---------- */
+    .next-steps__body {
+      display: flex;
+      gap: 20px;
+      align-items: flex-start;
+    }
+
+    .next-steps__notes {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      font-size: 16px;
+      color: var(--text);
+      letter-spacing: -0.08px;
+      line-height: 1.34;
+      justify-content: center;
+    }
+
+    .next-steps__images {
+      display: flex;
+      gap: 20px;
+      width: 564px;
+      flex-shrink: 0;
+    }
+
+    .next-steps__images > div {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .next-steps__images img {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: 8px;
+    }
+
+    /* ---------- RESPONSIVE ---------- */
+    @media (max-width: 900px) {
+      .site-header {
+        padding: 16px 20px;
+        flex-wrap: wrap;
+        gap: 16px;
+      }
+      .site-header__links {
+        gap: 16px;
+        flex-wrap: wrap;
+      }
+      .body-wrap {
+        padding: 48px 20px 80px;
+        gap: 80px;
+      }
+      .hero {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .hero__media {
+        width: 100%;
+        height: 460px;
+      }
+      .hero__media .img-back { left: 0; }
+      .hero__media .img-front { left: 40%; }
+      .hero__title { font-size: 48px; }
+      .lede, .pull-quote { font-size: 22px; }
+      .prose { max-width: 100%; }
+      .info-row { flex-direction: column; gap: 12px; }
+      .info-row__label { width: 100%; }
+      .two-col { flex-direction: column; }
+      .goals__row { flex-direction: column; }
+      .competitor-row { flex-direction: column; }
+      .competitor-row__images { width: 100%; height: auto; }
+      .exploration-body { flex-direction: column; }
+      .exploration-body img.explore-image { width: 100%; height: auto; }
+      .usability-row { flex-direction: column; }
+      .usability-summary { flex-direction: column; }
+      .usability-summary__lead { width: 100%; }
+      .business-case__body { flex-direction: column; align-items: stretch; }
+      .business-case__image { width: 100%; }
+      .impact-grid { flex-direction: column; }
+      .next-steps__body { flex-direction: column; }
+      .next-steps__images { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+  <!-- HEADER -->
+  <header class="site-header">
+    <div class="site-header__left">
+      <a class="btn btn--secondary btn--back" href="index.html">
+        <svg viewBox="0 0 20 20" fill="none" aria-hidden="true">
+          <path d="M7.5 5l5 5-5 5" stroke="#302a3f" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+        Back
+      </a>
+      <a class="site-header__logo" href="index.html">Andrew Gaskell</a>
+    </div>
+
+    <div class="site-header__links">
+      <a class="header-link" href="mailto:andygaskell10@outlook.com">
+        <svg width="20" height="18" viewBox="0 0 20 18" fill="none" aria-hidden="true">
+          <rect x="1" y="2" width="18" height="14" rx="2" stroke="#302a3f" stroke-width="1.5" />
+          <path d="M2 3.5l8 6.5 8-6.5" stroke="#302a3f" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+        <span>andygaskell10@outlook.com</span>
+      </a>
+
+      <span class="header-link">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="#302a3f" aria-hidden="true">
+          <path d="M4.98 3.5A2.49 2.49 0 002.5 6a2.5 2.5 0 105 0 2.49 2.49 0 00-2.52-2.5zM3 8.5h4v10H3v-10zM9 8.5h3.8v1.37h.05c.53-1 1.83-2.07 3.77-2.07 4.03 0 4.78 2.65 4.78 6.1v5.1h-4v-4.52c0-1.08-.02-2.47-1.5-2.47-1.5 0-1.73 1.17-1.73 2.39v4.6h-4V8.5z"/>
+        </svg>
+        <a
+          href="https://www.linkedin.com/in/andrew-gaskell-4092a5191?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app"
+          target="_blank"
+          rel="noopener"
+        >Click here for my profile</a>
+      </span>
+    </div>
+  </header>
+
+  <main class="body-wrap">
+    <!-- HERO -->
+    <section class="hero">
+      <div class="hero__media">
+        <img
+          class="img-back"
+          src="https://www.figma.com/api/mcp/asset/9271f36a-98e2-43b7-87b1-f36ec75964dc"
+          alt="Exotic cross-sell – secondary screen"
+        />
+        <img
+          class="img-front"
+          src="https://www.figma.com/api/mcp/asset/621ace36-41d6-4897-a41a-0e973828b5dc"
+          alt="Exotic cross-sell – primary screen"
+        />
+      </div>
+      <h1 class="hero__title">Exotic Cross-Sell</h1>
+    </section>
+
+    <!-- INTRO LEDE -->
+    <section>
+      <p class="lede prose">
+        Research showed customers didn't know what an exacta was, despite
+        placing those bets with fixed odds. By educating and signposting
+        customers, I increased the number of bets on better
+        <strong>customer value</strong> and <strong>higher profit margin</strong>
+        bet types by <strong>8%</strong>.
+      </p>
+    </section>
+
+    <!-- INFO TABLE -->
+    <section>
+      <dl class="info-table">
+        <div class="info-row">
+          <div class="info-row__label">ROLE</div>
+          <div class="info-row__value">Lead Designer &amp; Researcher</div>
+        </div>
+        <div class="info-row">
+          <div class="info-row__label">RESPONSIBILITIES</div>
+          <div class="info-row__value">
+            <ul>
+              <li>Identified the problem through surveys &amp; interviews.</li>
+              <li>Conducted internal usability testing with colleagues.</li>
+              <li>Competitor analysis.</li>
+              <li>Usability testing through Usertesting.com.</li>
+              <li>Contributed towards the business case.</li>
+              <li>A/B testing.</li>
+            </ul>
+          </div>
+        </div>
+        <div class="info-row">
+          <div class="info-row__label">COLLABORATORS</div>
+          <div class="info-row__value">
+            UX Design, Racing Product Manager, Engineering, BI, Product Analyst.
+          </div>
+        </div>
+        <div class="info-row">
+          <div class="info-row__label">TIMELINE</div>
+          <div class="info-row__value">Tactical item for FY 2025 (May–Jul).</div>
+        </div>
+      </dl>
+    </section>
+
+    <!-- 01 — CONTEXT: THE PROBLEM -->
+    <section class="section-block">
+      <div class="section-head">
+        <div class="section-eyebrow">
+          <span class="section-eyebrow__num">01</span>
+          <span class="section-eyebrow__rule"></span>
+          <span>Context</span>
+        </div>
+        <h2 class="section-title">The Problem</h2>
+      </div>
+      <p class="pull-quote prose">
+        "I do my forecasts with skybet, why should I do an exacta with the Tote?"
+      </p>
+      <div class="two-col">
+        <p>
+          The Tote have different naming conventions compared to fixed odds –
+          exacta / forecast, trifecta / tricast. This creates a barrier to
+          entry for customers as they will not recognise they're the same bet.
+          Moreover, the Tote typically pays out more than fixed odds for those
+          bets so they are better value for customers.
+        </p>
+        <p>
+          From a business perspective, exactas and trifectas are one of the
+          highest margin pools so it is important to try and grow them.
+          Furthermore, win is one of the smallest margin pools, so when there
+          is a big favourite, signposting an exacta over a win will be more
+          financially beneficial for the business.
+        </p>
+      </div>
+    </section>
+
+    <!-- 02 — NORTH STAR: GOALS & SUCCESS METRICS -->
+    <section class="section-block">
+      <div class="section-head">
+        <div class="section-eyebrow">
+          <span class="section-eyebrow__num">02</span>
+          <span class="section-eyebrow__rule"></span>
+          <span>North Star</span>
+        </div>
+        <h2 class="section-title">Goals &amp; Success Metrics</h2>
+      </div>
+      <div class="goals prose">
+        <div class="goals__row">
+          <div class="goals__label">Design Goal:</div>
+          <div class="goals__value">
+            (1) Create a cross-sell section that can be used for any bet type,
+            (2) educate customers on what the other bet types are, (3) highlight
+            the value of exactas and trifectas.
+          </div>
+        </div>
+        <div class="goals__row">
+          <div class="goals__label">Business Goal:</div>
+          <div class="goals__value">
+            Increase the bets placed in higher margin pools.
+          </div>
+        </div>
+        <div class="goals__row">
+          <div class="goals__label">Success Metrics:</div>
+          <div class="goals__value">
+            Number of bets in exacta / trifecta.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 03 — DISCOVERY: RESEARCH -->
+    <section class="section-block">
+      <div class="section-head">
+        <div class="section-eyebrow">
+          <span class="section-eyebrow__num">03</span>
+          <span class="section-eyebrow__rule"></span>
+          <span>Discovery</span>
+        </div>
+        <h2 class="section-title">Research &amp; Discovery</h2>
+      </div>
+      <p class="prose" style="font-size:16px; color: var(--text); letter-spacing:-0.08px; line-height:1.34;">
+        I collated evidence using interviews from other initiatives where
+        customers have referenced exactas, in total I used clips from four
+        different participants to gain an insight into the problem.
+      </p>
+
+      <h3 class="section-subtitle">Insights</h3>
+      <div class="insight-card">
+        <p class="insight-card__title">Education</p>
+        <p class="insight-card__quote">"I don't know what an exacta or trifecta is."</p>
+        <p class="insight-card__body">
+          When the industry name for these bets are forecast and tricasts,
+          customers will be expecting the same naming conventions with the
+          Tote. The issue is the Tote's naming conventions are a legacy whereas
+          fixed odds naming is fairly recent.
+        </p>
+      </div>
+      <div class="insight-card">
+        <p class="insight-card__title">Awareness</p>
+        <p class="insight-card__quote">"I didn't know you could do a forecast with the Tote."</p>
+        <p class="insight-card__body">
+          The bets are hidden behind a tab. Whilst the naming is different the
+          racecard UI is familiar, but customers aren't clicking through to see.
+        </p>
+      </div>
+      <div class="insight-card">
+        <p class="insight-card__title">Value</p>
+        <p class="insight-card__quote">"I do my forecasts with Skybet, why should I do them with the Tote?"</p>
+        <p class="insight-card__body">
+          The Tote's exacta pays out higher than a fixed odds forecast more
+          often than not, however customers don't know this.
+        </p>
+      </div>
+
+      <div class="competitor-row" style="margin-top: 8px;">
+        <div class="competitor-row__copy">
+          <p>
+            Competitor analysis showed that above the racecard is a prime
+            location for cross-selling customers into other bet types.
+          </p>
+          <p>
+            Often the returns are highlighted as a value proposition, therefore
+            it is a good opportunity for the Tote to showcase the value of the
+            exacta and trifecta.
+          </p>
+        </div>
+        <div class="competitor-row__images">
+          <img
+            src="https://www.figma.com/api/mcp/asset/84a9bc22-ba53-478c-9661-795e0dcaf0a7"
+            alt="Competitor 1 racecard cross-sell"
+          />
+          <img
+            src="https://www.figma.com/api/mcp/asset/65e6f18f-77b7-429b-beba-c2473784d909"
+            alt="Competitor 2 racecard cross-sell"
+          />
+          <img
+            src="https://www.figma.com/api/mcp/asset/072145af-81b4-4b8d-bb94-03f014027c53"
+            alt="Competitor 3 racecard cross-sell"
+          />
+        </div>
+      </div>
+    </section>
+
+    <!-- 04 — DESIGN: EXPLORATION -->
+    <section class="section-block">
+      <div class="section-head">
+        <div class="section-eyebrow">
+          <span class="section-eyebrow__num">04</span>
+          <span class="section-eyebrow__rule"></span>
+          <span>Design</span>
+        </div>
+        <h2 class="section-title">Exploration</h2>
+      </div>
+      <div class="exploration-body">
+        <img
+          class="explore-image"
+          src="https://www.figma.com/api/mcp/asset/2bbf77fb-cb81-4f41-a5b8-2aaf9bcb0618"
+          alt="Design exploration – cross-sell variations"
+        />
+        <div class="exploration-body__notes">
+          <p>
+            Horizontally scrolled cards had the disadvantage that the amount
+            of content will be different dependent on the bet, so there would
+            be a lot of empty space.
+          </p>
+          <p>
+            A singular component for all the bets impacted the touch affordance
+            and took up too much room. Describing the bet would help the
+            education but customers would not read the entire sentence and
+            would scan the content.
+          </p>
+          <p>
+            Replacing the names of the betslip with an explanation would help
+            educate customers, as well as listing the horses' positions so a
+            customer can scan the content.
+          </p>
+          <p>
+            Adding the will-pay would also show the customer the value of the bets.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 05 — SOLUTION: USER JOURNEY -->
+    <section class="section-block">
+      <div class="section-head">
+        <div class="section-eyebrow">
+          <span class="section-eyebrow__num">05</span>
+          <span class="section-eyebrow__rule"></span>
+          <span>Solution</span>
+        </div>
+        <h2 class="section-title">User Journey</h2>
+      </div>
+      <img
+        class="user-journey__image"
+        src="https://www.figma.com/api/mcp/asset/aa846ef4-fb1f-44e4-9905-0e311335e2d9"
+        alt="User journey flow – exotic cross-sell"
+      />
+      <p class="user-journey__lead prose">Key design decisions</p>
+      <ol class="decisions prose">
+        <li class="decisions__item">
+          <strong>Choosing which horses to show in the component</strong> –
+          I wanted to make the component manageable by our operations team so
+          they can choose which combinations based on price to display in that
+          component, however because of resource constraints that was not
+          possible so we automated it based on the top of the market.
+        </li>
+        <li class="decisions__item">
+          <strong>Resource</strong> – Surfacing the will-pays required
+          backend resource that was not available. I proposed that showing the
+          value of the bets was the key paint-point solution. Therefore the
+          initiative was broken into two deliverables after discussions with
+          engineering.
+        </li>
+      </ol>
+    </section>
+
+    <!-- 06 — VALIDATION: USABILITY TESTING + BUSINESS CASE -->
+    <section class="section-block section-block--lg">
+      <div class="section-head">
+        <div class="section-eyebrow">
+          <span class="section-eyebrow__num">06</span>
+          <span class="section-eyebrow__rule"></span>
+          <span>Validation</span>
+        </div>
+        <h2 class="section-title">Validation</h2>
+      </div>
+
+      <h3 class="section-subtitle">Usability Testing</h3>
+      <div class="usability-row">
+        <div class="usability-col">
+          <p class="usability-col__label">Existing Exacta Journey</p>
+          <img
+            class="usability-col__image"
+            src="https://www.figma.com/api/mcp/asset/2126bfad-c099-40aa-a6d8-9851d79de4ac"
+            alt="Existing exacta journey screens"
+          />
+        </div>
+        <div class="usability-col">
+          <p class="usability-col__label">Proposed Exacta Journey</p>
+          <img
+            class="usability-col__image"
+            src="https://www.figma.com/api/mcp/asset/ad8ad067-d095-4416-9047-d4692f822ca2"
+            alt="Proposed exacta journey screens"
+          />
+        </div>
+      </div>
+      <div class="usability-summary">
+        <p class="usability-summary__lead">
+          Usability testing results showed that having a component above the
+          racecard reduced the difficulty for the customer to place exactas
+          &amp; trifectas, thus improving the awareness that was identified as
+          a customer pain point.
+        </p>
+        <ul class="usability-summary__quotes">
+          <li>"I found the prototype A easier to navigate and place the bet."</li>
+          <li>"I like to have all options presented to me and not just things like boosts like prototype A appeared to be doing."</li>
+          <li>"It was simpler to place the bet as it was just one button on the very first page, which explicitly told me exactly what to do."</li>
+        </ul>
+      </div>
+
+      <div class="business-case">
+        <p class="business-case__title">Business Case</p>
+        <div class="business-case__body">
+          <img
+            class="business-case__image"
+            src="https://www.figma.com/api/mcp/asset/6de4302b-eaaa-43e0-aa6d-c858e77a7e4d"
+            alt="Business case slide"
+          />
+          <div class="business-case__notes">
+            <p>
+              I worked closely with the PM to build a business case for the
+              customer problem to get it prioritised and into the delivery
+              roadmap.
+            </p>
+            <p>
+              The trigger for this initiative was the business looking for
+              tactical items to add to the roadmap as they wanted quick revenue
+              drivers to hit targets. My discovery research and usability
+              testing provided a compelling argument as I presented my findings
+              and designs to SLT to get business buy-in.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 07 — IMPACT: RESULTS -->
+    <section class="section-block">
+      <div class="section-head">
+        <div class="section-eyebrow">
+          <span class="section-eyebrow__num">07</span>
+          <span class="section-eyebrow__rule"></span>
+          <span>Impact</span>
+        </div>
+        <h2 class="section-title">Results &amp; Impact</h2>
+      </div>
+      <div class="impact-grid">
+        <div class="impact-card">
+          <p class="impact-card__num">8%</p>
+          <p class="impact-card__label">Increase in exacta bets</p>
+        </div>
+        <div class="impact-card">
+          <p class="impact-card__num">17%</p>
+          <p class="impact-card__label impact-card__label--small">of exacta bets come through the exotic pool picks</p>
+        </div>
+      </div>
+      <p class="prose" style="font-size:16px; color: var(--text); letter-spacing:-0.08px; line-height:1.34; max-width: 100%;">
+        As part of the rollout, we did an A/B test to see if there would be an
+        impact on the amount of win bets being placed because they will be
+        further down the fold to make space for the exotic pool picks
+        component. The test showed no adverse impact to win, but an uplift in
+        the amount of exacta bets.
+      </p>
+      <p class="ab-label">A/B Testing</p>
+      <img
+        class="ab-image"
+        src="https://www.figma.com/api/mcp/asset/477cd43c-0a18-4321-969d-a675dcf610c0"
+        alt="A/B testing results bar comparison"
+      />
+    </section>
+
+    <!-- 08 — REFLECTIONS -->
+    <section class="section-block">
+      <div class="section-head">
+        <div class="section-eyebrow">
+          <span class="section-eyebrow__num">08</span>
+          <span class="section-eyebrow__rule"></span>
+          <span>Reflections</span>
+        </div>
+        <h2 class="section-title">Reflections and Learnings</h2>
+      </div>
+      <ol class="decisions prose">
+        <li class="decisions__item">
+          <strong>Building a business case</strong> – I learnt more about the
+          financial impacts of increasing customer spend, as well as how to
+          persuade SLT that the customer problem is worth solving by referring
+          to the delivery costs.
+        </li>
+      </ol>
+    </section>
+
+    <!-- 09 — NEXT STEPS -->
+    <section class="section-block section-block--lg">
+      <div class="section-head">
+        <div class="section-eyebrow">
+          <span class="section-eyebrow__num">09</span>
+          <span class="section-eyebrow__rule"></span>
+          <span>Looking ahead</span>
+        </div>
+        <h2 class="section-title">Next Steps</h2>
+      </div>
+      <div class="next-steps__body">
+        <div class="next-steps__notes">
+          <p>
+            Following the success of creating prepopulated exacta and trifecta
+            bets, it is a proof of concept that customers react well to the
+            convenience of not having to build their own bets.
+          </p>
+          <p>
+            Therefore, I can begin to explore signposting boosted win bets,
+            as well as building social proofing and prepopulated placepots,
+            with the expectation of being able to increase the number of bets
+            placed.
+          </p>
+        </div>
+        <div class="next-steps__images">
+          <div>
+            <img
+              src="https://www.figma.com/api/mcp/asset/bf15a360-dc86-43c1-93c8-a13ecd3a61d6"
+              alt="Next-step concept – signposting"
+            />
+          </div>
+          <div>
+            <img
+              src="https://www.figma.com/api/mcp/asset/c5807e45-aea4-4fcc-936e-dead8b3e41aa"
+              alt="Next-step concept – placepots"
+            />
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    (function () {
+      var header = document.querySelector('.site-header');
+      if (!header) return;
+      var toggle = function () {
+        if (window.scrollY > 8) {
+          header.classList.add('site-header--scrolled');
+        } else {
+          header.classList.remove('site-header--scrolled');
+        }
+      };
+      toggle();
+      window.addEventListener('scroll', toggle, { passive: true });
+    })();
+  </script>
+</body>
+</html>

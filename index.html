@@ -1,0 +1,1136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Andrew Gaskell – Portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Lato:wght@400;500;600;700&display=swap"
+    rel="stylesheet"
+  />
+  <style>
+    :root {
+      --dark: #302a3f;
+      --text: #57596b;
+      --text-secondary: #626567;
+      --surface: #f7f9fc;
+      --border: #c7c7d0;
+      --black: #090909;
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: "Lato", sans-serif;
+      background: #ffffff;
+      color: var(--black);
+      line-height: 1.34;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    img {
+      display: block;
+      max-width: 100%;
+    }
+
+    a {
+      color: inherit;
+    }
+
+    /* ---------- HEADER ---------- */
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 40px;
+      padding: 24px 60px;
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: saturate(180%) blur(10px);
+      -webkit-backdrop-filter: saturate(180%) blur(10px);
+      border-bottom: 1px solid transparent;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .site-header--scrolled {
+      border-bottom-color: rgba(0, 0, 0, 0.06);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+    }
+
+    .site-header__logo {
+      font-family: "Bebas Neue", sans-serif;
+      font-size: 24px;
+      color: #000;
+      letter-spacing: 0.01em;
+    }
+
+    .site-header__links {
+      display: flex;
+      gap: 40px;
+      align-items: center;
+    }
+
+    .header-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      color: var(--dark);
+      font-weight: 700;
+      font-size: 13px;
+      letter-spacing: -0.065px;
+      text-decoration: none;
+    }
+
+    .header-link span.underline,
+    .header-link a {
+      text-decoration: underline;
+      color: var(--dark);
+    }
+
+    .header-link svg {
+      flex-shrink: 0;
+    }
+
+    /* ---------- MAIN BODY ---------- */
+    .body-wrap {
+      max-width: 954px;
+      margin: 0 auto;
+      padding: 60px 20px 140px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 120px;
+    }
+
+    /* ---------- INTRO ---------- */
+    .intro {
+      max-width: 553px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      gap: 40px;
+    }
+
+    .intro__title {
+      font-family: "Bebas Neue", sans-serif;
+      font-weight: 400;
+      font-size: 64px;
+      line-height: 1;
+      color: #000;
+      text-transform: uppercase;
+    }
+
+    .intro__lede {
+      font-size: 20px;
+      color: var(--text);
+      letter-spacing: -0.1px;
+      line-height: 1.34;
+    }
+
+    /* ---------- FEATURED CASE (Lock In Your Price) ---------- */
+    .featured {
+      width: 100%;
+      background: var(--surface);
+      border-radius: 16px;
+      padding: 24px 72px 0;
+      display: flex;
+      gap: 40px;
+      align-items: center;
+      overflow: hidden;
+    }
+
+    .featured__media {
+      position: relative;
+      width: 338px;
+      height: 409px;
+      flex-shrink: 0;
+    }
+
+    .featured__media img {
+      position: absolute;
+      object-fit: cover;
+    }
+
+    .featured__media .img-back {
+      left: 0;
+      top: 43px;
+      width: 182px;
+      height: 323px;
+    }
+
+    .featured__media .img-front {
+      left: 108px;
+      top: 0;
+      width: 230px;
+      height: 409px;
+    }
+
+    .featured__copy {
+      width: 400px;
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+      padding: 32px 0;
+    }
+
+    /* ---------- SHARED CARD TYPOGRAPHY ---------- */
+    .eyebrow {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text);
+      letter-spacing: -0.07px;
+    }
+
+    .card-title {
+      font-family: "Bebas Neue", sans-serif;
+      font-weight: 400;
+      font-size: 32px;
+      color: #000;
+      text-transform: uppercase;
+      line-height: 1;
+    }
+
+    .copy-header {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .copy-body {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .copy-body p {
+      font-size: 16px;
+      color: var(--text);
+      letter-spacing: -0.08px;
+      line-height: 1.34;
+    }
+
+    .copy-body p strong {
+      font-weight: 700;
+    }
+
+    /* ---------- CHIPS ---------- */
+    .chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .chip {
+      height: 32px;
+      display: inline-flex;
+      align-items: center;
+      padding: 6px 12px;
+      background: #ffffff;
+      border: 0.6px solid var(--border);
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text-secondary);
+      line-height: 20px;
+      white-space: nowrap;
+    }
+
+    /* ---------- BUTTONS ---------- */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: -0.065px;
+      cursor: pointer;
+      text-decoration: none;
+      border: 1px solid transparent;
+      font-family: "Lato", sans-serif;
+      transition: background 0.2s ease, color 0.2s ease, transform 0.1s ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-1px);
+    }
+
+    .btn--primary {
+      background: var(--dark);
+      color: #ffffff;
+    }
+
+    .btn--primary:hover {
+      background: #1f1a2b;
+    }
+
+    .btn--secondary {
+      background: #ffffff;
+      color: #000;
+      border-color: var(--dark);
+    }
+
+    .btn--secondary:hover {
+      background: #f1efee;
+    }
+
+    .btn svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    /* ---------- SELECTED WORK ---------- */
+    .section-title {
+      font-family: "Bebas Neue", sans-serif;
+      font-weight: 400;
+      font-size: 24px;
+      color: #000;
+      text-transform: uppercase;
+      width: 100%;
+      letter-spacing: 0.01em;
+    }
+
+    .selected-work {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      align-items: center;
+    }
+
+    .work-cards {
+      display: flex;
+      gap: 20px;
+      width: 100%;
+      overflow-x: auto;
+      padding-bottom: 4px;
+      scrollbar-width: thin;
+    }
+
+    .work-cards::-webkit-scrollbar {
+      height: 8px;
+    }
+    .work-cards::-webkit-scrollbar-thumb {
+      background: var(--border);
+      border-radius: 4px;
+    }
+
+    .work-card {
+      flex: 0 0 368px;
+      background: var(--surface);
+      border-radius: 16px;
+      padding: 24px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+      min-height: 633px;
+    }
+
+    .work-card__image {
+      height: 284px;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      overflow: hidden;
+    }
+
+    .work-card__image img {
+      height: 284px;
+      width: auto;
+      object-fit: cover;
+    }
+
+    .work-card__image--shadow img {
+      height: 242px;
+      width: 231px;
+      border-radius: 8px;
+      box-shadow: 0 4px 24.5px rgba(0, 0, 0, 0.12);
+    }
+
+    .work-card__copy {
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+      flex: 1;
+    }
+
+    .work-card__copy > div:last-child {
+      margin-top: auto;
+      align-self: flex-start;
+    }
+
+    /* ---------- FULL-WIDTH BLOCK ---------- */
+    .section-block {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .section-block img.full {
+      width: 100%;
+      border-radius: 12px;
+      object-fit: cover;
+    }
+
+    /* ---------- INITIATIVES ---------- */
+    .initiatives {
+      gap: 80px;
+    }
+
+    .initiative {
+      display: flex;
+      gap: 40px;
+      align-items: flex-start;
+      width: 100%;
+    }
+
+    .initiative--right {
+      justify-content: flex-end;
+    }
+
+    .initiative__phone {
+      position: relative;
+      width: 200px;
+      height: 411.77px;
+      flex-shrink: 0;
+      background: #090909;
+      border-radius: 28px;
+      padding: 8px;
+      box-sizing: border-box;
+      box-shadow: 0 20px 40px rgba(9, 9, 9, 0.12);
+      overflow: hidden;
+    }
+
+    .initiative__phone::before {
+      content: "";
+      position: absolute;
+      top: 14px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 60px;
+      height: 16px;
+      background: #090909;
+      border-radius: 8px;
+      z-index: 2;
+    }
+
+    .initiative__phone img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: top;
+      display: block;
+      border-radius: 20px;
+    }
+
+    /* Phone variant for images that already include a device frame */
+    .initiative__phone--raw {
+      background: transparent;
+      padding: 0;
+      border-radius: 0;
+      box-shadow: none;
+    }
+
+    .initiative__phone--raw::before {
+      content: none;
+    }
+
+    .initiative__phone--raw img {
+      border-radius: 0;
+      object-fit: cover;
+      object-position: center;
+    }
+
+    .initiative__copy {
+      width: 100%;
+      max-width: 331px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .initiative__title {
+      display: flex;
+      align-items: baseline;
+      gap: 12px;
+      font-family: "Bebas Neue", sans-serif;
+      font-weight: 400;
+      font-size: 24px;
+      letter-spacing: 0.01em;
+      text-transform: uppercase;
+      color: var(--dark);
+      margin: 0;
+      line-height: 1;
+    }
+
+    .initiative__num {
+      color: var(--dark);
+    }
+
+    .initiative__label {
+      color: var(--dark);
+    }
+
+    .initiative__group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .initiative__group-label {
+      font-family: "Lato", sans-serif;
+      font-weight: 500;
+      font-style: italic;
+      font-size: 16px;
+      color: var(--text);
+      margin: 0;
+    }
+
+    .initiative__group-body {
+      font-family: "Lato", sans-serif;
+      font-weight: 500;
+      font-size: 16px;
+      line-height: 1.34;
+      color: var(--text);
+      margin: 0;
+    }
+
+    .initiative__impact {
+      background: var(--surface);
+      border-radius: 12px;
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .initiative__impact-label {
+      font-family: "Lato", sans-serif;
+      font-weight: 700;
+      font-style: italic;
+      font-size: 16px;
+      color: var(--text);
+      margin: 0;
+    }
+
+    .initiative__impact-body {
+      font-family: "Lato", sans-serif;
+      font-weight: 700;
+      font-size: 16px;
+      line-height: 1.34;
+      color: var(--text);
+      margin: 0;
+    }
+
+    @media (max-width: 720px) {
+      .initiatives {
+        gap: 48px;
+      }
+
+      .initiative {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 24px;
+      }
+
+      .initiative__copy {
+        max-width: 100%;
+        width: 100%;
+      }
+    }
+
+    /* ---------- DESIGN SYSTEM ---------- */
+    .design-row {
+      display: flex;
+      gap: 20px;
+      align-items: flex-end;
+      width: 100%;
+    }
+
+    .design-row__img {
+      width: 558px;
+      height: 343px;
+      border-radius: 8px;
+      object-fit: cover;
+      flex-shrink: 0;
+    }
+
+    .design-row__text {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 20px;
+      font-size: 16px;
+      color: var(--text);
+      letter-spacing: -0.08px;
+      line-height: 1.34;
+    }
+
+    /* ---------- ABOUT ME ---------- */
+    .about {
+      width: 100%;
+      display: flex;
+      gap: 20px;
+      align-items: center;
+    }
+
+    .about__photo {
+      width: 223px;
+      height: 223px;
+      border-radius: 50%;
+      object-fit: cover;
+      object-position: center 15%;
+      flex-shrink: 0;
+    }
+
+    .about__copy {
+      width: 467px;
+      display: flex;
+      flex-direction: column;
+      gap: 30px;
+    }
+
+    .about__copy h2 {
+      font-family: "Bebas Neue", sans-serif;
+      font-weight: 400;
+      font-size: 32px;
+      color: #000;
+      text-transform: uppercase;
+      line-height: 1;
+    }
+
+    .about__copy p {
+      font-size: 16px;
+      color: var(--text);
+      letter-spacing: -0.08px;
+      line-height: 1.34;
+    }
+
+    /* ---------- CONTACT ---------- */
+    .contact {
+      width: 100%;
+    }
+
+    .contact__col {
+      width: 467px;
+      display: flex;
+      flex-direction: column;
+      gap: 30px;
+    }
+
+    .contact__list {
+      display: flex;
+      flex-direction: column;
+      gap: 30px;
+    }
+
+    .contact__row {
+      display: flex;
+      align-items: flex-start;
+      gap: 60px;
+      width: 382px;
+    }
+
+    .contact__row .label {
+      width: 60px;
+      font-size: 16px;
+      color: var(--text);
+      letter-spacing: -0.08px;
+    }
+
+    .contact__row .value {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 16px;
+      color: var(--text);
+      letter-spacing: -0.08px;
+    }
+
+    .contact__row a {
+      color: var(--dark);
+      font-weight: 700;
+      font-size: 13px;
+      text-decoration: underline;
+      letter-spacing: -0.065px;
+    }
+
+    /* ---------- RESPONSIVE ---------- */
+    @media (max-width: 900px) {
+      .site-header {
+        padding: 16px 20px;
+        flex-wrap: wrap;
+        gap: 16px;
+      }
+      .site-header__links {
+        gap: 16px;
+        flex-wrap: wrap;
+      }
+      .body-wrap {
+        padding: 48px 20px 80px;
+        gap: 80px;
+      }
+      .intro__title {
+        font-size: 44px;
+      }
+      .intro__lede {
+        font-size: 17px;
+      }
+      .featured {
+        flex-direction: column;
+        padding: 24px;
+        gap: 24px;
+      }
+      .featured__media {
+        width: 100%;
+        height: 360px;
+      }
+      .featured__media .img-back {
+        left: 0;
+      }
+      .featured__media .img-front {
+        left: 40%;
+      }
+      .featured__copy {
+        width: 100%;
+        padding: 0;
+      }
+      .design-row {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      .design-row__img {
+        width: 100%;
+        height: auto;
+      }
+      .about {
+        flex-direction: column;
+        text-align: center;
+      }
+      .about__copy {
+        width: 100%;
+      }
+      .contact__col,
+      .contact__row {
+        width: 100%;
+      }
+      .contact__row {
+        flex-wrap: wrap;
+        gap: 12px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- HEADER -->
+  <header class="site-header">
+    <div class="site-header__logo">Andrew Gaskell</div>
+
+    <div class="site-header__links">
+      <a class="header-link" href="mailto:andygaskell10@outlook.com">
+        <svg width="20" height="18" viewBox="0 0 20 18" fill="none" aria-hidden="true">
+          <rect x="1" y="2" width="18" height="14" rx="2" stroke="#302a3f" stroke-width="1.5" />
+          <path d="M2 3.5l8 6.5 8-6.5" stroke="#302a3f" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+        <span>andygaskell10@outlook.com</span>
+      </a>
+
+      <span class="header-link">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="#302a3f" aria-hidden="true">
+          <path d="M4.98 3.5A2.49 2.49 0 002.5 6a2.5 2.5 0 105 0 2.49 2.49 0 00-2.52-2.5zM3 8.5h4v10H3v-10zM9 8.5h3.8v1.37h.05c.53-1 1.83-2.07 3.77-2.07 4.03 0 4.78 2.65 4.78 6.1v5.1h-4v-4.52c0-1.08-.02-2.47-1.5-2.47-1.5 0-1.73 1.17-1.73 2.39v4.6h-4V8.5z"/>
+        </svg>
+        <a
+          href="https://www.linkedin.com/in/andrew-gaskell-4092a5191?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app"
+          target="_blank"
+          rel="noopener"
+        >Click here for my profile</a>
+      </span>
+    </div>
+  </header>
+
+  <main class="body-wrap">
+    <!-- INTRO -->
+    <section class="intro">
+      <h1 class="intro__title">Welcome to my Portfolio</h1>
+      <p class="intro__lede">
+        I'm Andy, a UX Designer and Researcher at the Tote,
+        bringing: discovery, design thinking, validation, and success measuring
+        to a complex and regulated industry.
+      </p>
+    </section>
+
+    <!-- FEATURED: LOCK IN YOUR PRICE -->
+    <section class="featured" aria-labelledby="featured-title">
+      <div class="featured__media">
+        <img
+          class="img-back"
+          src="https://www.figma.com/api/mcp/asset/59ce212b-fd4f-493f-a868-9556525ee064"
+          alt="Lock In Your Price – secondary screen"
+        />
+        <img
+          class="img-front"
+          src="https://www.figma.com/api/mcp/asset/9206237b-5625-414d-aa33-318e355da649"
+          alt="Lock In Your Price – primary screen"
+        />
+      </div>
+
+      <div class="featured__copy">
+        <div class="copy-header">
+          <div class="eyebrow">Strategic</div>
+          <h2 id="featured-title" class="card-title">Lock in your price</h2>
+        </div>
+
+        <div class="copy-body">
+          <p>
+            Revolutionising pools betting by creating a solution for the biggest
+            customer pain point in pools betting –
+            <strong>that customers can not get a guaranteed return for their bet at bet placement.</strong>
+          </p>
+          <p>This is my current project and due to be delivered Oct 26.</p>
+          <div class="chips">
+            <span class="chip">Discovery</span>
+            <span class="chip">Interview</span>
+            <span class="chip">Design</span>
+            <span class="chip">Stakeholder Management</span>
+            <span class="chip">Claude</span>
+            <span class="chip">Complex Problem</span>
+          </div>
+        </div>
+
+        <div>
+          <a href="lock-in-your-price.html" class="btn btn--primary">
+            View Case Study
+            <svg viewBox="0 0 20 20" fill="none" aria-hidden="true">
+              <path d="M7.5 5l5 5-5 5" stroke="#ffffff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- SELECTED WORK -->
+    <section class="selected-work" aria-labelledby="selected-work-title">
+      <h2 id="selected-work-title" class="section-title">Selected Work</h2>
+
+      <div class="work-cards">
+        <!-- MULTIPLES -->
+        <article class="work-card">
+          <div class="work-card__image">
+            <img
+              src="https://www.figma.com/api/mcp/asset/af1f8f27-b01c-4b94-82c2-63f223aa8c0b"
+              alt="Multiples case study"
+              style="width: 148px; height: 284px;"
+            />
+          </div>
+          <div class="work-card__copy">
+            <div class="copy-header">
+              <div class="eyebrow">Strategic</div>
+              <h3 class="card-title">Multiples</h3>
+            </div>
+            <div class="copy-body">
+              <p>
+                Research identified that not having multiples was a significant
+                customer pain point. In a world first for pools betting I
+                researched and designed a multiples journey that generated
+                <strong>£4M yearly turnover</strong>.
+              </p>
+              <div class="chips">
+                <span class="chip">Interviews</span>
+                <span class="chip">Survey</span>
+                <span class="chip">Design</span>
+                <span class="chip">Benchmarking</span>
+              </div>
+            </div>
+            <div>
+              <a href="multiples.html" class="btn btn--secondary">
+                View Case Study
+                <svg viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                  <path d="M7.5 5l5 5-5 5" stroke="#302a3f" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+              </a>
+            </div>
+          </div>
+        </article>
+
+        <!-- NAVIGATION -->
+        <article class="work-card">
+          <div class="work-card__image work-card__image--shadow">
+            <img
+              src="https://www.figma.com/api/mcp/asset/d4b5a0cf-1b9d-4bb0-9377-9b371bf3ffa4"
+              alt="Navigation case study"
+            />
+          </div>
+          <div class="work-card__copy">
+            <div class="copy-header">
+              <div class="eyebrow">Tactical</div>
+              <h3 class="card-title">Navigation</h3>
+            </div>
+            <div class="copy-body">
+              <p>
+                Surveys identified that navigation citied as an area for
+                improvement by customers. I designed a left hand panel and
+                signposted featured sports that has
+                <strong>increased win conversion by 8%</strong>.
+              </p>
+              <div class="chips">
+                <span class="chip">Surveys</span>
+                <span class="chip">Web</span>
+                <span class="chip">AB Testing</span>
+              </div>
+            </div>
+            <div>
+              <a href="navigation.html" class="btn btn--secondary">
+                View Case Study
+                <svg viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                  <path d="M7.5 5l5 5-5 5" stroke="#302a3f" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+              </a>
+            </div>
+          </div>
+        </article>
+
+        <!-- EXOTIC CROSS SELL -->
+        <article class="work-card">
+          <div class="work-card__image">
+            <img
+              src="https://www.figma.com/api/mcp/asset/a1ad3f12-41bf-49c2-80f7-ecae41f006d0"
+              alt="Exotic Cross Sell case study"
+              style="width: 148px; height: 284px;"
+            />
+          </div>
+          <div class="work-card__copy">
+            <div class="copy-header">
+              <div class="eyebrow">Strategic</div>
+              <h3 class="card-title">Exotic Cross Sell</h3>
+            </div>
+            <div class="copy-body">
+              <p>
+                Through my discovery, I built a business case on how we can
+                increase the number of exotic bets by solving a customer
+                problem. My solution increased exacta bets by 8%.
+              </p>
+              <div class="chips">
+                <span class="chip">Research</span>
+                <span class="chip">Business Case</span>
+                <span class="chip">AB Testing</span>
+                <span class="chip">Design</span>
+              </div>
+            </div>
+            <div>
+              <a href="exotic-cross-sell.html" class="btn btn--secondary">
+                View Case Study
+                <svg viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                  <path d="M7.5 5l5 5-5 5" stroke="#302a3f" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+              </a>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- CLAUDE RESEARCH -->
+    <section class="section-block" aria-labelledby="claude-title">
+      <h2 id="claude-title" class="section-title">
+        Using Claude to analyse research &amp; communicate with stakeholders
+      </h2>
+      <img
+        class="full"
+        src="https://www.figma.com/api/mcp/asset/774a1a43-2153-4a1f-8f2c-2c7793936df0"
+        alt="Charts generated with Claude showing research findings"
+      />
+    </section>
+
+    <!-- SMALL BUT MIGHTY INITIATIVES -->
+    <section class="section-block initiatives" aria-labelledby="initiatives-title">
+      <h2 id="initiatives-title" class="section-title">
+        Small but mighty initiatives
+      </h2>
+
+      <article class="initiative initiative--left">
+        <div class="initiative__phone initiative__phone--raw">
+          <img
+            src="quicklinks-mockup.png"
+            alt="Tote app showing Quicklinks to sportsbook markets"
+          />
+        </div>
+        <div class="initiative__copy">
+          <h3 class="initiative__title">
+            <span class="initiative__num">1</span>
+            <span class="initiative__label">Quicklinks</span>
+          </h3>
+          <div class="initiative__group">
+            <p class="initiative__group-label">Customer Problem</p>
+            <p class="initiative__group-body">
+              In surveys, there was a theme that customers lacked awareness of
+              some of our sportsbook markets.
+            </p>
+          </div>
+          <div class="initiative__group">
+            <p class="initiative__group-label">Solution</p>
+            <p class="initiative__group-body">
+              The sportsbook is a third party, so there are limitations around
+              integrating it with the Racing product. However, we created CMS
+              driven quicklinks, so customers are signposted to the biggest
+              sports markets that day.
+            </p>
+          </div>
+          <div class="initiative__impact">
+            <p class="initiative__impact-label">Impact</p>
+            <p class="initiative__impact-body">55k events a month</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="initiative initiative--right">
+        <div class="initiative__copy">
+          <h3 class="initiative__title">
+            <span class="initiative__num">2</span>
+            <span class="initiative__label">Registration</span>
+          </h3>
+          <div class="initiative__group">
+            <p class="initiative__group-label">Customer Problem</p>
+            <p class="initiative__group-body">
+              Registration conversion was not hitting the 70% company target.
+            </p>
+          </div>
+          <div class="initiative__group">
+            <p class="initiative__group-label">Solution</p>
+            <p class="initiative__group-body">
+              AB tested a 3 page form rather than a 11 page form.
+            </p>
+          </div>
+          <div class="initiative__impact">
+            <p class="initiative__impact-label">Impact</p>
+            <p class="initiative__impact-body">
+              Conversion increased by 17% to 72%
+            </p>
+          </div>
+        </div>
+        <div class="initiative__phone initiative__phone--raw">
+          <img
+            src="registration-mockup.png"
+            alt="Tote registration screen"
+          />
+        </div>
+      </article>
+    </section>
+
+    <!-- DESIGN SYSTEM -->
+    <section class="section-block" aria-labelledby="design-system-title">
+      <h2 id="design-system-title" class="section-title">Design System</h2>
+      <div class="design-row">
+        <img
+          class="design-row__img"
+          src="https://www.figma.com/api/mcp/asset/03b5f0b4-5781-4f56-aea9-3d35192b1d86"
+          alt="Tote design system – Grab 'n' Go section"
+        />
+        <div class="design-row__text">
+          <p>I built and maintained the Tote's design system from the ground up.</p>
+          <p>
+            Taking inspiration from the community and through sneakpeak, I
+            introduced a 'Grab 'n' Go section to make it easier for developers
+            to find key components.
+          </p>
+          <p>
+            I created the typography, spacing variables, and colour scheme to
+            increase consistency across the UX team.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ABOUT ME -->
+    <section class="about" aria-labelledby="about-title">
+      <img
+        class="about__photo"
+        src="https://www.figma.com/api/mcp/asset/d4609ada-170c-4000-98b9-8ecf464421ad"
+        alt="Andrew Gaskell portrait"
+      />
+      <div class="about__copy">
+        <h2 id="about-title">About Me</h2>
+        <p>
+          I have a degree a Bsc in both Digital UX Design (1st) and Psychology
+          (2:1), as well as being a commended finalist for regional
+          apprenticeship awards twice.
+        </p>
+        <p>
+          I have worked at the Tote for 5 years, working may way from an
+          apprentice to a lead designer who works closely with c-suite
+          stakeholders and PM to deliver customer focused initiatives.
+        </p>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section class="contact" aria-labelledby="contact-title">
+      <div class="contact__col">
+        <h2 id="contact-title" class="section-title">Contact details</h2>
+
+        <div class="contact__list">
+          <div class="contact__row">
+            <span class="label">Email</span>
+            <span class="value">
+              <svg width="20" height="18" viewBox="0 0 20 18" fill="none" aria-hidden="true">
+                <rect x="1" y="2" width="18" height="14" rx="2" stroke="#57596b" stroke-width="1.5" />
+                <path d="M2 3.5l8 6.5 8-6.5" stroke="#57596b" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+              andygaskell10@outlook.com
+            </span>
+          </div>
+
+          <div class="contact__row">
+            <span class="label">LinkedIn</span>
+            <span class="value">
+              <svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true">
+                <rect width="20" height="20" rx="3" fill="#0a66c2"/>
+                <path fill="#fff" d="M5.8 7.6h2.3v7.9H5.8V7.6zm1.15-3.6a1.36 1.36 0 11-.01 2.72 1.36 1.36 0 01.01-2.72zM9.6 7.6h2.21v1.08h.03c.31-.58 1.06-1.18 2.19-1.18 2.34 0 2.77 1.54 2.77 3.54v4.46h-2.3v-3.96c0-.94-.02-2.16-1.32-2.16-1.32 0-1.52 1.03-1.52 2.09v4.03H9.6V7.6z"/>
+              </svg>
+              <a
+                href="https://www.linkedin.com/in/andrew-gaskell-4092a5191?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app"
+                target="_blank"
+                rel="noopener"
+              >Click here for my profile</a>
+            </span>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    (function () {
+      var header = document.querySelector('.site-header');
+      if (!header) return;
+      var toggle = function () {
+        if (window.scrollY > 8) {
+          header.classList.add('site-header--scrolled');
+        } else {
+          header.classList.remove('site-header--scrolled');
+        }
+      };
+      toggle();
+      window.addEventListener('scroll', toggle, { passive: true });
+    })();
+  </script>
+</body>
+</html>
