@@ -10,16 +10,17 @@
     href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Lato:wght@400;500;600;700&display=swap"
     rel="stylesheet"
   />
+  <link rel="stylesheet" href="tokens.css" />
   <style>
     :root {
-      --dark: #302a3f;
-      --text: #4a4d5e;
-      --text-secondary: #626567;
-      --muted: #7a7a7a;
-      --surface: #f7f9fc;
-      --border: #c7c7d0;
-      --divider: #d8d6e5;
-      --black: #090909;
+      --dark:           var(--color-slate-800);       /* #372337 */
+      --text:           var(--text-primary);           /* #221414 */
+      --text-secondary: var(--text-secondary);         /* #626567 */
+      --muted:          var(--text-disabled);          /* #c4c4c4 */
+      --surface:        var(--surface-raised);         /* #f9fafc */
+      --border:         var(--border-strong);          /* #d1d1d6 */
+      --divider:        var(--border-default);         /* #e5e7e9 */
+      --black:          var(--color-grey-900);         /* #221414 */
     }
 
     *,

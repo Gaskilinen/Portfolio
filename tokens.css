@@ -1,0 +1,122 @@
+/*
+ * ============================================================
+ *  Tote Design System — Colour Tokens
+ *  Source: Lock-In-Your-Price DS (Figma)
+ *  https://www.figma.com/design/8CJ8MDZICH0YP7s2HrSjnl/
+ *
+ *  Structure
+ *  ─────────────────────────────────────────────────────────
+ *  1. Primitives   — raw colour ramps, no semantic meaning
+ *  2. Tokens       — purpose-driven aliases to primitives
+ * ============================================================
+ */
+
+/* ============================================================
+   1. PRIMITIVES
+   Grouped by palette. Use these only inside token definitions
+   or when there is genuinely no semantic token available.
+   ============================================================ */
+
+:root {
+
+  /* ── Primary (Red) ── */
+  --color-primary-200: #fff4f6;
+  --color-primary-400: #ffc7cf;
+  --color-primary-500: #eb0024;
+  --color-primary-600: #cc1430;
+  --color-primary-800: #990f24;
+
+  /* ── Green ── */
+  --color-green-200: #f2faf6;
+  --color-green-400: #c2f5d1;
+  --color-green-500: #16d74f;
+  --color-green-600: #14a23e;
+  --color-green-800: #026b21;
+
+  /* ── Orange ── */
+  --color-orange-200: #fffaf4;
+  --color-orange-400: #ffe7cd;
+  --color-orange-500: #f19a38;
+  --color-orange-600: #cf7b06;
+  --color-orange-800: #9c5a0f;
+
+  /* ── Grey ── */
+  --color-grey-000: #ffffff;
+  --color-grey-200: #f9fafc;
+  --color-grey-300: #f4f5f7;
+  --color-grey-400: #e5e7e9;
+  --color-grey-500: #d1d1d6;
+  --color-grey-600: #c4c4c4;
+  --color-grey-800: #626567;
+  --color-grey-900: #221414;
+
+  /* ── Slate (Brand) ── */
+  --color-slate-200: #fef8ff;
+  --color-slate-400: #ead7ec;
+  --color-slate-500: #c7a8c9;
+  --color-slate-600: #8c6a8f;
+  --color-slate-800: #372337;
+
+}
+
+
+/* ============================================================
+   2. SEMANTIC TOKENS
+   Convey intent rather than colour. Always prefer these over
+   raw primitives in component and page styles.
+   ============================================================ */
+
+:root {
+
+  /* ── Surface ── */
+  --surface-primary:     var(--color-grey-000);     /* #ffffff — page / card background */
+  --surface-raised:      var(--color-grey-200);     /* #f9fafc — slightly elevated surface */
+  --surface-subtle:      var(--color-grey-300);     /* #f4f5f7 — input / row background */
+  --surface-overlay:     var(--color-grey-400);     /* #e5e7e9 — dividers, chip bg */
+
+  /* ── Text ── */
+  --text-primary:        var(--color-grey-900);     /* #221414 — headings, body copy */
+  --text-secondary:      var(--color-grey-800);     /* #626567 — supporting text */
+  --text-disabled:       var(--color-grey-600);     /* #c4c4c4 — placeholder / disabled */
+  --text-inverse:        var(--color-grey-000);     /* #ffffff — text on dark backgrounds */
+
+  /* ── Brand ── */
+  --brand-default:       var(--color-primary-500);  /* #eb0024 — primary action, CTA */
+  --brand-hover:         var(--color-primary-600);  /* #cc1430 — hover state */
+  --brand-active:        var(--color-primary-800);  /* #990f24 — pressed / active state */
+  --brand-tint:          var(--color-primary-200);  /* #fff4f6 — light brand tint bg */
+  --brand-subtle:        var(--color-primary-400);  /* #ffc7cf — chip / badge bg */
+
+  /* ── Interactive / Links ── */
+  --interactive-default: var(--color-primary-500);
+  --interactive-hover:   var(--color-primary-600);
+  --interactive-active:  var(--color-primary-800);
+  --interactive-focus:   var(--color-primary-500);  /* use as outline / ring colour */
+
+  /* ── Feedback — Success ── */
+  --feedback-success:          var(--color-green-500);   /* #16d74f — success indicator */
+  --feedback-success-emphasis: var(--color-green-600);   /* #14a23e — accessible dark green */
+  --feedback-success-dark:     var(--color-green-800);   /* #026b21 — dark success */
+  --feedback-success-tint:     var(--color-green-200);   /* #f2faf6 — success bg */
+  --feedback-success-subtle:   var(--color-green-400);   /* #c2f5d1 — success chip / badge */
+
+  /* ── Feedback — Warning ── */
+  --feedback-warning:          var(--color-orange-500);  /* #f19a38 — warning / alert icon */
+  --feedback-warning-emphasis: var(--color-orange-600);  /* #cf7b06 — accessible dark orange */
+  --feedback-warning-dark:     var(--color-orange-800);  /* #9c5a0f — dark warning */
+  --feedback-warning-tint:     var(--color-orange-200);  /* #fffaf4 — warning bg */
+  --feedback-warning-subtle:   var(--color-orange-400);  /* #ffe7cd — warning chip / badge */
+
+  /* ── Border / Divider ── */
+  --border-default:      var(--color-grey-400);     /* #e5e7e9 — standard border */
+  --border-strong:       var(--color-grey-500);     /* #d1d1d6 — stronger border */
+  --border-subtle:       var(--color-grey-300);     /* #f4f5f7 — very light divider */
+
+  /* ── Brand Accent (Slate) ── */
+  --accent-default:      var(--color-slate-600);    /* #8c6a8f — brand purple accent */
+  --accent-dark:         var(--color-slate-800);    /* #372337 — dark accent */
+  --accent-mid:          var(--color-slate-500);    /* #c7a8c9 — mid accent */
+  --accent-subtle:       var(--color-slate-400);    /* #ead7ec — light accent chip */
+  --accent-tint:         var(--color-slate-200);    /* #fef8ff — accent background tint */
+
+}
