@@ -1,0 +1,1011 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Core Competencies – Andrew Gaskell</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Lato:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap"
+    rel="stylesheet"
+  />
+  <style>
+    :root {
+      --dark:           #302a3f;
+      --text:           #4a4d5e;
+      --text-secondary: #626567;
+      --muted:          #7a7a7a;
+      --surface:        #f7f9fc;
+      --border:         #c7c7d0;
+      --divider:        #d8d6e5;
+      --black:          #090909;
+      --accent:         #302a3f;
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: "Lato", sans-serif;
+      background: #fff;
+      color: var(--black);
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    img { display: block; max-width: 100%; }
+    a { color: inherit; }
+
+    /* ---------- HEADER ---------- */
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 40px;
+      padding: 24px 60px;
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: saturate(180%) blur(10px);
+      -webkit-backdrop-filter: saturate(180%) blur(10px);
+      border-bottom: 1px solid transparent;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .site-header--scrolled {
+      border-bottom-color: rgba(0, 0, 0, 0.06);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+    }
+
+    .site-header__left {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+    }
+
+    .site-header__logo {
+      font-family: "Bebas Neue", sans-serif;
+      font-size: 24px;
+      color: #000;
+      text-decoration: none;
+    }
+
+    .site-header__links {
+      display: flex;
+      gap: 40px;
+      align-items: center;
+    }
+
+    .header-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      color: var(--dark);
+      font-weight: 700;
+      font-size: 13px;
+      letter-spacing: -0.065px;
+      text-decoration: none;
+    }
+
+    .header-link a {
+      text-decoration: underline;
+      color: var(--dark);
+    }
+
+    /* ---------- BUTTONS ---------- */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: -0.065px;
+      cursor: pointer;
+      text-decoration: none;
+      border: 1px solid transparent;
+      font-family: "Lato", sans-serif;
+      transition: background 0.2s ease, transform 0.1s ease;
+    }
+
+    .btn:hover { transform: translateY(-1px); }
+
+    .btn--secondary {
+      background: #fff;
+      color: #000;
+      border-color: var(--dark);
+    }
+
+    .btn--secondary:hover { background: #f1efee; }
+
+    .btn svg { width: 20px; height: 20px; flex-shrink: 0; }
+    .btn--back svg { transform: rotate(180deg); }
+
+    /* ---------- BODY ---------- */
+    .body-wrap {
+      max-width: 954px;
+      margin: 0 auto;
+      padding: 60px 20px 140px;
+      display: flex;
+      flex-direction: column;
+      gap: 100px;
+    }
+
+    /* ---------- PAGE INTRO ---------- */
+    .page-intro {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      max-width: 680px;
+    }
+
+    .page-title {
+      font-family: "Bebas Neue", sans-serif;
+      font-weight: 400;
+      font-size: 64px;
+      line-height: 1;
+      color: #000;
+      text-transform: uppercase;
+    }
+
+    .page-lede {
+      font-size: 20px;
+      color: var(--text);
+      line-height: 1.5;
+      letter-spacing: -0.1px;
+    }
+
+    /* ---------- SKILL SECTION ---------- */
+    .skill {
+      display: flex;
+      flex-direction: column;
+      gap: 40px;
+    }
+
+    .skill__header {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      border-bottom: 1px solid var(--divider);
+      padding-bottom: 24px;
+    }
+
+    .skill__source {
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: var(--muted);
+    }
+
+    .skill__title {
+      font-family: "Bebas Neue", sans-serif;
+      font-weight: 400;
+      font-size: 48px;
+      line-height: 1;
+      color: #000;
+      text-transform: uppercase;
+    }
+
+    /* ---------- STAR GRID ---------- */
+    .star-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .star-item {
+      display: flex;
+      gap: 40px;
+      align-items: flex-start;
+      padding: 28px 0;
+      border-bottom: 1px solid var(--divider);
+    }
+
+    .star-item:first-child {
+      border-top: none;
+    }
+
+    .star-item__label {
+      width: 180px;
+      flex-shrink: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      padding-top: 2px;
+    }
+
+    .star-item__letter {
+      font-family: "Bebas Neue", sans-serif;
+      font-size: 36px;
+      font-weight: 400;
+      color: var(--dark);
+      line-height: 1;
+    }
+
+    .star-item__word {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--muted);
+    }
+
+    .star-item__body {
+      flex: 1;
+      font-size: 16px;
+      color: var(--text);
+      letter-spacing: -0.08px;
+      line-height: 1.6;
+    }
+
+    .star-item__body strong {
+      font-weight: 700;
+      color: var(--black);
+    }
+
+    /* ---------- RESULT METRICS ---------- */
+    .metrics {
+      display: flex;
+      gap: 16px;
+      margin-top: 20px;
+      flex-wrap: wrap;
+    }
+
+    .metric {
+      background: var(--dark);
+      border-radius: 8px;
+      padding: 16px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      align-items: center;
+      text-align: center;
+      min-width: 120px;
+    }
+
+    .metric__number {
+      color: #f1f1ff;
+      font-size: 28px;
+      font-weight: 700;
+      letter-spacing: -0.14px;
+      line-height: 1.2;
+    }
+
+    .metric__label {
+      color: #d7daf5;
+      font-size: 13px;
+      letter-spacing: -0.065px;
+      line-height: 1.4;
+    }
+
+    /* ---------- SKILL INDEX STRIP ---------- */
+    .skill-index {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 12px;
+      background: var(--surface);
+      border-radius: 12px;
+      padding: 20px;
+    }
+
+    .skill-index__item {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      align-items: center;
+      text-align: center;
+      text-decoration: none;
+      padding: 12px 8px;
+      border-radius: 8px;
+      transition: background 0.15s ease;
+    }
+
+    .skill-index__item:hover {
+      background: rgba(48, 42, 63, 0.06);
+    }
+
+    .skill-index__num {
+      font-family: "Bebas Neue", sans-serif;
+      font-size: 28px;
+      color: var(--dark);
+      line-height: 1;
+    }
+
+    .skill-index__label {
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-secondary);
+    }
+
+    /* ---------- SURVEY LINK ---------- */
+    .survey-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--dark);
+      text-decoration: underline;
+      letter-spacing: -0.07px;
+      transition: color 0.15s ease;
+    }
+
+    .survey-link:hover { color: #000; }
+
+    /* ---------- DIVIDER ---------- */
+    .section-divider {
+      width: 100%;
+      height: 1px;
+      background: var(--divider);
+    }
+
+    /* ---------- RESPONSIVE ---------- */
+    @media (max-width: 900px) {
+      .site-header {
+        padding: 16px 20px;
+        flex-wrap: wrap;
+        gap: 16px;
+      }
+
+      .site-header__links {
+        gap: 16px;
+        flex-wrap: wrap;
+      }
+
+      .body-wrap {
+        padding: 48px 20px 80px;
+        gap: 72px;
+      }
+
+      .page-title { font-size: 44px; }
+      .page-lede { font-size: 17px; }
+      .skill__title { font-size: 36px; }
+
+      .star-item {
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      .star-item__label {
+        width: 100%;
+        flex-direction: row;
+        align-items: baseline;
+        gap: 10px;
+      }
+
+      .skill-index {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    @media (max-width: 540px) {
+      .skill-index {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="site-header">
+    <div class="site-header__left">
+      <a class="btn btn--secondary btn--back" href="index.html">
+        <svg viewBox="0 0 20 20" fill="none" aria-hidden="true">
+          <path d="M7.5 5l5 5-5 5" stroke="#302a3f" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+        Back
+      </a>
+      <a class="site-header__logo" href="index.html">Andrew Gaskell</a>
+    </div>
+
+    <div class="site-header__links">
+      <a class="header-link" href="mailto:andygaskell10@outlook.com">
+        <svg width="20" height="18" viewBox="0 0 20 18" fill="none" aria-hidden="true">
+          <rect x="1" y="2" width="18" height="14" rx="2" stroke="#302a3f" stroke-width="1.5" />
+          <path d="M2 3.5l8 6.5 8-6.5" stroke="#302a3f" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+        <span>andygaskell10@outlook.com</span>
+      </a>
+
+      <span class="header-link">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="#302a3f" aria-hidden="true">
+          <path d="M4.98 3.5A2.49 2.49 0 002.5 6a2.5 2.5 0 105 0 2.49 2.49 0 00-2.52-2.5zM3 8.5h4v10H3v-10zM9 8.5h3.8v1.37h.05c.53-1 1.83-2.07 3.77-2.07 4.03 0 4.78 2.65 4.78 6.1v5.1h-4v-4.52c0-1.08-.02-2.47-1.5-2.47-1.5 0-1.73 1.17-1.73 2.39v4.6h-4V8.5z"/>
+        </svg>
+        <a
+          href="https://www.linkedin.com/in/andrew-gaskell-4092a5191?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app"
+          target="_blank"
+          rel="noopener"
+        >LinkedIn profile</a>
+      </span>
+    </div>
+  </header>
+
+  <main class="body-wrap">
+
+    <!-- PAGE INTRO -->
+    <section class="page-intro">
+      <h1 class="page-title">Core Competencies</h1>
+      <p class="page-lede">
+        Five examples of how I've demonstrated Communication, Problem Solving,
+        Creativity, Mindset, and Teamwork &amp; Leadership — structured using
+        the STAR technique and drawn from my work at the Tote.
+      </p>
+    </section>
+
+    <!-- QUICK NAV -->
+    <nav class="skill-index" aria-label="Jump to skill">
+      <a class="skill-index__item" href="#communication">
+        <span class="skill-index__num">01</span>
+        <span class="skill-index__label">Communication</span>
+      </a>
+      <a class="skill-index__item" href="#problem-solving">
+        <span class="skill-index__num">02</span>
+        <span class="skill-index__label">Problem Solving</span>
+      </a>
+      <a class="skill-index__item" href="#creativity">
+        <span class="skill-index__num">03</span>
+        <span class="skill-index__label">Creativity</span>
+      </a>
+      <a class="skill-index__item" href="#mindset">
+        <span class="skill-index__num">04</span>
+        <span class="skill-index__label">Mindset</span>
+      </a>
+      <a class="skill-index__item" href="#teamwork">
+        <span class="skill-index__num">05</span>
+        <span class="skill-index__label">Teamwork &amp; Leadership</span>
+      </a>
+    </nav>
+
+    <!-- ================================================ -->
+    <!-- 01 — COMMUNICATION -->
+    <!-- ================================================ -->
+    <section class="skill" id="communication">
+      <div class="skill__header">
+        <p class="skill__source">01 — Case Study: Lock In Your Price</p>
+        <h2 class="skill__title">Communication</h2>
+      </div>
+
+      <div class="star-grid">
+
+        <div class="star-item">
+          <div class="star-item__label">
+            <span class="star-item__letter">S</span>
+            <span class="star-item__word">Situation</span>
+          </div>
+          <p class="star-item__body">
+            I was the Lead Designer on the strategic FY26 initiative: Lock In Your Price
+            — offering customers a fixed price when they placed a bet, something that
+            has never been offered before on a pools platform. Due to the importance
+            of the initiative to the business, stakeholders across the organisation,
+            including at C-suite level, were keen to have their input and be kept
+            updated on design decisions and research findings.
+          </p>
+        </div>
+
+        <div class="star-item">
+          <div class="star-item__label">
+            <span class="star-item__letter">T</span>
+            <span class="star-item__word">Task</span>
+          </div>
+          <p class="star-item__body">
+            Keep senior stakeholders meaningfully involved and informed throughout
+            a complex, long-running project — without letting diary constraints
+            slow down design decisions or block iteration.
+          </p>
+        </div>
+
+        <div class="star-item">
+          <div class="star-item__label">
+            <span class="star-item__letter">A</span>
+            <span class="star-item__word">Action</span>
+          </div>
+          <div class="star-item__body">
+            <p style="margin-bottom: 20px;">
+              I adapted my communication approach across three areas to meet
+              stakeholders where they were, rather than expecting them to come to me.
+            </p>
+
+            <p style="font-weight: 700; margin-bottom: 8px;">1. Recorded design walkthroughs</p>
+            <p style="margin-bottom: 16px;">
+              During the ideation phase I needed design input from senior stakeholders,
+              including C-suite, but finding time in their diaries was a persistent
+              obstacle. My solution was to record short Loom walkthroughs of the
+              designs, so stakeholders could review and comment in their own time
+              without a meeting being the bottleneck.
+            </p>
+
+            <!-- LOOM EMBED -->
+            <div style="position: relative; padding-bottom: 52.4%; height: 0; border-radius: 10px; overflow: hidden; margin-bottom: 24px; box-shadow: 0 4px 20px rgba(0,0,0,0.10);">
+              <iframe src="https://www.loom.com/embed/6ae85e2193124cb4a8cd21ac96fd63b2"
+                frameborder="0"
+                webkitallowfullscreen mozallowfullscreen allowfullscreen
+                style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;">
+              </iframe>
+            </div>
+
+            <p style="font-weight: 700; margin-bottom: 8px;">2. Internal surveys &amp; Lunch &amp; Learn</p>
+            <p style="margin-bottom: 24px;">
+              To gather broader feedback on designs and build buy-in from across the
+              business, I created internal surveys distributed to stakeholders and
+              presented during a Lunch &amp; Learn session. From experience, stakeholders
+              give more insightful feedback when they have a prototype in their hands
+              rather than passively viewing static images in Figma or a slide deck —
+              so the surveys were designed around interactive prototypes where possible.
+            </p>
+
+            <!-- SURVEY IMAGES -->
+            <div style="display: flex; gap: 16px; margin-bottom: 24px;">
+              <img
+                src="images/survey-feedback-q6.png"
+                alt="Survey question 6 – suggestions to improve the experience"
+                style="flex: 1; min-width: 0; border-radius: 8px; border: 1px solid var(--divider); object-fit: cover;"
+              />
+              <img
+                src="images/survey-feedback-q14.png"
+                alt="Survey question 14 – prototype preference reasoning"
+                style="flex: 1; min-width: 0; border-radius: 8px; border: 1px solid var(--divider); object-fit: cover;"
+              />
+            </div>
+
+            <p style="font-weight: 700; margin-bottom: 8px;">3. Evolving how I played back research</p>
+            <p>
+              I presented comprehensive user research from customer interviews
+              conducted on a working prototype. Early playbacks relied on a
+              PowerPoint with video clips embedded — effective but dense. Over the
+              course of the project I evolved this approach, using Claude to build
+              a dedicated research summary webpage. The result was that headline
+              findings became far more digestible for senior stakeholders, who
+              subsequently asked to use the presentation when reporting back
+              to the board.
+            </p>
+            <p style="margin-top: 12px;">
+              <a href="survey-feedback/tote_ux_survey_analysis.html" target="_blank" class="survey-link">
+                View research summary →
+              </a>
+            </p>
+          </div>
+        </div>
+
+        <div class="star-item">
+          <div class="star-item__label">
+            <span class="star-item__letter">R</span>
+            <span class="star-item__word">Result</span>
+          </div>
+          <div class="star-item__body">
+            <p>
+              The biggest result of my approach to communication was creating an
+              environment where feedback was consistently attainable, despite senior
+              stakeholders' competing responsibilities. Ideas flowed quickly, which
+              meant designs could be validated and iterated on without being blocked
+              by calendar availability. Senior stakeholders adopted the research
+              presentation format for their board reporting — a signal that the
+              communication had moved from informative to genuinely useful.
+            </p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ================================================ -->
+    <!-- 02 — PROBLEM SOLVING -->
+    <!-- ================================================ -->
+    <section class="skill" id="problem-solving">
+      <div class="skill__header">
+        <p class="skill__source">02 — Case Study: Navigation</p>
+        <h2 class="skill__title">Problem Solving</h2>
+      </div>
+
+      <div class="star-grid">
+
+        <div class="star-item">
+          <div class="star-item__label">
+            <span class="star-item__letter">S</span>
+            <span class="star-item__word">Situation</span>
+          </div>
+          <p class="star-item__body">
+            Quarterly surveys were flagging navigation as a persistent pain point.
+            When I dug into the data and interview clips from other projects, I
+            found the root cause: clicking a single-leg bet type (Win/Place) in the
+            dropdown automatically navigated customers to the <em>next chronological
+            race</em>, including international meetings. Customers who primarily bet
+            on domestic racing were regularly landing on races they had no interest
+            in — a frustrating, disorienting experience. The complication was that
+            the Tote sportsbook is a third-party integration, which limited what
+            could be done with the navigation structure.
+          </p>
+        </div>
+
+        <div class="star-item">
+          <div class="star-item__label">
+            <span class="star-item__letter">T</span>
+            <span class="star-item__word">Task</span>
+          </div>
+          <p class="star-item__body">
+            Design a new navigation experience that gave customers control over
+            where they landed, increase visibility of key areas like the sportsbook,
+            and validate the solution with data — all within the constraints of the
+            third-party integration.
+          </p>
+        </div>
+
+        <div class="star-item">
+          <div class="star-item__label">
+            <span class="star-item__letter">A</span>
+            <span class="star-item__word">Action</span>
+          </div>
+          <p class="star-item__body">
+            I used competitor analysis to identify that left-hand navigation panels
+            were industry standard and that competitors expected customers to navigate
+            to specific races via racecards — not through a bet-type dropdown. This
+            gave me the rationale to <strong>remove the problematic Win/Place
+            bet type from the dropdown entirely</strong>, resolving the root cause of
+            the wrong-landing issue in a single decision.<br /><br />
+            For the third-party sportsbook problem, I reframed it as an opportunity:
+            rather than trying to integrate the sportsbook natively, I proposed
+            surfacing CMS-managed links to featured sports events in the left panel.
+            I collaborated with the Operations team on the content strategy
+            (football and in-play as permanent fixtures with flexibility to add
+            events) and worked with BI to build an A/B test using LaunchDarkly,
+            comparing active win bettors against a control group before full rollout.
+          </p>
+        </div>
+
+        <div class="star-item">
+          <div class="star-item__label">
+            <span class="star-item__letter">R</span>
+            <span class="star-item__word">Result</span>
+          </div>
+          <div class="star-item__body">
+            <p>
+              The A/B test showed a 6.48% uplift in bet conversion with no adverse
+              impact on bet volume, giving us confidence to roll out fully. The left
+              panel also unlocked a scalable operations capability that continues to
+              drive traffic. The learning: finding the root cause of a problem — rather
+              than designing around the symptom — produced a simpler, more impactful
+              solution than expected.
+            </p>
+            <div class="metrics">
+              <div class="metric">
+                <span class="metric__number">1.6M</span>
+                <span class="metric__label">Events in 6 months</span>
+              </div>
+              <div class="metric">
+                <span class="metric__number">8%</span>
+                <span class="metric__label">Increase in win conversion</span>
+              </div>
+              <div class="metric">
+                <span class="metric__number">7.3%</span>
+                <span class="metric__label">Increase in football impressions</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ================================================ -->
+    <!-- 03 — CREATIVITY -->
+    <!-- ================================================ -->
+    <section class="skill" id="creativity">
+      <div class="skill__header">
+        <p class="skill__source">03 — Case Study: Multiples</p>
+        <h2 class="skill__title">Creativity</h2>
+      </div>
+
+      <div class="star-grid">
+
+        <div class="star-item">
+          <div class="star-item__label">
+            <span class="star-item__letter">S</span>
+            <span class="star-item__word">Situation</span>
+          </div>
+          <p class="star-item__body">
+            Customers wanted to place multiples bets (doubles, trebles, four-folds)
+            on the Tote, but pools betting has a fundamental constraint that no
+            operator in the world had solved: <strong>the combined price cannot be
+            calculated upfront</strong>. In fixed-odds betting the return is locked
+            the moment you bet. In pools betting the dividend fluctuates with the
+            size of the pool right up until the race goes off. Every other pools
+            provider globally — including TAB in Australia and PMU in France — had
+            simply not offered multiples as a result.
+          </p>
+        </div>
+
+        <div class="star-item">
+          <div class="star-item__label">
+            <span class="star-item__letter">T</span>
+            <span class="star-item__word">Task</span>
+          </div>
+          <p class="star-item__body">
+            Design a multiples experience that was compelling and transparent for
+            customers, without the ability to guarantee a fixed return — a challenge
+            that had never been designed for in pools betting before.
+          </p>
+        </div>
+
+        <div class="star-item">
+          <div class="star-item__label">
+            <span class="star-item__letter">A</span>
+            <span class="star-item__word">Action</span>
+          </div>
+          <p class="star-item__body">
+            I invented a new concept for pools betting: <strong>Potential Returns</strong>
+            — a live indicative value shown to the customer at bet placement, with
+            language that communicated it was not a guaranteed figure. Crucially, I
+            treated this not just as a label choice but as a hypothesis to test.
+            Customer testing confirmed the wording worked exactly as intended.<br /><br />
+            Alongside this, I redesigned the betslip from the ground up using a
+            card-based layout. Previously, multiple selections and bet types were
+            displayed in a flat, confusing list. The card format gave each bet a
+            shared common region — making it immediately clear which stake, return,
+            and bet type belonged together, regardless of how many selections a
+            customer added.<br /><br />
+            When the typography licence for the Tote's existing font expired mid-project,
+            I used the moment creatively: researching accessible, cost-effective Google
+            Fonts and aligning marketing and branding on the new choice, turning an
+            operational problem into a design system improvement.
+          </p>
+        </div>
+
+        <div class="star-item">
+          <div class="star-item__label">
+            <span class="star-item__letter">R</span>
+            <span class="star-item__word">Result</span>
+          </div>
+          <div class="star-item__body">
+            <p>
+              The UK Tote became the only pools betting operator in the world to offer
+              multiples win bets. The redesigned betslip solved the cognitive overload
+              of the previous layout while introducing a returns concept that is itself
+              an innovation in pools betting globally. The initiative met budget
+              expectations in its first year.
+            </p>
+            <div class="metrics">
+              <div class="metric">
+                <span class="metric__number">£4M</span>
+                <span class="metric__label">Yearly turnover</span>
+              </div>
+              <div class="metric">
+                <span class="metric__number">World First</span>
+                <span class="metric__label">Pools betting innovation</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ================================================ -->
+    <!-- 04 — MINDSET -->
+    <!-- ================================================ -->
+    <section class="skill" id="mindset">
+      <div class="skill__header">
+        <p class="skill__source">04 — Case Study: Exotic Cross-Sell</p>
+        <h2 class="skill__title">Mindset</h2>
+      </div>
+
+      <div class="star-grid">
+
+        <div class="star-item">
+          <div class="star-item__label">
+            <span class="star-item__letter">S</span>
+            <span class="star-item__word">Situation</span>
+          </div>
+          <p class="star-item__body">
+            Research — gathered from surveys, interviews, and competitor analysis —
+            identified that customers weren't placing exacta and trifecta bets on
+            the Tote, not because they didn't want to, but because they didn't know
+            those products existed. The Tote's naming conventions (exacta, trifecta)
+            differed from industry-standard terms (forecast, tricast), creating an
+            invisible barrier. The ideal solution included surfacing live "will-pay"
+            values to demonstrate the value proposition — but the backend resource
+            to support this wasn't available within the project timeline.
+          </p>
+        </div>
+
+        <div class="star-item">
+          <div class="star-item__label">
+            <span class="star-item__letter">T</span>
+            <span class="star-item__word">Task</span>
+          </div>
+          <p class="star-item__body">
+            Deliver a meaningful increase in exacta and trifecta bets despite the
+            technical constraint — without stalling or waiting for the full ideal
+            solution to become available.
+          </p>
+        </div>
+
+        <div class="star-item">
+          <div class="star-item__label">
+            <span class="star-item__letter">A</span>
+            <span class="star-item__word">Action</span>
+          </div>
+          <p class="star-item__body">
+            Rather than treating the resource constraint as a blocker, I reframed
+            the problem: the data showed that awareness and education were the
+            primary barriers — not the absence of will-pay data. I worked closely
+            with engineering to split the initiative into two phased deliverables,
+            prioritising the cross-sell component that addressed the highest-impact
+            issues immediately.<br /><br />
+            I also adapted the design itself to work within constraints. The original
+            plan required Ops to manually curate horse combinations — which needed
+            resource that wasn't available. I redesigned the logic to automate
+            selection based on the top of the market, removing the dependency
+            without compromising the customer experience.<br /><br />
+            To validate the approach before full rollout, I conducted usability
+            testing through Usertesting.com and internal sessions, and built a
+            business case with the PM that I presented to SLT to secure buy-in.
+            I also ran an A/B test to ensure the new component wouldn't cannibalise
+            win bet volume.
+          </p>
+        </div>
+
+        <div class="star-item">
+          <div class="star-item__label">
+            <span class="star-item__letter">R</span>
+            <span class="star-item__word">Result</span>
+          </div>
+          <div class="star-item__body">
+            <p>
+              The A/B test showed no adverse impact on win bets, and an uplift in
+              exacta volume. By shipping a constrained but impactful version quickly,
+              I created measurable business value and a proof of concept for future
+              pre-populated bet features. The learning: a growth mindset means asking
+              "what can we deliver now that genuinely helps?" rather than waiting for
+              the perfect conditions.
+            </p>
+            <div class="metrics">
+              <div class="metric">
+                <span class="metric__number">8%</span>
+                <span class="metric__label">Increase in exacta bets</span>
+              </div>
+              <div class="metric">
+                <span class="metric__number">17%</span>
+                <span class="metric__label">Of exacta bets via the new component</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ================================================ -->
+    <!-- 05 — TEAMWORK & LEADERSHIP -->
+    <!-- ================================================ -->
+    <section class="skill" id="teamwork">
+      <div class="skill__header">
+        <p class="skill__source">05 — Case Study: Multiples</p>
+        <h2 class="skill__title">Teamwork &amp; Leadership</h2>
+      </div>
+
+      <div class="star-grid">
+
+        <div class="star-item">
+          <div class="star-item__label">
+            <span class="star-item__letter">S</span>
+            <span class="star-item__word">Situation</span>
+          </div>
+          <p class="star-item__body">
+            Multiples was the key strategic initiative for FY2024 — a world-first
+            feature that touched every part of the business: UX Design, Product,
+            Engineering, SLT, ExCo, Business Intelligence, Business Planning,
+            Marketing, Branding, and the Head of Racing. Midway through the project,
+            the backend services had to be rewritten, which changed the delivery
+            scope and threatened the timeline. At the same time, the existing design
+            system was fragmented and inconsistent across platforms, which was slowing
+            down developer builds and creating quality issues.
+          </p>
+        </div>
+
+        <div class="star-item">
+          <div class="star-item__label">
+            <span class="star-item__letter">T</span>
+            <span class="star-item__word">Task</span>
+          </div>
+          <p class="star-item__body">
+            As Lead Designer, lead the end-to-end design and research process while
+            keeping all stakeholders aligned across a large, cross-functional group
+            — and adapt quickly when the technical delivery plan changed beneath us.
+          </p>
+        </div>
+
+        <div class="star-item">
+          <div class="star-item__label">
+            <span class="star-item__letter">A</span>
+            <span class="star-item__word">Action</span>
+          </div>
+          <p class="star-item__body">
+            I invested early in building a strong working relationship with the PM
+            and engineers, which meant we were able to pivot quickly and without
+            conflict when the backend resource changed. Rather than waiting for a
+            single final handover, I structured the Figma files into three clearly
+            separated pages — one per delivery version — so developers always had
+            a precise, unambiguous source of truth for whichever stage was in build.<br /><br />
+            To build stakeholder confidence in the direction, I created user journey
+            maps and personas from my research and presented these to SLT to
+            demonstrate the financial and retention impact of not solving the
+            problem. I used the research I had gathered to convince stakeholders on
+            the "Potential Returns" decision — a critical design call they had
+            initially blocked.<br /><br />
+            Recognising a wider team problem, I took the initiative to consolidate
+            the fragmented design system into a single source-of-truth file. I ran
+            sessions with developers to walk them through the structure, because I
+            found that passive handover wasn't sufficient — developers needed to be
+            guided into using the system. When the existing font licence expired,
+            I led the cross-team alignment with Marketing and Branding on the
+            replacement — turning an operational issue into a moment of shared
+            ownership.
+          </p>
+        </div>
+
+        <div class="star-item">
+          <div class="star-item__label">
+            <span class="star-item__letter">R</span>
+            <span class="star-item__word">Result</span>
+          </div>
+          <div class="star-item__body">
+            <p>
+              Despite mid-project technical changes, the feature shipped on plan and
+              met budget expectations. The structured Figma handover improved build
+              accuracy, and the design system sessions reduced inconsistency across
+              the team. The learning: leading cross-functional work means creating
+              the conditions for other people to move quickly — through clear
+              documentation, genuine relationships, and proactive communication — not
+              just delivering your own part.
+            </p>
+            <div class="metrics">
+              <div class="metric">
+                <span class="metric__number">£4M</span>
+                <span class="metric__label">Yearly turnover</span>
+              </div>
+              <div class="metric">
+                <span class="metric__number">World First</span>
+                <span class="metric__label">Pools betting innovation</span>
+              </div>
+              <div class="metric">
+                <span class="metric__number">55%</span>
+                <span class="metric__label">Customers 'likely' to bet regularly</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <script>
+    (function () {
+      var header = document.querySelector('.site-header');
+      if (!header) return;
+      var toggle = function () {
+        if (window.scrollY > 8) {
+          header.classList.add('site-header--scrolled');
+        } else {
+          header.classList.remove('site-header--scrolled');
+        }
+      };
+      toggle();
+      window.addEventListener('scroll', toggle, { passive: true });
+    })();
+  </script>
+</body>
+</html>

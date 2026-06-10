@@ -1,0 +1,1361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tote — February UX Customer Survey Analysis</title>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;0,900;1,400&family=Roboto+Condensed:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --tote-red:      #FF3426;
+    --tote-dark:     #1e0e20;
+    --tote-dark-red: #D3271B;
+    --tote-orange:   #FF9501;
+    --tote-yellow:   #FEC81D;
+    --tote-green:    #00DC82;
+    --tote-sky:      #69C8FF;
+    --tote-magenta:  #FF6EFF;
+    --bg:            #382237;
+    --surface:       #2c1a2e;
+    --surface2:      #3d2540;
+    --surface3:      #4e2f54;
+    --border:        rgba(255,255,255,0.10);
+    --border2:       rgba(255,255,255,0.22);
+    --muted:         rgba(255,255,255,0.55);
+    --white:         #FFFFFF;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:'Roboto',sans-serif; background:var(--bg); color:var(--white); line-height:1.65; font-size:15px; -webkit-font-smoothing:antialiased; }
+
+  /* COVER */
+  .cover { background:var(--tote-dark); padding:72px 80px 60px; border-bottom:4px solid var(--tote-red); position:relative; overflow:hidden; }
+  .cover::before { content:''; position:absolute; top:0;left:0;right:0;bottom:0; background:radial-gradient(ellipse at 75% 50%,rgba(255,52,38,0.10),transparent 60%); pointer-events:none; }
+  .cover-tag { font-size:11px; font-weight:700; letter-spacing:3px; text-transform:uppercase; color:var(--tote-red); margin-bottom:28px; }
+  .cover h1 { font-family:'Roboto Condensed',sans-serif; font-size:clamp(44px,6vw,80px); font-weight:700; color:var(--white); line-height:1.05; margin-bottom:20px; max-width:720px; }
+  .cover h1 em { color:var(--tote-red); font-style:normal; }
+  .cover-meta { display:flex; gap:48px; margin-top:40px; border-top:1px solid var(--border2); padding-top:32px; }
+  .cover-meta-item { display:flex; flex-direction:column; gap:4px; }
+  .cover-meta-label { font-size:10px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:var(--muted); }
+  .cover-meta-value { font-size:15px; font-weight:500; }
+
+  /* LAYOUT */
+  .container { max-width:1100px; margin:0 auto; padding:0 48px; }
+  section { padding:72px 0; border-bottom:1px solid var(--border); }
+  section:last-child { border-bottom:none; }
+  .section-label { font-size:10px; font-weight:700; letter-spacing:3px; text-transform:uppercase; color:var(--tote-red); margin-bottom:8px; }
+  .section-title { font-family:'Roboto Condensed',sans-serif; font-size:clamp(26px,3.5vw,42px); font-weight:700; line-height:1.1; margin-bottom:40px; }
+
+  /* STATS */
+  .stats-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:2px; background:var(--border); border:1px solid var(--border2); margin-bottom:40px; }
+  .stat-card { background:var(--surface); padding:28px 22px; display:flex; flex-direction:column; gap:8px; }
+  .stat-number { font-family:'Roboto Condensed',sans-serif; font-size:52px; font-weight:700; line-height:1; }
+  .stat-number.accent { color:var(--tote-red); }
+  .stat-number.green  { color:var(--tote-green); }
+  .stat-number.gold   { color:var(--tote-yellow); }
+  .stat-label { font-size:13px; color:var(--muted); line-height:1.45; }
+
+  /* FINDINGS */
+  .findings-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:16px; margin-bottom:32px; }
+  .finding-card { background:var(--surface); border:1px solid var(--border); padding:28px; position:relative; overflow:hidden; }
+  .finding-card::before { content:''; position:absolute; top:0;left:0;width:4px;height:100%; }
+  .finding-card.positive::before { background:var(--tote-green); }
+  .finding-card.negative::before { background:var(--tote-red); }
+  .finding-card.neutral::before  { background:var(--tote-yellow); }
+  .finding-tag { font-size:10px; font-weight:700; letter-spacing:2px; text-transform:uppercase; margin-bottom:10px; }
+  .positive .finding-tag { color:var(--tote-green); }
+  .negative .finding-tag { color:var(--tote-red); }
+  .neutral  .finding-tag { color:var(--tote-yellow); }
+  .finding-title { font-family:'Roboto Condensed',sans-serif; font-size:18px; font-weight:700; margin-bottom:10px; line-height:1.25; }
+  .finding-body  { font-size:13px; color:var(--muted); line-height:1.6; }
+  .finding-stat  { margin-top:14px; padding:10px 14px; background:var(--surface2); font-size:12px; font-weight:500; color:var(--tote-yellow); }
+
+  /* VERTICAL HEADERS */
+  .vertical-header { display:flex; align-items:center; gap:16px; margin-bottom:28px; padding-bottom:16px; border-bottom:2px solid var(--tote-red); }
+  .vertical-icon { width:44px; height:44px; display:flex; align-items:center; justify-content:center; font-size:20px; background:var(--tote-red); flex-shrink:0; }
+  .vertical-title { font-family:'Roboto Condensed',sans-serif; font-size:28px; font-weight:700; }
+  .vertical-subtitle { font-size:12px; color:var(--muted); margin-top:2px; }
+
+  /* BAR CHARTS */
+  .bar-chart { display:flex; flex-direction:column; gap:9px; margin-bottom:28px; }
+  .bar-row { display:grid; grid-template-columns:180px 1fr 72px; align-items:center; gap:12px; }
+  .bar-label { font-size:12px; font-weight:500; color:var(--muted); text-align:right; }
+  .bar-track { height:20px; background:var(--surface2); overflow:hidden; }
+  .bar-fill { height:100%; }
+  .bar-fill.primary, .bar-fill.accent { background:var(--tote-red); }
+  .bar-fill.green  { background:var(--tote-green); }
+  .bar-fill.gold   { background:var(--tote-yellow); }
+  .bar-fill.blue   { background:var(--tote-sky); }
+  .bar-value { font-size:11px; font-weight:500; color:var(--muted); }
+
+  /* LIKERT TABLE */
+  .likert-table { width:100%; border-collapse:collapse; margin-bottom:28px; font-size:13px; }
+  .likert-table th { font-size:10px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; color:var(--muted); padding:8px 10px; border-bottom:2px solid var(--tote-red); text-align:left; }
+  .likert-table th:not(:first-child) { text-align:center; }
+  .likert-table td { padding:9px 10px; border-bottom:1px solid var(--border); vertical-align:middle; }
+  .likert-table tr:last-child td { border-bottom:none; }
+  .likert-table td.metric { font-weight:500; }
+  .sentiment-pill { display:inline-block; padding:3px 9px; font-size:11px; font-weight:600; }
+  .pill-strong-pos { background:rgba(0,220,130,0.15); color:var(--tote-green); }
+  .pill-pos        { background:rgba(0,220,130,0.08); color:#5de8a8; }
+  .pill-neutral    { background:rgba(254,200,29,0.15); color:var(--tote-yellow); }
+  .pill-neg        { background:rgba(255,52,38,0.15); color:#ff7060; }
+
+  /* QUOTES */
+  .quotes-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-top:28px; }
+  .quote-card { background:var(--surface2); border-left:3px solid var(--tote-red); padding:20px 18px 18px; position:relative; }
+  .quote-card::before { content:'C'; font-family:'Roboto Condensed',sans-serif; font-size:52px; color:var(--tote-red); opacity:0.2; position:absolute; top:-4px;left:10px;line-height:1; }
+  .quote-text { font-size:13px; line-height:1.65; font-style:italic; color:var(--muted); margin-top:18px; position:relative;z-index:1; }
+
+  /* NPS */
+  .nps-row { display:flex; gap:2px; height:44px; overflow:hidden; margin-bottom:12px; }
+  .nps-segment { display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:600; color:var(--white); flex-shrink:0; }
+  .nps-detractor { background:var(--tote-dark-red); }
+  .nps-passive   { background:var(--tote-orange); }
+  .nps-promoter  { background:var(--tote-green); color:#0d1a10; }
+
+  /* THEME CARDS */
+  .theme-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-bottom:36px; }
+  .theme-card { border:1px solid var(--border); padding:24px; background:var(--surface); }
+  .theme-number { font-family:'Roboto Condensed',sans-serif; font-size:52px; font-weight:700; color:var(--surface3); line-height:1; margin-bottom:6px; }
+  .theme-title  { font-size:14px; font-weight:700; margin-bottom:6px; }
+  .theme-desc   { font-size:13px; color:var(--muted); line-height:1.55; }
+
+  /* TWO COL */
+  .two-col { display:grid; grid-template-columns:1fr 1fr; gap:44px; align-items:start; }
+
+  /* RECS */
+  .rec-list { display:flex; flex-direction:column; gap:14px; }
+  .rec-item { display:flex; gap:14px; padding:18px; border:1px solid var(--border); background:var(--surface); }
+  .rec-priority { width:30px; height:30px; background:var(--surface3); color:var(--white); display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:700; flex-shrink:0; }
+  .rec-priority.high   { background:var(--tote-red); }
+  .rec-priority.medium { background:var(--tote-orange); color:#1a0a00; }
+  .rec-title   { font-weight:700; font-size:14px; margin-bottom:4px; }
+  .rec-desc    { font-size:13px; color:var(--muted); line-height:1.55; }
+  .rec-vertical { font-size:10px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; color:var(--tote-red); margin-bottom:3px; }
+
+  /* FOOTER */
+  .report-footer { background:var(--tote-dark); border-top:4px solid var(--tote-red); color:var(--muted); padding:36px 48px; display:flex; justify-content:space-between; align-items:center; font-size:11px; font-weight:500; letter-spacing:0.5px; }
+  .report-footer strong { color:var(--white); }
+
+  /* MISC */
+  .tag { display:inline-block; padding:3px 10px; font-size:10px; font-weight:700; letter-spacing:1px; text-transform:uppercase; border:1px solid currentColor; margin-right:6px; margin-bottom:6px; }
+  .tag.racing    { color:var(--tote-orange); }
+  .tag.sports    { color:var(--tote-sky); }
+  .tag.casino    { color:var(--tote-green); }
+  .tag.livecasino{ color:var(--tote-magenta); }
+  .tag.cross     { color:var(--muted); border-color:var(--border2); }
+  .divider { height:1px; background:var(--border); margin:36px 0; }
+  .highlight-box { background:var(--surface2); border-left:4px solid var(--tote-red); padding:28px 32px; margin:28px 0; }
+  .highlight-box .label { font-size:10px; font-weight:700; letter-spacing:3px; text-transform:uppercase; color:var(--tote-red); margin-bottom:10px; }
+  .highlight-box p { font-size:15px; font-weight:300; line-height:1.7; color:rgba(255,255,255,0.90); }
+  .highlight-box p strong { color:var(--white); font-weight:700; }
+  .map-visual { border:1px solid var(--border); background:var(--surface); padding:36px; margin-bottom:36px; }
+  .map-central { text-align:center; padding:18px; background:var(--tote-red); color:var(--white); margin-bottom:28px; }
+  .map-central h3 { font-family:'Roboto Condensed',sans-serif; font-size:20px; font-weight:700; margin-bottom:2px; }
+  .map-central p  { font-size:11px; color:rgba(255,255,255,0.8); }
+  .map-themes { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; }
+  .map-theme-node { border:1px solid var(--border); padding:14px; text-align:center; background:var(--surface2); }
+  .map-theme-node .node-num  { font-family:'Roboto Condensed',sans-serif; font-size:26px; font-weight:700; color:var(--tote-red); line-height:1; margin-bottom:3px; }
+  .map-theme-node .node-name { font-size:11px; font-weight:500; line-height:1.4; }
+  .data-count-badge { background:var(--surface); border:1px solid var(--border); padding:14px 18px; display:inline-flex; gap:28px; margin-bottom:28px; font-size:13px; color:var(--muted); }
+  .data-count-badge span { font-family:'Roboto Condensed',sans-serif; font-weight:700; color:var(--white); font-size:22px; }
+  hr.section-rule { border:none; border-top:2px solid var(--tote-red); margin:52px 0 28px; }
+</style>
+</head>
+<body>
+
+<!-- COVER -->
+<div class="cover">
+  <div class="container">
+    <svg style="width:110px;margin-bottom:28px;display:block;" viewBox="0 0 453 98" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd"><path d="M167.204 79.145c-16.439 0-29.813-13.381-29.813-29.827 0-16.446 13.374-29.827 29.813-29.827 16.438 0 29.812 13.381 29.812 29.827 0 16.446-13.374 29.827-29.812 29.827M167.204 1.085C140.621 1.085 118.993 22.723 118.993 49.318c0 26.596 21.628 48.233 48.211 48.233 26.583 0 48.211-21.637 48.211-48.233 0-26.595-21.628-48.233-48.211-48.233" fill="#FF3426"/><g transform="translate(237 .636)"><path d="M55.354.365H41.574C40.298.365 39.265 1.399 39.265 2.675v36.804H2.478C1.202 39.479.168 40.513.168 41.789v13.786c0 1.276 1.034 2.31 2.31 2.31h36.787v36.804c0 1.276 1.034 2.31 2.31 2.31h13.78c1.275 0 2.309-1.034 2.309-2.31V57.885h36.787c1.276 0 2.309-1.034 2.309-2.31V41.789c0-1.276-1.033-2.31-2.309-2.31H57.663V2.675c0-1.276-1.034-2.31-2.309-2.31" fill="#FFFFFF"/></g><g transform="translate(0 .636)"><path d="M55.186.365H41.406C40.131.365 39.097 1.399 39.097 2.675v36.804H2.31C1.034 39.479 0 40.513 0 41.789v13.786c0 1.276 1.034 2.31 2.31 2.31h36.787v36.804c0 1.276 1.034 2.31 2.31 2.31h13.779c1.275 0 2.309-1.034 2.309-2.31V57.885h36.787c1.276 0 2.309-1.034 2.309-2.31V41.789c0-1.276-1.033-2.31-2.309-2.31H57.495V2.675c0-1.276-1.034-2.31-2.309-2.31" fill="#FFFFFF"/></g><path d="M404.048 19.576c13.23 0 24.472 8.668 28.356 20.624h-56.715c3.885-11.956 15.128-20.624 28.359-20.624m48.217 29.824l-.008-.027C452.242 22.661 430.411.957 403.659 1.17c-26.22.208-47.623 21.627-47.822 47.858-.203 26.767 21.502 48.607 48.211 48.607 2.023 0 4.02-.127 5.979-.372 2.485-.308 4.912-.806 7.265-1.48 1.988-.57 3.924-1.264 5.798-2.074 1.388-.6 1.976-2.253 1.3-3.604l-5.876-11.759c-.612-1.223-2.061-1.792-3.326-1.279-.96.389-1.945.729-2.95 1.016-1.456.417-2.956.725-4.493.916-1.213.15-2.446.229-3.697.229-13.231 0-24.473-8.667-28.359-20.623h73.935c1.459 0 2.641-1.185 2.641-2.645v-6.56z" fill="#FF3426"/></g></svg>
+  <p class="cover-tag">Confidential Research Report</p>
+    <h1>February UX<br>Customer <em>Survey</em><br>Analysis</h1>
+    <div class="cover-meta">
+      <div class="cover-meta-item">
+        <span class="cover-meta-label">Respondents</span>
+        <span class="cover-meta-value">1,266 customers</span>
+      </div>
+      <div class="cover-meta-item">
+        <span class="cover-meta-label">Verticals</span>
+        <span class="cover-meta-value">Racing · Sports · Casino · Live Casino</span>
+      </div>
+      <div class="cover-meta-item">
+        <span class="cover-meta-label">Period</span>
+        <span class="cover-meta-value">February 2025</span>
+      </div>
+      <div class="cover-meta-item">
+        <span class="cover-meta-label">Prepared for</span>
+        <span class="cover-meta-value">Stakeholders & Exec Team</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- EXECUTIVE SUMMARY -->
+<section>
+  <div class="container">
+    <p class="section-label">01 — Executive Summary</p>
+    <h2 class="section-title">The Tote has a strong core,<br>with clear growth levers to pull</h2>
+
+    <div class="stats-grid">
+      <div class="stat-card">
+        <span class="stat-number green">68%</span>
+        <span class="stat-label">of racing users rate their likelihood to continue at 8–10/10</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-number accent">46%</span>
+        <span class="stat-label">of respondents do not bet on Sports with the Tote — biggest cross-sell gap</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-number">7.9</span>
+        <span class="stat-label">average overall satisfaction score out of 10 across all respondents</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-number gold">49%</span>
+        <span class="stat-label">of gaming users are unaware of the Placepot Turbo product</span>
+      </div>
+    </div>
+
+    <div class="highlight-box">
+      <p class="label">Key Headline</p>
+      <p>Racing is the Tote's <strong>undisputed heartland</strong> — loyal, frequent, and highly satisfied. However, the Tote is leaving significant revenue on the table in <strong>Sports and Games/Casino</strong>, where engagement is low, awareness is patchy, and competitive differentiation is unclear. Across all verticals, <strong>odds, promotions, and loyalty</strong> are the primary reasons customers bet elsewhere.</p>
+    </div>
+  </div>
+</section>
+
+<!-- AUDIENCE PROFILE -->
+<section>
+  <div class="container">
+    <p class="section-label">02 — Audience Profile</p>
+    <h2 class="section-title">An older, mobile-first,<br>lower-stakes audience</h2>
+
+    <div class="two-col">
+      <div>
+        <h3 style="font-family: 'Roboto Condensed', sans-serif; font-size: 20px; margin-bottom: 20px;">Age Distribution</h3>
+        <div class="bar-chart">
+          <div class="bar-row">
+            <span class="bar-label">65+</span>
+            <div class="bar-track"><div class="bar-fill primary" style="width:26.3%"></div></div>
+            <span class="bar-value">333 (26%)</span>
+          </div>
+          <div class="bar-row">
+            <span class="bar-label">55–64</span>
+            <div class="bar-track"><div class="bar-fill primary" style="width:23%"></div></div>
+            <span class="bar-value">291 (23%)</span>
+          </div>
+          <div class="bar-row">
+            <span class="bar-label">35–44</span>
+            <div class="bar-track"><div class="bar-fill primary" style="width:19.8%"></div></div>
+            <span class="bar-value">251 (20%)</span>
+          </div>
+          <div class="bar-row">
+            <span class="bar-label">45–54</span>
+            <div class="bar-track"><div class="bar-fill primary" style="width:17%"></div></div>
+            <span class="bar-value">215 (17%)</span>
+          </div>
+          <div class="bar-row">
+            <span class="bar-label">25–34</span>
+            <div class="bar-track"><div class="bar-fill primary" style="width:11.4%"></div></div>
+            <span class="bar-value">144 (11%)</span>
+          </div>
+          <div class="bar-row">
+            <span class="bar-label">18–24</span>
+            <div class="bar-track"><div class="bar-fill accent" style="width:2.5%"></div></div>
+            <span class="bar-value">32 (3%)</span>
+          </div>
+        </div>
+        <p style="font-size:13px; color:var(--muted); margin-top:8px;">49% of respondents are aged 55+. Under-25s represent just 3% — a meaningful indicator for long-term audience renewal.</p>
+      </div>
+
+      <div>
+        <h3 style="font-family: 'Roboto Condensed', sans-serif; font-size: 20px; margin-bottom: 20px;">Platform Access</h3>
+        <div class="bar-chart">
+          <div class="bar-row">
+            <span class="bar-label">Android App</span>
+            <div class="bar-track"><div class="bar-fill green" style="width:28.9%"></div></div>
+            <span class="bar-value">366 (29%)</span>
+          </div>
+          <div class="bar-row">
+            <span class="bar-label">Mobile Web</span>
+            <div class="bar-track"><div class="bar-fill green" style="width:26%"></div></div>
+            <span class="bar-value">329 (26%)</span>
+          </div>
+          <div class="bar-row">
+            <span class="bar-label">iOS App</span>
+            <div class="bar-track"><div class="bar-fill green" style="width:21.7%"></div></div>
+            <span class="bar-value">275 (22%)</span>
+          </div>
+          <div class="bar-row">
+            <span class="bar-label">Desktop</span>
+            <div class="bar-track"><div class="bar-fill primary" style="width:16.7%"></div></div>
+            <span class="bar-value">211 (17%)</span>
+          </div>
+          <div class="bar-row">
+            <span class="bar-label">Tablet</span>
+            <div class="bar-track"><div class="bar-fill primary" style="width:6.7%"></div></div>
+            <span class="bar-value">85 (7%)</span>
+          </div>
+        </div>
+        <p style="font-size:13px; color:var(--muted); margin-top:8px;"><strong>77% access via mobile</strong> (app or mobile web). Mobile experience quality is therefore the single most impactful investment the Tote can make.</p>
+
+        <div class="divider"></div>
+
+        <h3 style="font-family: 'Roboto Condensed', sans-serif; font-size: 20px; margin-bottom: 16px;">Average Stake Per Bet</h3>
+        <div class="bar-chart">
+          <div class="bar-row">
+            <span class="bar-label">£1–£10</span>
+            <div class="bar-track"><div class="bar-fill gold" style="width:74.3%"></div></div>
+            <span class="bar-value">74%</span>
+          </div>
+          <div class="bar-row">
+            <span class="bar-label">£11–£50</span>
+            <div class="bar-track"><div class="bar-fill gold" style="width:21.2%"></div></div>
+            <span class="bar-value">21%</span>
+          </div>
+          <div class="bar-row">
+            <span class="bar-label">£51+</span>
+            <div class="bar-track"><div class="bar-fill accent" style="width:4.4%"></div></div>
+            <span class="bar-value">4%</span>
+          </div>
+        </div>
+        <p style="font-size:13px; color:var(--muted); margin-top:8px;">A predominantly recreational, low-stakes customer base. Promotions and value perception are critical drivers for this segment.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RACING -->
+<section>
+  <div class="container">
+    <p class="section-label">03 — Vertical Deep Dive</p>
+    <div class="vertical-header">
+      <div class="vertical-icon">🏇</div>
+      <div>
+        <h2 class="vertical-title">Racing</h2>
+        <p class="vertical-subtitle">Tote's core product — high engagement, high satisfaction, high loyalty</p>
+      </div>
+    </div>
+
+    <div class="two-col" style="margin-bottom: 40px;">
+      <div>
+        <h3 style="font-family: 'Roboto Condensed', sans-serif; font-size: 20px; margin-bottom: 20px;">Betting Frequency</h3>
+        <div class="bar-chart">
+          <div class="bar-row">
+            <span class="bar-label">Weekly</span>
+            <div class="bar-track"><div class="bar-fill primary" style="width:40%"></div></div>
+            <span class="bar-value">417 (40%)</span>
+          </div>
+          <div class="bar-row">
+            <span class="bar-label">Monthly</span>
+            <div class="bar-track"><div class="bar-fill primary" style="width:23.6%"></div></div>
+            <span class="bar-value">246 (24%)</span>
+          </div>
+          <div class="bar-row">
+            <span class="bar-label">Big meetings only</span>
+            <div class="bar-track"><div class="bar-fill gold" style="width:20.5%"></div></div>
+            <span class="bar-value">214 (20%)</span>
+          </div>
+          <div class="bar-row">
+            <span class="bar-label">Daily</span>
+            <div class="bar-track"><div class="bar-fill green" style="width:13%"></div></div>
+            <span class="bar-value">135 (13%)</span>
+          </div>
+          <div class="bar-row">
+            <span class="bar-label">Do not bet on Tote</span>
+            <div class="bar-track"><div class="bar-fill accent" style="width:19.8%"></div></div>
+            <span class="bar-value">206 (20%)</span>
+          </div>
+        </div>
+      </div>
+      <div>
+        <h3 style="font-family: 'Roboto Condensed', sans-serif; font-size: 20px; margin-bottom: 20px;">What Matters Most to Racing Bettors</h3>
+        <div class="bar-chart">
+          <div class="bar-row">
+            <span class="bar-label">Good odds/prices</span>
+            <div class="bar-track"><div class="bar-fill accent" style="width:90%"></div></div>
+            <span class="bar-value">Essential/V.Imp: 90%</span>
+          </div>
+          <div class="bar-row">
+            <span class="bar-label">Knowing returns</span>
+            <div class="bar-track"><div class="bar-fill accent" style="width:86%"></div></div>
+            <span class="bar-value">84%</span>
+          </div>
+          <div class="bar-row">
+            <span class="bar-label">Speed of withdrawals</span>
+            <div class="bar-track"><div class="bar-fill gold" style="width:76%"></div></div>
+            <span class="bar-value">77%</span>
+          </div>
+          <div class="bar-row">
+            <span class="bar-label">Money Back Promos</span>
+            <div class="bar-track"><div class="bar-fill gold" style="width:74%"></div></div>
+            <span class="bar-value">74%</span>
+          </div>
+          <div class="bar-row">
+            <span class="bar-label">Loyalty schemes</span>
+            <div class="bar-track"><div class="bar-fill primary" style="width:72%"></div></div>
+            <span class="bar-value">72%</span>
+          </div>
+          <div class="bar-row">
+            <span class="bar-label">SP Guarantee</span>
+            <div class="bar-track"><div class="bar-fill primary" style="width:68%"></div></div>
+            <span class="bar-value">68%</span>
+          </div>
+        </div>
+        <p style="font-size:12px; color:var(--muted);">% rating as Important, Very Important, or Essential</p>
+      </div>
+    </div>
+
+    <h3 style="font-family: 'Roboto Condensed', sans-serif; font-size: 20px; margin-bottom: 20px;">Racing Experience Sentiment</h3>
+    <table class="likert-table">
+      <thead>
+        <tr>
+          <th>Statement</th>
+          <th>Agree / Strongly Agree</th>
+          <th>Neutral</th>
+          <th>Disagree / Strongly Disagree</th>
+          <th>Sentiment</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="metric">Easy to place a racing bet quickly</td>
+          <td style="text-align:center;">778 (73%)</td>
+          <td style="text-align:center;">210 (20%)</td>
+          <td style="text-align:center;">72 (7%)</td>
+          <td style="text-align:center;"><span class="sentiment-pill pill-strong-pos">Strong ✓</span></td>
+        </tr>
+        <tr>
+          <td class="metric">Easy to find the bet I want</td>
+          <td style="text-align:center;">773 (73%)</td>
+          <td style="text-align:center;">213 (20%)</td>
+          <td style="text-align:center;">74 (7%)</td>
+          <td style="text-align:center;"><span class="sentiment-pill pill-strong-pos">Strong ✓</span></td>
+        </tr>
+        <tr>
+          <td class="metric">Tote has all the racing bets I need</td>
+          <td style="text-align:center;">647 (61%)</td>
+          <td style="text-align:center;">240 (23%)</td>
+          <td style="text-align:center;">173 (16%)</td>
+          <td style="text-align:center;"><span class="sentiment-pill pill-pos">Positive</span></td>
+        </tr>
+        <tr>
+          <td class="metric">Good prices vs. competitors</td>
+          <td style="text-align:center;">508 (48%)</td>
+          <td style="text-align:center;">434 (41%)</td>
+          <td style="text-align:center;">118 (11%)</td>
+          <td style="text-align:center;"><span class="sentiment-pill pill-neutral">Mixed</span></td>
+        </tr>
+        <tr>
+          <td class="metric">Promotions are attractive</td>
+          <td style="text-align:center;">535 (50%)</td>
+          <td style="text-align:center;">394 (37%)</td>
+          <td style="text-align:center;">131 (12%)</td>
+          <td style="text-align:center;"><span class="sentiment-pill pill-neutral">Mixed</span></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="findings-grid">
+      <div class="finding-card positive">
+        <p class="finding-tag">Strength</p>
+        <h4 class="finding-title">Usability is excellent — the Tote makes betting fast and easy</h4>
+        <p class="finding-body">73% agree they can find and place bets quickly. Speed and ease of use are standout positives across all qualitative responses.</p>
+        <p class="finding-stat">73% — Easy to find + place bets quickly</p>
+      </div>
+      <div class="finding-card negative">
+        <p class="finding-tag">Gap</p>
+        <h4 class="finding-title">Odds perception and promotion attractiveness are competitive weaknesses</h4>
+        <p class="finding-body">41% are neutral on pricing versus competitors. "Better odds elsewhere" is the most common reason cited for using other providers. Low-stakes bettors are particularly price-sensitive.</p>
+        <p class="finding-stat">Top reason for betting elsewhere: "Better odds / prices"</p>
+      </div>
+      <div class="finding-card positive">
+        <p class="finding-tag">Loyalty Signal</p>
+        <h4 class="finding-title">Racing customers have the highest intent to stay</h4>
+        <p class="finding-body">68% rate their likelihood to continue at 8–10/10, with 350 customers giving a perfect 10. This is the Tote's most loyal segment.</p>
+        <p class="finding-stat">350 customers gave 10/10 — continue racing with Tote</p>
+      </div>
+      <div class="finding-card neutral">
+        <p class="finding-tag">Opportunity</p>
+        <h4 class="finding-title">20% of respondents don't bet on racing with Tote at all</h4>
+        <p class="finding-body">Cross-sell and re-engagement campaigns could convert these registered users, particularly those attending big meetings who may not know the full racing product depth.</p>
+        <p class="finding-stat">206 respondents — do not bet on Tote racing</p>
+      </div>
+    </div>
+
+    <!-- NPS Racing -->
+    <div class="divider"></div>
+    <h3 style="font-family:'Roboto Condensed',sans-serif; font-size:22px; margin-bottom:20px;">Racing NPS</h3>
+    <div style="display:flex; align-items:center; gap:24px; margin-bottom:20px;">
+      <div style="background:var(--surface2); color:var(--white); padding:20px 28px; text-align:center; min-width:110px;">
+        <p style="font-family:'Roboto',sans-serif;letter-spacing:0.5px; font-size:10px; letter-spacing:2px; color:rgba(255,255,255,0.5); margin-bottom:4px;">NPS SCORE</p>
+        <p style="font-family:'Roboto Condensed',sans-serif; font-size:40px; font-weight:700; line-height:1; color:var(--tote-green);">+24</p>
+      </div>
+      <div style="flex:1;">
+        <div class="nps-row" style="margin-bottom:8px;">
+          <div class="nps-segment nps-detractor" style="width:22.1%;">Detractors (0–6): 22%</div>
+          <div class="nps-segment nps-passive" style="width:31.8%;">Passives (7–8): 32%</div>
+          <div class="nps-segment nps-promoter" style="width:46.1%;">Promoters (9–10): 46%</div>
+        </div>
+        <p style="font-size:13px; color:var(--muted);">A positive NPS of <strong>+24</strong> is a solid foundation — nearly half of racing bettors are genuine advocates. Racing is the Tote's strongest vertical by NPS. Improving odds perception and promotions could push this into the +30–40 range.</p>
+      </div>
+    </div>
+
+    <!-- How to improve Racing -->
+    <h3 style="font-family:'Roboto Condensed',sans-serif; font-size:22px; margin-bottom:20px;">How Customers Would Improve Racing</h3>
+    <div class="theme-grid">
+      <div class="theme-card">
+        <p class="theme-number" style="font-size:36px;">🎯</p>
+        <h4 class="theme-title">Cross-Card & Multiple Meeting Bets</h4>
+        <p class="theme-desc">The single most common improvement request. Customers strongly want to place doubles, trebles, Yankees, Lucky 15s, and accumulators across <em>different</em> race meetings — not just within the same card. This is a core capability gap vs competitors.</p>
+      </div>
+      <div class="theme-card">
+        <p class="theme-number" style="font-size:36px;">💰</p>
+        <h4 class="theme-title">More Promotions, Free Bets & Loyalty</h4>
+        <p class="theme-desc">The highest volume of feedback. Customers want more frequent free placepots (at least £1, not 50p), "Bet & Get" offers, money back specials, and a visible loyalty programme. Specific nostalgia for the discontinued "Beat Benson" competition and Ten To Follow.</p>
+      </div>
+      <div class="theme-card">
+        <p class="theme-number" style="font-size:36px;">📈</p>
+        <h4 class="theme-title">Best Odds Guaranteed (BOG)</h4>
+        <p class="theme-desc">BOG is explicitly requested by many customers and is seen as table stakes with competitors. Related requests include: fixed odds option, guaranteed SP match, and ability to take a price with downside protection if SP is lower.</p>
+      </div>
+      <div class="theme-card">
+        <p class="theme-number" style="font-size:36px;">📍</p>
+        <h4 class="theme-title">Extra Places on Large Handicap Races</h4>
+        <p class="theme-desc">Strong demand for 4 places in fields of 14–16 runners, and 5 places in 17+ runner races. Perceived as a competitive gap vs bookmakers. Specifically applies to each way betting which is popular with this audience.</p>
+      </div>
+      <div class="theme-card">
+        <p class="theme-number" style="font-size:36px;">⚡</p>
+        <h4 class="theme-title">App & Website Speed / Usability</h4>
+        <p class="theme-desc">Recurring feedback on clunky navigation, Android app slowness, login issues with biometrics, inability to add new bank cards, and the website looking dated. Specific pain point: app glitch that switches placepot to jackpot bet type.</p>
+      </div>
+      <div class="theme-card">
+        <p class="theme-number" style="font-size:36px;">💡</p>
+        <h4 class="theme-title">Better Education on Bet Types</h4>
+        <p class="theme-desc">Multiple customers don't understand exotic bets (World Pools, Swinger vs Tricast, Exacta). Suggestions include: YouTube "How to Bet" guides, explanation pages on the betting slip itself, and simpler terminology for new or casual bettors.</p>
+      </div>
+    </div>
+
+    <!-- PLACEPOT -->
+    <div class="divider"></div>
+    <h3 style="font-family: 'Roboto Condensed', sans-serif; font-size: 24px; margin-bottom: 24px;">Placepot & Turbo</h3>
+
+    <div class="two-col">
+      <div>
+        <h4 style="font-size:15px; font-weight:600; margin-bottom:16px;">Placepot Play Frequency</h4>
+        <div class="bar-chart">
+          <div class="bar-row">
+            <span class="bar-label">Occasionally</span>
+            <div class="bar-track"><div class="bar-fill primary" style="width:38.7%"></div></div>
+            <span class="bar-value">415</span>
+          </div>
+          <div class="bar-row">
+            <span class="bar-label">Multiple times/week</span>
+            <div class="bar-track"><div class="bar-fill green" style="width:17.2%"></div></div>
+            <span class="bar-value">184</span>
+          </div>
+          <div class="bar-row">
+            <span class="bar-label">Once a week</span>
+            <div class="bar-track"><div class="bar-fill green" style="width:16%"></div></div>
+            <span class="bar-value">172</span>
+          </div>
+          <div class="bar-row">
+            <span class="bar-label">Only once</span>
+            <div class="bar-track"><div class="bar-fill gold" style="width:9.2%"></div></div>
+            <span class="bar-value">98</span>
+          </div>
+          <div class="bar-row">
+            <span class="bar-label">Don't play</span>
+            <div class="bar-track"><div class="bar-fill accent" style="width:17.8%"></div></div>
+            <span class="bar-value">191</span>
+          </div>
+        </div>
+        <p style="font-size:13px; color:var(--muted); margin-top:8px;">Average Placepot rating: <strong>7.4/10</strong>. Generally positive but room to improve.</p>
+
+        <div style="margin-top: 20px;">
+          <h4 style="font-size:15px; font-weight:600; margin-bottom:12px;">Top Barriers to Placepot</h4>
+          <div class="bar-chart">
+            <div class="bar-row">
+              <span class="bar-label">Hard to win</span>
+              <div class="bar-track"><div class="bar-fill accent" style="width:50%"></div></div>
+              <span class="bar-value">319</span>
+            </div>
+            <div class="bar-row">
+              <span class="bar-label">Winnings too small</span>
+              <div class="bar-track"><div class="bar-fill accent" style="width:17%"></div></div>
+              <span class="bar-value">109</span>
+            </div>
+            <div class="bar-row">
+              <span class="bar-label">Loyalty not rewarded</span>
+              <div class="bar-track"><div class="bar-fill gold" style="width:15%"></div></div>
+              <span class="bar-value">95</span>
+            </div>
+            <div class="bar-row">
+              <span class="bar-label">No relevant promos</span>
+              <div class="bar-track"><div class="bar-fill gold" style="width:9%"></div></div>
+              <span class="bar-value">57</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <h4 style="font-size:15px; font-weight:600; margin-bottom:16px;">Placepot Turbo — Early Stage Product</h4>
+        <div style="display:flex; flex-direction:column; gap:12px; margin-bottom:20px;">
+          <div style="background:var(--accent-light); padding:20px; border:1px solid #f6d870;">
+            <p style="font-family:'Roboto',sans-serif;letter-spacing:0.5px; font-size:10px; letter-spacing:2px; color:var(--tote-yellow); margin-bottom:6px;">AWARENESS</p>
+            <p style="font-size:28px; font-family:'Roboto Condensed',sans-serif; font-weight:700;">59%</p>
+            <p style="font-size:13px; color:var(--muted);">of Placepot players are aware of the Turbo product (458 of 771)</p>
+          </div>
+          <div style="background:var(--green-light); padding:20px; border:1px solid #b7e4c7;">
+            <p style="font-family:'Roboto',sans-serif;letter-spacing:0.5px; font-size:10px; letter-spacing:2px; color:var(--tote-green); margin-bottom:6px;">TURBO TIMEFRAME SATISFACTION</p>
+            <p style="font-size:28px; font-family:'Roboto Condensed',sans-serif; font-weight:700;">68%</p>
+            <p style="font-size:13px; color:var(--muted);">rate the 1-hour format as satisfied or very satisfied (4–5/5)</p>
+          </div>
+        </div>
+
+        <h4 style="font-size:14px; font-weight:600; margin-bottom:8px;">Turbo vs. Standard Preference</h4>
+        <div class="bar-chart">
+          <div class="bar-row">
+            <span class="bar-label">Prefer Standard</span>
+            <div class="bar-track"><div class="bar-fill primary" style="width:52%"></div></div>
+            <span class="bar-value">109</span>
+          </div>
+          <div class="bar-row">
+            <span class="bar-label">Enjoy both equally</span>
+            <div class="bar-track"><div class="bar-fill gold" style="width:41%"></div></div>
+            <span class="bar-value">85</span>
+          </div>
+          <div class="bar-row">
+            <span class="bar-label">Prefer Turbo</span>
+            <div class="bar-track"><div class="bar-fill green" style="width:6%"></div></div>
+            <span class="bar-value">12</span>
+          </div>
+        </div>
+        <p style="font-size:13px; color:var(--muted); margin-top:8px;"><strong>Key insight:</strong> 44 customers spend <em>more overall</em> (incremental) because of Turbo — a healthy sign of additive rather than cannibalising engagement. Most popular Turbo interest: Quadpot Turbo (37).</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SPORTS -->
+<section>
+  <div class="container">
+    <div class="vertical-header">
+      <div class="vertical-icon">⚽</div>
+      <div>
+        <h2 class="vertical-title">Sports / Sportsbook</h2>
+        <p class="vertical-subtitle">Significant untapped audience — 46% of respondents not currently engaged</p>
+      </div>
+    </div>
+
+    <div class="two-col" style="margin-bottom:32px;">
+      <div>
+        <h3 style="font-family:'Roboto Condensed',sans-serif; font-size:20px; margin-bottom:20px;">Sports Betting Frequency</h3>
+        <div class="bar-chart">
+          <div class="bar-row">
+            <span class="bar-label">Do not bet Sports</span>
+            <div class="bar-track"><div class="bar-fill accent" style="width:55%"></div></div>
+            <span class="bar-value">582 (46%)</span>
+          </div>
+          <div class="bar-row">
+            <span class="bar-label">Weekly</span>
+            <div class="bar-track"><div class="bar-fill primary" style="width:21.5%"></div></div>
+            <span class="bar-value">226 (18%)</span>
+          </div>
+          <div class="bar-row">
+            <span class="bar-label">Monthly</span>
+            <div class="bar-track"><div class="bar-fill primary" style="width:18.8%"></div></div>
+            <span class="bar-value">197 (16%)</span>
+          </div>
+          <div class="bar-row">
+            <span class="bar-label">Big events only</span>
+            <div class="bar-track"><div class="bar-fill gold" style="width:13.4%"></div></div>
+            <span class="bar-value">141 (11%)</span>
+          </div>
+          <div class="bar-row">
+            <span class="bar-label">Daily</span>
+            <div class="bar-track"><div class="bar-fill green" style="width:7.8%"></div></div>
+            <span class="bar-value">82 (6%)</span>
+          </div>
+        </div>
+        <p style="font-size:13px; color:var(--muted); margin-top:8px;">Primary competitors for Sports: <strong>SkyBet, Bet365, Betfair</strong>. Most customers simply haven't tried Tote Sports — habit and familiarity with competitors is the main barrier.</p>
+      </div>
+
+      <div>
+        <h3 style="font-family:'Roboto Condensed',sans-serif; font-size:20px; margin-bottom:20px;">Sportsbook Experience Sentiment</h3>
+        <table class="likert-table">
+          <thead>
+            <tr>
+              <th>Statement</th>
+              <th>+ve</th>
+              <th>Sentiment</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="metric">Can place a bet quickly</td>
+              <td style="text-align:center;">414 (61%)</td>
+              <td style="text-align:center;"><span class="sentiment-pill pill-pos">Positive</span></td>
+            </tr>
+            <tr>
+              <td class="metric">Easy to find markets</td>
+              <td style="text-align:center;">381 (56%)</td>
+              <td style="text-align:center;"><span class="sentiment-pill pill-pos">Positive</span></td>
+            </tr>
+            <tr>
+              <td class="metric">Has all general markets</td>
+              <td style="text-align:center;">386 (57%)</td>
+              <td style="text-align:center;"><span class="sentiment-pill pill-pos">Positive</span></td>
+            </tr>
+            <tr>
+              <td class="metric">Has all football markets</td>
+              <td style="text-align:center;">349 (51%)</td>
+              <td style="text-align:center;"><span class="sentiment-pill pill-pos">Positive</span></td>
+            </tr>
+            <tr>
+              <td class="metric">Good prices vs. competitors</td>
+              <td style="text-align:center;">329 (49%)</td>
+              <td style="text-align:center;"><span class="sentiment-pill pill-neutral">Mixed</span></td>
+            </tr>
+            <tr>
+              <td class="metric">Promotions are attractive</td>
+              <td style="text-align:center;">301 (44%)</td>
+              <td style="text-align:center;"><span class="sentiment-pill pill-neutral">Mixed</span></td>
+            </tr>
+            <tr>
+              <td class="metric">Bet Builder is good value</td>
+              <td style="text-align:center;">245 (36%)</td>
+              <td style="text-align:center;"><span class="sentiment-pill pill-neg">Weak</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="findings-grid">
+      <div class="finding-card negative">
+        <p class="finding-tag">Concern</p>
+        <h4 class="finding-title">Bet Builder awareness and adoption is low</h4>
+        <p class="finding-body">59% of sports bettors have NOT used the Tote Bet Builder. Reasons include: not knowing how, easier on other bookies, better incentives elsewhere. Of those who have used it, the experience rates positively but value perception remains weak (36% positive).</p>
+        <p class="finding-stat">401 respondents have never placed a Tote Bet Builder</p>
+      </div>
+      <div class="finding-card negative">
+        <p class="finding-tag">Concern</p>
+        <h4 class="finding-title">Money Back First Goalscorer offer barely used</h4>
+        <p class="finding-body">84% of sports bettors have NOT used this promotion. Low awareness is the most likely cause — customers aren't discovering it. Better promotion surfacing within the app journey is needed.</p>
+        <p class="finding-stat">576 of 684 sports bettors haven't used the goalscorer offer</p>
+      </div>
+      <div class="finding-card neutral">
+        <p class="finding-tag">Opportunity</p>
+        <h4 class="finding-title">Odds display in fractions requested frequently</h4>
+        <p class="finding-body">Multiple respondents explicitly requested odds displayed in fractions rather than decimals. For a predominantly older, UK audience accustomed to fractions, this is a quick UX win.</p>
+        <p class="finding-stat">Recurring qualitative request — "display odds in fractions"</p>
+      </div>
+      <div class="finding-card neutral">
+        <p class="finding-tag">Opportunity</p>
+        <h4 class="finding-title">Early odds / prices the night before are valued</h4>
+        <p class="finding-body">Customers who bet on football and golf specifically mention getting prices earlier as a reason to use competitors. Early price availability could be a meaningful differentiator for sport.</p>
+        <p class="finding-stat">Qualitative theme: "I get prices the night before" (re: competitors)</p>
+      </div>
+    </div>
+
+    <!-- NPS Sports -->
+    <h3 style="font-family:'Roboto Condensed',sans-serif; font-size:20px; margin-bottom:20px; margin-top:8px;">Sportsbook NPS</h3>
+    <div style="display:flex; align-items:center; gap:24px; margin-bottom:12px;">
+      <div style="background:var(--surface2); color:var(--white); padding:20px 28px; text-align:center; min-width:110px;">
+        <p style="font-family:'Roboto',sans-serif;letter-spacing:0.5px; font-size:10px; letter-spacing:2px; color:rgba(255,255,255,0.5); margin-bottom:4px;">NPS SCORE</p>
+        <p style="font-family:'Roboto Condensed',sans-serif; font-size:40px; font-weight:700; line-height:1; color:var(--tote-yellow);">0</p>
+      </div>
+      <div style="flex:1;">
+        <div class="nps-row" style="margin-bottom:8px;">
+          <div class="nps-segment nps-detractor" style="width:35.1%;">Detractors (0–6): 35%</div>
+          <div class="nps-segment nps-passive" style="width:30%;">Passives (7–8): 30%</div>
+          <div class="nps-segment nps-promoter" style="width:34.9%;">Promoters (9–10): 35%</div>
+        </div>
+        <p style="font-size:13px; color:var(--muted);">A neutral NPS of 0 reflects a product at a crossroads — roughly equal promoters and detractors. Detractor share is <strong>significantly higher than Racing (+13pp)</strong>. Retaining sports bettors requires urgent attention to odds, Bet Builder promotion, and navigation.</p>
+      </div>
+    </div>
+
+    <!-- How to improve Sports -->
+    <div class="divider"></div>
+    <h3 style="font-family:'Roboto Condensed',sans-serif; font-size:22px; margin-bottom:20px;">How Customers Would Improve Sports</h3>
+    <div class="theme-grid">
+      <div class="theme-card">
+        <p class="theme-number" style="font-size:36px;">🎯</p>
+        <h4 class="theme-title">More Free Bets & Promotions</h4>
+        <p class="theme-desc">By far the most requested improvement. Customers want regular free bets (not just sign-up offers), bet and get deals, and money back specials. Specifically mentioned: free acca insurance if one leg loses, and bet £10 get £10 rather than bet £10 get £5.</p>
+      </div>
+      <div class="theme-card">
+        <p class="theme-number" style="font-size:36px;">⚽</p>
+        <h4 class="theme-title">Super Sub & Player Markets</h4>
+        <p class="theme-desc">Multiple customers request "Super Sub" — if a player they bet on is substituted, the bet transfers to the replacement. Also wanted: shots on target, fouls, over/under goals (1.5 goals market), correct score money back, and VAR payout features.</p>
+      </div>
+      <div class="theme-card">
+        <p class="theme-number" style="font-size:36px;">⛳</p>
+        <h4 class="theme-title">Better Golf Coverage</h4>
+        <p class="theme-desc">Golf is the #1 specific sport requested for improvement — more markets on golf tournaments, better each way terms, group betting, and competitive pricing on majors. Multiple mentions of wanting golf to be a stronger product.</p>
+      </div>
+      <div class="theme-card">
+        <p class="theme-number" style="font-size:36px;">📱</p>
+        <h4 class="theme-title">Navigation & Layout Improvements</h4>
+        <p class="theme-desc">App returns to horse racing page after selecting a football team. Hard to find handicap betting. Saturday morning football should show all domestic matches in a scrollable list rather than highlighted selections only. Pre-built Bet Builder suggestions requested.</p>
+      </div>
+      <div class="theme-card">
+        <p class="theme-number" style="font-size:36px;">📊</p>
+        <h4 class="theme-title">Odds in Fractions + Better Prices</h4>
+        <p class="theme-desc">Multiple requests for fractional odds display (not just decimals). Competitive odds improvement is the most cited reason to use Bet365 and SkyBet over Tote. Also requested: early prices the night before and Best Odds Guaranteed (BOG).</p>
+      </div>
+      <div class="theme-card">
+        <p class="theme-number" style="font-size:36px;">🏆</p>
+        <h4 class="theme-title">Revive Unique Tote Products</h4>
+        <p class="theme-desc">Several passionate responses about the discontinuation of "Beat Benson" betting competitions and the Ten To Follow competition. Customers feel Tote has become generic — they want unique, skill-based products that differentiate from mainstream bookmakers.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CASINO & LIVE CASINO -->
+<section>
+  <div class="container">
+    <div class="vertical-header">
+      <div class="vertical-icon">🎰</div>
+      <div>
+        <h2 class="vertical-title">Games / Casino</h2>
+        <p class="vertical-subtitle">Smooth gameplay praised, but half the audience doesn't engage at all</p>
+      </div>
+    </div>
+
+    <div class="two-col" style="margin-bottom:32px;">
+      <div>
+        <h3 style="font-family:'Roboto Condensed',sans-serif; font-size:20px; margin-bottom:20px;">Games Frequency</h3>
+        <div class="bar-chart">
+          <div class="bar-row">
+            <span class="bar-label">Do not play Games</span>
+            <div class="bar-track"><div class="bar-fill accent" style="width:60%"></div></div>
+            <span class="bar-value">625 (49%)</span>
+          </div>
+          <div class="bar-row">
+            <span class="bar-label">Monthly</span>
+            <div class="bar-track"><div class="bar-fill primary" style="width:22.8%"></div></div>
+            <span class="bar-value">238 (19%)</span>
+          </div>
+          <div class="bar-row">
+            <span class="bar-label">Weekly</span>
+            <div class="bar-track"><div class="bar-fill primary" style="width:22.6%"></div></div>
+            <span class="bar-value">236 (19%)</span>
+          </div>
+          <div class="bar-row">
+            <span class="bar-label">Daily</span>
+            <div class="bar-track"><div class="bar-fill green" style="width:11.6%"></div></div>
+            <span class="bar-value">121 (10%)</span>
+          </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <h3 style="font-family:'Roboto Condensed',sans-serif; font-size:20px; margin-bottom:20px;">Gameplay Quality</h3>
+        <div class="bar-chart">
+          <div class="bar-row">
+            <span class="bar-label">Smooth / Very Smooth</span>
+            <div class="bar-track"><div class="bar-fill green" style="width:75.3%"></div></div>
+            <span class="bar-value">485 (75%)</span>
+          </div>
+          <div class="bar-row">
+            <span class="bar-label">Laggy / Very Laggy</span>
+            <div class="bar-track"><div class="bar-fill accent" style="width:9.2%"></div></div>
+            <span class="bar-value">59 (9%)</span>
+          </div>
+          <div class="bar-row">
+            <span class="bar-label">vs Competitors — Same/Faster</span>
+            <div class="bar-track"><div class="bar-fill green" style="width:81%"></div></div>
+            <span class="bar-value">530 (83%)</span>
+          </div>
+        </div>
+        <p style="font-size:13px; color:var(--muted); margin-top:8px;">Games performance is a genuine competitive advantage — 75% find it smooth and 83% say it's at parity or better vs. competitors.</p>
+      </div>
+
+      <div>
+        <h3 style="font-family:'Roboto Condensed',sans-serif; font-size:20px; margin-bottom:20px;">Games Experience Sentiment</h3>
+        <table class="likert-table">
+          <thead>
+            <tr>
+              <th>Statement</th>
+              <th>+ve</th>
+              <th>Sentiment</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="metric">Easy to find games I want</td>
+              <td style="text-align:center;">474 (74%)</td>
+              <td style="text-align:center;"><span class="sentiment-pill pill-strong-pos">Strong ✓</span></td>
+            </tr>
+            <tr>
+              <td class="metric">Easy to navigate from lobby</td>
+              <td style="text-align:center;">468 (73%)</td>
+              <td style="text-align:center;"><span class="sentiment-pill pill-strong-pos">Strong ✓</span></td>
+            </tr>
+            <tr>
+              <td class="metric">Can save favourite games</td>
+              <td style="text-align:center;">438 (68%)</td>
+              <td style="text-align:center;"><span class="sentiment-pill pill-pos">Positive</span></td>
+            </tr>
+            <tr>
+              <td class="metric">All games I want are available</td>
+              <td style="text-align:center;">389 (61%)</td>
+              <td style="text-align:center;"><span class="sentiment-pill pill-pos">Positive</span></td>
+            </tr>
+            <tr>
+              <td class="metric">Promotions are attractive</td>
+              <td style="text-align:center;">337 (53%)</td>
+              <td style="text-align:center;"><span class="sentiment-pill pill-neutral">Mixed</span></td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="divider"></div>
+
+        <h3 style="font-family:'Roboto Condensed',sans-serif; font-size:18px; margin-bottom:16px;">🎲 Live Casino</h3>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:16px;">
+          <div style="background:var(--surface); padding:20px; text-align:center;">
+            <p style="font-size:32px; font-family:'Roboto Condensed',sans-serif; font-weight:700; color:var(--tote-yellow);">10%</p>
+            <p style="font-size:12px; color:var(--muted);">of respondents play Live Casino (125 of 1,266)</p>
+          </div>
+          <div style="background:var(--surface); padding:20px; text-align:center;">
+            <p style="font-size:32px; font-family:'Roboto Condensed',sans-serif; font-weight:700; color:var(--tote-green);">4.0/5</p>
+            <p style="font-size:12px; color:var(--muted);">average Live Casino rating — strong among those who play</p>
+          </div>
+        </div>
+        <p style="font-size:13px; color:var(--muted);">Among the 125 Live Casino players: 91 (73%) find staking limits comparable to market. Primary wish: <strong>more bonuses and cashback rewards</strong>. Main qualitative request: more poker games (Caribbean Stud Poker mentioned).</p>
+      </div>
+    </div>
+
+    <div class="findings-grid">
+      <div class="finding-card positive">
+        <p class="finding-tag">Strength</p>
+        <h4 class="finding-title">Navigation and discoverability are best-in-class</h4>
+        <p class="finding-body">74% can find games easily, 73% navigate from the lobby with ease. Favouriting functionality is appreciated. The product UX is genuinely strong here.</p>
+        <p class="finding-stat">74% easy to find + 73% easy to navigate from lobby</p>
+      </div>
+      <div class="finding-card negative">
+        <p class="finding-tag">Gap</p>
+        <h4 class="finding-title">Promotions and game range are perceived as limited</h4>
+        <p class="finding-body">Multiple customers cite free spins, bonus rounds, and broader game selection as reasons to use competitors like Sky Vegas and Bet365. 47% are not fully positive on promotions.</p>
+        <p class="finding-stat">Sky Vegas & Bet365 top casino competitors</p>
+      </div>
+    </div>
+
+    <!-- NPS Games/Casino -->
+    <div class="divider"></div>
+    <h3 style="font-family:'Roboto Condensed',sans-serif; font-size:22px; margin-bottom:20px;">Games / Live Casino NPS</h3>
+    <div style="display:flex; align-items:center; gap:24px; margin-bottom:20px;">
+      <div style="background:var(--surface2); color:var(--white); padding:20px 28px; text-align:center; min-width:110px;">
+        <p style="font-family:'Roboto',sans-serif;letter-spacing:0.5px; font-size:10px; letter-spacing:2px; color:rgba(255,255,255,0.5); margin-bottom:4px;">NPS SCORE</p>
+        <p style="font-family:'Roboto Condensed',sans-serif; font-size:40px; font-weight:700; line-height:1; color:var(--tote-green);">+22</p>
+      </div>
+      <div style="flex:1;">
+        <div class="nps-row" style="margin-bottom:8px;">
+          <div class="nps-segment nps-detractor" style="width:27.2%;">Detractors (0–6): 27%</div>
+          <div class="nps-segment nps-passive" style="width:24%;">Passives (7–8): 24%</div>
+          <div class="nps-segment nps-promoter" style="width:48.8%;">Promoters (9–10): 49%</div>
+        </div>
+        <p style="font-size:13px; color:var(--muted);"><strong>Note:</strong> Games/Casino NPS is based on a smaller sample (125 active players) and should be interpreted with caution. The positive score (+22) among this engaged audience is encouraging — but the 27% detractor share suggests real friction among a minority of players, likely linked to promotions and game range.</p>
+      </div>
+    </div>
+
+    <!-- How to improve Games/Casino -->
+    <h3 style="font-family:'Roboto Condensed',sans-serif; font-size:22px; margin-bottom:20px;">How Customers Would Improve Games / Casino</h3>
+    <div class="theme-grid">
+      <div class="theme-card">
+        <p class="theme-number" style="font-size:36px;">🎰</p>
+        <h4 class="theme-title">More Promotions & Free Spins</h4>
+        <p class="theme-desc">The #1 request. Customers want weekly free spins, deposit-match bonuses, and daily reward wheels. LUNA Casino and competitors are cited for doing this every week. "Daily spin promotions" and "competitions or tournaments" specifically mentioned.</p>
+      </div>
+      <div class="theme-card">
+        <p class="theme-number" style="font-size:36px;">🃏</p>
+        <h4 class="theme-title">More Poker & Table Games</h4>
+        <p class="theme-desc">Caribbean Stud Poker and Jacks or Better Video Poker named specifically. General requests for more poker variants in Live Casino. Roulette also mentioned as a desired live table game focus.</p>
+      </div>
+      <div class="theme-card">
+        <p class="theme-number" style="font-size:36px;">🔧</p>
+        <h4 class="theme-title">Fix the In-Game Deposit & Balance Experience</h4>
+        <p class="theme-desc">Critical UX bug: the deposit option <em>within</em> a game doesn't work consistently, forcing players to leave the game to deposit — which resets their session. Balance updating before a spin completes "takes the fun out of it." These are fixable wins.</p>
+      </div>
+      <div class="theme-card">
+        <p class="theme-number" style="font-size:36px;">🔍</p>
+        <h4 class="theme-title">Browse Games by Provider</h4>
+        <p class="theme-desc">Request to filter/navigate to all games from a specific provider by clicking on the provider name. Slingo games specifically requested. RTP transparency also raised as a concern — customers want to see return-to-player rates displayed.</p>
+      </div>
+      <div class="theme-card">
+        <p class="theme-number" style="font-size:36px;">💎</p>
+        <h4 class="theme-title">Bigger Feature Payouts on Slots</h4>
+        <p class="theme-desc">The most qualitative feedback about the games themselves: when bonus features are triggered, the payouts are perceived as too small. Bigger payouts when features land would increase engagement and excitement.</p>
+      </div>
+      <div class="theme-card">
+        <p class="theme-number" style="font-size:36px;">🎮</p>
+        <h4 class="theme-title">Add Playtech & More Providers</h4>
+        <p class="theme-desc">Playtech mentioned by name as a desired provider. Customers also want Slingo games added. Broader game variety — especially from recognised premium providers — would help close the gap with Sky Vegas and Bet365.</p>
+      </div>
+    </div>
+
+    <!-- JACKPOTS -->
+    <div class="divider"></div>
+    <h3 style="font-family:'Roboto Condensed',sans-serif; font-size:22px; margin-bottom:20px;">🎰 Jackpot Preferences</h3>
+    <div class="two-col" style="margin-bottom:32px;">
+      <div>
+        <h4 style="font-size:15px; font-weight:600; margin-bottom:16px;">Current Jackpot Products — Favourites</h4>
+        <div class="bar-chart">
+          <div class="bar-row">
+            <span class="bar-label">Rapid Fire Jackpots</span>
+            <div class="bar-track"><div class="bar-fill accent" style="width:100%"></div></div>
+            <span class="bar-value">231 mentions</span>
+          </div>
+          <div class="bar-row">
+            <span class="bar-label">Power Jackpots</span>
+            <div class="bar-track"><div class="bar-fill gold" style="width:55%"></div></div>
+            <span class="bar-value">128 mentions</span>
+          </div>
+          <div class="bar-row">
+            <span class="bar-label">Tote Quest</span>
+            <div class="bar-track"><div class="bar-fill primary" style="width:32%"></div></div>
+            <span class="bar-value">73 mentions</span>
+          </div>
+          <div class="bar-row">
+            <span class="bar-label">Dream Pots</span>
+            <div class="bar-track"><div class="bar-fill primary" style="width:29%"></div></div>
+            <span class="bar-value">67 mentions</span>
+          </div>
+        </div>
+        <div style="background:var(--surface); padding:16px; border:1px solid var(--border); margin-top:16px;">
+          <p style="font-size:13px;"><strong>Rapid Fire Jackpots dominate</strong> — nearly double the preference of Power Jackpots. The fast-trigger, frequent-payout format clearly resonates with the Tote's customer base, consistent with the appeal of the Placepot Turbo's "quickfire" format.</p>
+        </div>
+      </div>
+      <div>
+        <h4 style="font-size:15px; font-weight:600; margin-bottom:16px;">What Jackpots Customers Want to See</h4>
+        <div style="background:var(--surface); border:1px solid var(--border); padding:20px;">
+          <div style="margin-bottom:16px;">
+            <p style="font-family:'Roboto',sans-serif;letter-spacing:0.5px; font-size:10px; letter-spacing:2px; color:var(--tote-yellow); margin-bottom:8px;">TOP REQUESTS</p>
+            <div class="bar-chart">
+              <div class="bar-row">
+                <span class="bar-label">Jackpot King</span>
+                <div class="bar-track"><div class="bar-fill accent" style="width:70%"></div></div>
+                <span class="bar-value">10 mentions</span>
+              </div>
+              <div class="bar-row">
+                <span class="bar-label">More Rapid Fire</span>
+                <div class="bar-track"><div class="bar-fill gold" style="width:40%"></div></div>
+                <span class="bar-value">~7 mentions</span>
+              </div>
+              <div class="bar-row">
+                <span class="bar-label">Progressive</span>
+                <div class="bar-track"><div class="bar-fill primary" style="width:30%"></div></div>
+                <span class="bar-value">~5 mentions</span>
+              </div>
+              <div class="bar-row">
+                <span class="bar-label">Megaways</span>
+                <div class="bar-track"><div class="bar-fill primary" style="width:20%"></div></div>
+                <span class="bar-value">2 mentions</span>
+              </div>
+            </div>
+          </div>
+          <p style="font-size:13px; color:var(--muted);">Many customers said "Any" or "Big ones" — indicating appetite for jackpots in general rather than strong format preferences. <strong>Jackpot King</strong> (Playtech's branded network jackpot) is the most named specific product, aligning with the Playtech provider request above.</p>
+        </div>
+        <div style="background:var(--surface2); color:var(--white); padding:16px; margin-top:12px;">
+          <p style="font-family:'Roboto',sans-serif;letter-spacing:0.5px; font-size:10px; letter-spacing:2px; color:var(--tote-yellow); margin-bottom:6px;">STRATEGIC SIGNAL</p>
+          <p style="font-size:13px;">The co-occurrence of Jackpot King + Playtech requests strongly suggests a <strong>Playtech partnership</strong> would address multiple pain points simultaneously — game range, jackpot variety, and provider recognition.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- SPORTS PROMOTIONS DEEP DIVE -->
+    <div class="divider"></div>
+    <h3 style="font-family:'Roboto Condensed',sans-serif; font-size:22px; margin-bottom:20px;">💡 Promotions Customers Want to See</h3>
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:24px;">
+      <div>
+        <h4 style="font-family:'Roboto',sans-serif;letter-spacing:0.5px; font-size:11px; letter-spacing:2px; color:var(--tote-yellow); text-transform:uppercase; margin-bottom:16px;">Racing Promotions</h4>
+        <div class="rec-list">
+          <div class="rec-item" style="padding:16px;">
+            <div class="rec-priority" style="width:28px;height:28px;font-size:11px;">1</div>
+            <div><p class="rec-title" style="font-size:14px;">Free Placepots (at least £1, not 50p)</p><p class="rec-desc" style="font-size:12px;">Weekly free placepot bets are the most requested racing promotion by volume. The current 50p offer is seen as insufficient.</p></div>
+          </div>
+          <div class="rec-item" style="padding:16px;">
+            <div class="rec-priority" style="width:28px;height:28px;font-size:11px;">2</div>
+            <div><p class="rec-title" style="font-size:14px;">Bet & Get / Money Back Specials</p><p class="rec-desc" style="font-size:12px;">Money back if first leg loses on a Placepot. Consolation pay for 5/6 correct. Insurance for one losing leg.</p></div>
+          </div>
+          <div class="rec-item" style="padding:16px;">
+            <div class="rec-priority" style="width:28px;height:28px;font-size:11px;">3</div>
+            <div><p class="rec-title" style="font-size:14px;">Festival Free Bet Campaigns</p><p class="rec-desc" style="font-size:12px;">A free bet every day of Cheltenham, Aintree, Royal Ascot — as competitors do. Customers are acutely aware this doesn't currently happen.</p></div>
+          </div>
+          <div class="rec-item" style="padding:16px;">
+            <div class="rec-priority medium" style="width:28px;height:28px;font-size:11px;">4</div>
+            <div><p class="rec-title" style="font-size:14px;">Revive Unique Competitions</p><p class="rec-desc" style="font-size:12px;">Ten to Follow and Beat Benson-style competitions were cited by multiple customers as reasons they engaged more with Tote in the past. These were seen as genuinely differentiated.</p></div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <h4 style="font-family:'Roboto',sans-serif;letter-spacing:0.5px; font-size:11px; letter-spacing:2px; color:var(--tote-sky); text-transform:uppercase; margin-bottom:16px;">Sports Promotions</h4>
+        <div class="rec-list">
+          <div class="rec-item" style="padding:16px;">
+            <div class="rec-priority high" style="width:28px;height:28px;font-size:11px;">1</div>
+            <div><p class="rec-title" style="font-size:14px;">Super Sub on Bet Builders</p><p class="rec-desc" style="font-size:12px;">The most specific and repeated sports promotion request. If a player is substituted, the bet transfers to the replacement. Standard on Bet365 — a clear competitive gap.</p></div>
+          </div>
+          <div class="rec-item" style="padding:16px;">
+            <div class="rec-priority high" style="width:28px;height:28px;font-size:11px;">2</div>
+            <div><p class="rec-title" style="font-size:14px;">2 Goals Up Early Payout</p><p class="rec-desc" style="font-size:12px;">2Up/2 Goals Up early payout is mentioned repeatedly. Customers associate this with value and excitement on football accas.</p></div>
+          </div>
+          <div class="rec-item" style="padding:16px;">
+            <div class="rec-priority" style="width:28px;height:28px;font-size:11px;">3</div>
+            <div><p class="rec-title" style="font-size:14px;">Acca Insurance (One Leg Down)</p><p class="rec-desc" style="font-size:12px;">Money back as free bet if one team in a 4+ leg acca lets you down. Consistently mentioned and seen as standard by customers who use multiple bookmakers.</p></div>
+          </div>
+          <div class="rec-item" style="padding:16px;">
+            <div class="rec-priority medium" style="width:28px;height:28px;font-size:11px;">4</div>
+            <div><p class="rec-title" style="font-size:14px;">Golf Tournament Group Betting</p><p class="rec-desc" style="font-size:12px;">Golf is the most requested specific sport for better coverage. Group betting, more each way places, and better pricing on major tournaments all requested.</p></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- NPS SUMMARY -->
+<section>
+  <div class="container">
+    <p class="section-label">04 — NPS Summary</p>
+    <h2 class="section-title">Net Promoter Scores<br>across all verticals</h2>
+
+    <div class="stats-grid" style="margin-bottom:32px;">
+      <div class="stat-card">
+        <span class="stat-number green">+24</span>
+        <span class="stat-label" style="font-family:'Roboto',sans-serif;letter-spacing:0.5px; font-size:10px; letter-spacing:1px; text-transform:uppercase; color:var(--muted);">🏇 Racing NPS</span>
+        <span class="stat-label">Promoters 46% · Passives 32% · Detractors 22%</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-number" style="color:var(--tote-yellow);">0</span>
+        <span class="stat-label" style="font-family:'Roboto',sans-serif;letter-spacing:0.5px; font-size:10px; letter-spacing:1px; text-transform:uppercase; color:var(--muted);">⚽ Sports NPS</span>
+        <span class="stat-label">Promoters 35% · Passives 30% · Detractors 35%</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-number green">+22</span>
+        <span class="stat-label" style="font-family:'Roboto',sans-serif;letter-spacing:0.5px; font-size:10px; letter-spacing:1px; text-transform:uppercase; color:var(--muted);">🎰 Games / Casino NPS*</span>
+        <span class="stat-label">Promoters 49% · Passives 24% · Detractors 27%</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-number">+20</span>
+        <span class="stat-label" style="font-family:'Roboto',sans-serif;letter-spacing:0.5px; font-size:10px; letter-spacing:1px; text-transform:uppercase; color:var(--muted);">⭐ Overall NPS</span>
+        <span class="stat-label">Promoters 42% · Passives 36% · Detractors 22%</span>
+      </div>
+    </div>
+
+    <div style="background:var(--surface); border:1px solid var(--border); padding:28px; margin-bottom:8px;">
+      <div style="display:grid; grid-template-columns:1fr 1fr 1fr 1fr; gap:0; border:1px solid var(--border); overflow:hidden;">
+        <!-- Racing -->
+        <div style="padding:20px; border-right:1px solid var(--border);">
+          <p style="font-family:'Roboto',sans-serif;letter-spacing:0.5px; font-size:10px; letter-spacing:2px; color:var(--muted); margin-bottom:12px;">RACING</p>
+          <div style="height:12px; background:var(--border); border-radius:1px; overflow:hidden; display:flex; margin-bottom:8px;">
+            <div style="width:22.1%; background:var(--tote-yellow);"></div>
+            <div style="width:31.8%; background:var(--gold);"></div>
+            <div style="width:46.1%; background:#1db954;"></div>
+          </div>
+          <p style="font-size:12px; color:var(--muted);">NPS <strong style="color:var(--tote-green);">+24</strong> — strongest vertical</p>
+        </div>
+        <!-- Sports -->
+        <div style="padding:20px; border-right:1px solid var(--border);">
+          <p style="font-family:'Roboto',sans-serif;letter-spacing:0.5px; font-size:10px; letter-spacing:2px; color:var(--muted); margin-bottom:12px;">SPORTS</p>
+          <div style="height:12px; background:var(--border); border-radius:1px; overflow:hidden; display:flex; margin-bottom:8px;">
+            <div style="width:35.1%; background:var(--tote-yellow);"></div>
+            <div style="width:30%; background:var(--gold);"></div>
+            <div style="width:34.9%; background:#1db954;"></div>
+          </div>
+          <p style="font-size:12px; color:var(--muted);">NPS <strong style="color:var(--tote-yellow);">0</strong> — at risk, needs investment</p>
+        </div>
+        <!-- Games -->
+        <div style="padding:20px; border-right:1px solid var(--border);">
+          <p style="font-family:'Roboto',sans-serif;letter-spacing:0.5px; font-size:10px; letter-spacing:2px; color:var(--muted); margin-bottom:12px;">GAMES / CASINO*</p>
+          <div style="height:12px; background:var(--border); border-radius:1px; overflow:hidden; display:flex; margin-bottom:8px;">
+            <div style="width:27.2%; background:var(--tote-yellow);"></div>
+            <div style="width:24%; background:var(--gold);"></div>
+            <div style="width:48.8%; background:#1db954;"></div>
+          </div>
+          <p style="font-size:12px; color:var(--muted);">NPS <strong style="color:var(--tote-green);">+22</strong> — small sample (n=125)</p>
+        </div>
+        <!-- Overall -->
+        <div style="padding:20px;">
+          <p style="font-family:'Roboto',sans-serif;letter-spacing:0.5px; font-size:10px; letter-spacing:2px; color:var(--muted); margin-bottom:12px;">OVERALL</p>
+          <div style="height:12px; background:var(--border); border-radius:1px; overflow:hidden; display:flex; margin-bottom:8px;">
+            <div style="width:22.1%; background:var(--tote-yellow);"></div>
+            <div style="width:36.3%; background:var(--gold);"></div>
+            <div style="width:41.7%; background:#1db954;"></div>
+          </div>
+          <p style="font-size:12px; color:var(--muted);">NPS <strong>+20</strong> — solid but improvable</p>
+        </div>
+      </div>
+      <div style="display:flex; gap:24px; margin-top:12px;">
+        <div style="display:flex; align-items:center; gap:6px; font-size:12px; color:var(--muted);"><div style="width:12px;height:12px;background:var(--tote-yellow);border-radius:1px;"></div>Detractors (0–6)</div>
+        <div style="display:flex; align-items:center; gap:6px; font-size:12px; color:var(--muted);"><div style="width:12px;height:12px;background:var(--gold);border-radius:1px;"></div>Passives (7–8)</div>
+        <div style="display:flex; align-items:center; gap:6px; font-size:12px; color:var(--muted);"><div style="width:12px;height:12px;background:#1db954;border-radius:1px;"></div>Promoters (9–10)</div>
+        <div style="font-size:11px; color:var(--muted); margin-left:auto;">*Games/Casino NPS based on 125 active players only</div>
+      </div>
+    </div>
+
+    <div class="highlight-box" style="margin-top:24px;">
+      <p class="label">NPS Interpretation</p>
+      <p>Racing's <strong>+24 NPS</strong> is the clear standout — loyalty is real and the product works. The Sports <strong>NPS of 0</strong> is the most urgent signal in the data: the Tote has as many detractors as promoters on this vertical, meaning word-of-mouth is neutral at best. The Overall <strong>+20 NPS</strong> is healthy but heavily anchored by the Racing audience — improving Sports would have the largest single impact on the overall score.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CROSS-CUTTING THEMES -->
+<section>
+  <div class="container">
+    <p class="section-label">05 — Cross-Cutting Themes</p>
+    <h2 class="section-title">Four themes that cut<br>across every vertical</h2>
+
+    <div class="theme-grid">
+      <div class="theme-card">
+        <p class="theme-number">01</p>
+        <h4 class="theme-title">Odds & Value — The Primary Defection Driver</h4>
+        <p class="theme-desc">Across Racing, Sports, and Games, "better odds elsewhere" is the most repeated reason customers use competitors. The Tote's pricing perception gap — especially in Racing — is its most commercially significant challenge.</p>
+        <div style="margin-top:12px;">
+          <span class="tag racing">Racing</span>
+          <span class="tag sports">Sports</span>
+          <span class="tag casino">Casino</span>
+        </div>
+      </div>
+      <div class="theme-card">
+        <p class="theme-number">02</p>
+        <h4 class="theme-title">Loyalty & Rewards — A Consistent Unmet Need</h4>
+        <p class="theme-desc">72% of racing bettors rate loyalty schemes as important or above. Multiple open-text responses mention leaving Tote due to zero rewards despite high spend. This is particularly acute for Placepot players who feel unrewarded.</p>
+        <div style="margin-top:12px;">
+          <span class="tag racing">Racing</span>
+          <span class="tag sports">Sports</span>
+          <span class="tag livecasino">Live Casino</span>
+        </div>
+      </div>
+      <div class="theme-card">
+        <p class="theme-number">03</p>
+        <h4 class="theme-title">Mobile-First — App Quality is Make or Break</h4>
+        <p class="theme-desc">77% access the Tote exclusively via mobile. App quality — speed, stability, intuitive navigation — underpins satisfaction across all verticals. App issues (e.g. inability to add cards) are directly causing customer loss.</p>
+        <div style="margin-top:12px;">
+          <span class="tag cross">All Verticals</span>
+        </div>
+      </div>
+      <div class="theme-card">
+        <p class="theme-number">04</p>
+        <h4 class="theme-title">Cross-Sell Gap — Racing Customers Not Discovering Sports/Games</h4>
+        <p class="theme-desc">A large proportion of highly loyal racing customers are not engaging with Sports or Games. The Tote is well-positioned to cross-sell within its existing customer base — they trust the brand but simply haven't explored other verticals.</p>
+        <div style="margin-top:12px;">
+          <span class="tag sports">Sports</span>
+          <span class="tag casino">Casino</span>
+        </div>
+      </div>
+      <div class="theme-card">
+        <p class="theme-number">05</p>
+        <h4 class="finding-title" style="font-size:15px;">Document / Affordability Checks — Friction & Frustration</h4>
+        <p class="theme-desc">While 54% of those who submitted documents are satisfied, open-text reveals strong resentment around affordability checks. Customers describe the process as "intrusive," "a disgrace," and overly burdensome compared to competitors. Perception of fairness matters as much as process speed.</p>
+        <div style="margin-top:12px;">
+          <span class="tag cross">All Verticals</span>
+        </div>
+      </div>
+      <div class="theme-card">
+        <p class="theme-number">06</p>
+        <h4 class="finding-title" style="font-size:15px;">Older Audience — Product Accessibility Considerations</h4>
+        <p class="theme-desc">With 49% aged 55+, accessibility matters. Requests for fractional odds (familiar format), clearer explanations of pool betting mechanics, and less jargon appear throughout qualitative feedback. New products like Turbo need simpler onboarding for this demographic.</p>
+        <div style="margin-top:12px;">
+          <span class="tag cross">All Verticals</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- CUSTOMER VOICES -->
+    <h3 style="font-family:'Roboto Condensed',sans-serif; font-size:22px; margin-bottom:20px;">Customer Voices</h3>
+    <div class="quotes-grid">
+      <div class="quote-card">
+        <p class="quote-text">Simple because of how much money I was playing at Tote and I got zero rewards, so I changed bookmakers because of the loyalty bonuses they offer — which you didn't.</p>
+      </div>
+      <div class="quote-card">
+        <p class="quote-text">Tote only allows you to back at the same meeting. You can't even do a cross-the-card double.</p>
+      </div>
+      <div class="quote-card">
+        <p class="quote-text">Easier with other bookies with bigger incentives, like 25% boosts. Not clear how to use Bet Builder on Tote.</p>
+      </div>
+      <div class="quote-card">
+        <p class="quote-text">Don't understand how Tote odds are calculated — that's why I use other providers for racing.</p>
+      </div>
+      <div class="quote-card">
+        <p class="quote-text">Before a spin is over my balance updates by the amount won, which takes the fun out of it a bit.</p>
+      </div>
+      <div class="quote-card">
+        <p class="quote-text">The whole document check thing is outrageous. It's my money and I decide what and when I bet. My financial matters should be private.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RECOMMENDATIONS -->
+<section>
+  <div class="container">
+    <p class="section-label">06 — Strategic Recommendations</p>
+    <h2 class="section-title">Priority actions by<br>impact and effort</h2>
+
+    <div class="rec-list">
+      <div class="rec-item">
+        <div class="rec-priority high">P1</div>
+        <div class="rec-content">
+          <p class="rec-vertical">All Verticals</p>
+          <p class="rec-title">Improve visibility and communication of the existing loyalty programme</p>
+          <p class="rec-desc">Despite having a loyalty programme, loyalty and reward recognition is still the #1 theme in the qualitative data — customers are not aware of, or not experiencing the benefits of, what the Tote already offers. The priority should be surfacing and communicating the existing programme more clearly within the app, at key moments (post-win, post-festival, on anniversary of account opening), and through direct customer communications.</p>
+        </div>
+      </div>
+      <div class="rec-item">
+        <div class="rec-priority high">P2</div>
+        <div class="rec-content">
+          <p class="rec-vertical">Sports</p>
+          <p class="rec-title">Address Bet Builder awareness and value perception</p>
+          <p class="rec-desc">59% of sports bettors haven't tried Tote's Bet Builder. Promote the feature prominently in-app, simplify the journey, and add a competitive incentive (e.g. enhanced odds on first Bet Builder). Adding fractional odds display is a quick win for the existing audience.</p>
+        </div>
+      </div>
+      <div class="rec-item">
+        <div class="rec-priority high">P3</div>
+        <div class="rec-content">
+          <p class="rec-vertical">Racing</p>
+          <p class="rec-title">Drive Placepot Turbo awareness and education</p>
+          <p class="rec-desc">41% of Placepot players are unaware of the Turbo. Those who use it are satisfied (68% happy with the 1-hour format), and 44 customers are spending incrementally because of it. A dedicated awareness campaign with clear explainer content could rapidly grow the Turbo pool and revenue.</p>
+        </div>
+      </div>
+      <div class="rec-item">
+        <div class="rec-priority medium">P4</div>
+        <div class="rec-content">
+          <p class="rec-vertical">Sports + Casino</p>
+          <p class="rec-title">Create cross-sell journeys for Racing-only customers</p>
+          <p class="rec-desc">The existing Racing customer base is loyal and trusted. Personalised nudges (e.g. "You bet on Cheltenham — here's a football offer this weekend") could convert a meaningful portion of the 46% who don't currently use Tote Sports. Games should be similarly surfaced with a first-play incentive.</p>
+        </div>
+      </div>
+      <div class="rec-item">
+        <div class="rec-priority medium">P5</div>
+        <div class="rec-content">
+          <p class="rec-vertical">All Verticals</p>
+          <p class="rec-title">Improve promotion surfacing and relevance in-app</p>
+          <p class="rec-desc">The Money Back First Goalscorer offer has 84% non-usage — not because it's unpopular but because customers can't find it. Promotions are the second most-cited reason to bet with competitors. A dedicated promotions hub, contextual in-bet prompts, and push notifications would materially improve uptake.</p>
+        </div>
+      </div>
+      <div class="rec-item">
+        <div class="rec-priority medium">P6</div>
+        <div class="rec-content">
+          <p class="rec-vertical">Casino + Live Casino</p>
+          <p class="rec-title">Expand Casino game range and introduce reload/cashback bonuses</p>
+          <p class="rec-desc">Game selection and promotional offers (free spins, cashback) are the primary reasons Casino customers use Sky Vegas and Bet365 in addition to the Tote. Live Casino players specifically request bonuses, and more poker game formats (e.g. Caribbean Stud). Even a targeted acquisition offer for Live Casino could grow the currently small but satisfied user base.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<div class="report-footer">
+  <div><strong>Tote Customer Research</strong> — February UX Survey Analysis</div>
+  <div>n = 1,266 respondents · Confidential</div>
+  <div>Prepared March 2025</div>
+</div>
+
+</body>
+</html>

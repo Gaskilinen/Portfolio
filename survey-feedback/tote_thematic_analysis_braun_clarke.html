@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tote Customer Survey — Thematic Analysis (Braun & Clarke)</title>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;0,900;1,400&family=Roboto+Condensed:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --tote-red:      #FF3426;
+    --tote-dark:     #1e0e20;
+    --tote-dark-red: #D3271B;
+    --tote-orange:   #FF9501;
+    --tote-yellow:   #FEC81D;
+    --tote-green:    #00DC82;
+    --tote-sky:      #69C8FF;
+    --tote-magenta:  #FF6EFF;
+    --bg:            #382237;
+    --surface:       #2c1a2e;
+    --surface2:      #3d2540;
+    --surface3:      #4e2f54;
+    --border:        rgba(255,255,255,0.10);
+    --border2:       rgba(255,255,255,0.22);
+    --muted:         rgba(255,255,255,0.55);
+    --white:         #FFFFFF;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:'Roboto',sans-serif; background:var(--bg); color:var(--white); line-height:1.7; font-size:15px; -webkit-font-smoothing:antialiased; }
+
+  /* COVER */
+  .cover { background:var(--tote-dark); padding:72px 80px 60px; border-bottom:4px solid var(--tote-red); position:relative; overflow:hidden; }
+  .cover::before { content:''; position:absolute; top:0;left:0;right:0;bottom:0; background:radial-gradient(ellipse at 75% 50%,rgba(255,52,38,0.10),transparent 60%); pointer-events:none; }
+  .cover-bg-text { position:absolute; top:-20px;right:-10px; font-family:'Roboto Condensed',sans-serif; font-size:240px; font-weight:700; color:rgba(255,52,38,0.04); line-height:1; pointer-events:none; user-select:none; }
+  .cover-label { font-size:11px; font-weight:700; letter-spacing:3px; text-transform:uppercase; color:var(--tote-red); margin-bottom:20px; }
+  .cover h1 { font-family:'Roboto Condensed',sans-serif; font-size:clamp(36px,5vw,64px); font-weight:700; color:var(--white); line-height:1.05; margin-bottom:20px; max-width:720px; }
+  .cover-meta { font-size:12px; color:var(--muted); font-weight:500; border-top:1px solid var(--border2); padding-top:18px; margin-top:18px; letter-spacing:0.3px; }
+
+  /* PAGE */
+  .page { max-width:860px; margin:0 auto; padding:60px 48px; }
+
+  /* METHOD BOX */
+  .method-box { border:1px solid var(--border2); padding:32px; background:var(--surface); margin-bottom:52px; }
+  .method-box h2 { font-family:'Roboto Condensed',sans-serif; font-size:22px; font-weight:700; margin-bottom:12px; }
+  .method-box p  { font-size:14px; color:var(--muted); line-height:1.7; margin-bottom:10px; }
+  .method-box p:last-child { margin-bottom:0; }
+  .method-box .cite { font-style:italic; font-size:13px; color:var(--muted); border-left:3px solid var(--tote-red); padding-left:12px; margin-top:12px; }
+
+  /* ANALYST MEMO */
+  .memo-box { background:var(--tote-dark); border:1px solid var(--tote-red); border-left:4px solid var(--tote-red); padding:36px; margin-bottom:52px; }
+  .memo-box .label { font-size:10px; font-weight:700; letter-spacing:3px; text-transform:uppercase; color:var(--tote-red); margin-bottom:12px; }
+  .memo-box p { font-size:14px; line-height:1.75; color:rgba(255,255,255,0.85); margin-bottom:10px; }
+  .memo-box p:last-child { margin-bottom:0; }
+
+  /* MAP SECTION */
+  .map-section { margin-bottom:52px; }
+  .section-label { font-size:10px; font-weight:700; letter-spacing:3px; text-transform:uppercase; color:var(--tote-red); margin-bottom:8px; }
+  .section-title { font-family:'Roboto Condensed',sans-serif; font-size:clamp(26px,3.5vw,38px); font-weight:700; line-height:1.1; margin-bottom:28px; }
+
+  /* THEME CARDS */
+  .theme-card { border:1px solid var(--border); background:var(--surface); margin-bottom:36px; overflow:hidden; }
+  .theme-header { padding:26px 30px; border-bottom:1px solid var(--border); display:flex; align-items:flex-start; gap:18px; background:var(--surface2); }
+  .theme-num { font-family:'Roboto Condensed',sans-serif; font-size:52px; font-weight:700; color:var(--tote-red); opacity:0.35; line-height:1; flex-shrink:0; margin-top:-4px; }
+  .theme-name { font-family:'Roboto Condensed',sans-serif; font-size:24px; font-weight:700; line-height:1.2; margin-bottom:8px; }
+  .theme-meta { display:flex; flex-wrap:wrap; gap:7px; align-items:center; }
+  .meta-pill { font-size:10px; font-weight:700; letter-spacing:1px; text-transform:uppercase; padding:3px 10px; border:1px solid currentColor; }
+  .pill-racing    { color:var(--tote-orange); }
+  .pill-sports    { color:var(--tote-sky); }
+  .pill-casino    { color:var(--tote-green); }
+  .pill-cross     { color:var(--muted); border-color:var(--border2); }
+  .pill-high      { color:var(--tote-red); }
+  .pill-medium    { color:var(--tote-yellow); }
+  .pill-low       { color:var(--muted); border-color:var(--border2); }
+  .theme-body { padding:30px; }
+  .theme-body h4 { font-size:10px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:var(--muted); margin-bottom:10px; margin-top:22px; }
+  .theme-body h4:first-child { margin-top:0; }
+  .theme-description { font-size:15px; line-height:1.75; }
+
+  /* SUBTHEMES */
+  .subtheme-list { display:flex; flex-direction:column; gap:7px; }
+  .subtheme-item { display:flex; gap:10px; align-items:flex-start; font-size:13px; color:var(--muted); }
+  .subtheme-item::before { content:'—'; color:var(--tote-red); font-size:13px; flex-shrink:0; margin-top:1px; }
+
+  /* QUOTES */
+  .quotes-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+  .quote-item { background:var(--surface2); padding:16px 18px; border-left:3px solid var(--tote-red); font-size:13px; font-style:italic; color:var(--muted); line-height:1.6; position:relative; }
+  .quote-item::before { content:'C'; font-family:'Roboto Condensed',sans-serif; font-size:36px; color:var(--tote-red); opacity:0.2; position:absolute; top:4px;left:10px;line-height:1; }
+  .quote-item span { display:block; margin-top:8px; padding-top:8px; }
+
+  /* TENSION BOX */
+  .tension-box { background:var(--tote-dark); border:1px solid rgba(255,52,38,0.3); border-left:3px solid var(--tote-red); padding:16px 18px; font-size:13px; color:var(--muted); line-height:1.6; }
+  .tension-box strong { color:var(--tote-red); font-weight:700; }
+
+  /* MAP VISUAL */
+  .map-visual { border:1px solid var(--border); background:var(--surface); padding:36px; margin-bottom:36px; }
+  .map-central { text-align:center; padding:18px; background:var(--tote-red); color:var(--white); margin-bottom:28px; }
+  .map-central h3 { font-family:'Roboto Condensed',sans-serif; font-size:20px; font-weight:700; margin-bottom:2px; }
+  .map-central p  { font-size:11px; color:rgba(255,255,255,0.8); }
+  .map-themes { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; }
+  .map-theme-node { border:1px solid var(--border); padding:14px; text-align:center; background:var(--surface2); }
+  .map-theme-node .node-num  { font-family:'Roboto Condensed',sans-serif; font-size:26px; font-weight:700; color:var(--tote-red); line-height:1; margin-bottom:3px; }
+  .map-theme-node .node-name { font-size:11px; font-weight:500; line-height:1.4; }
+
+  /* DATA BADGE */
+  .data-count-badge { background:var(--surface); border:1px solid var(--border); padding:14px 18px; display:inline-flex; gap:28px; margin-bottom:28px; font-size:13px; color:var(--muted); }
+  .data-count-badge span { font-family:'Roboto Condensed',sans-serif; font-weight:700; color:var(--white); font-size:22px; }
+
+  /* IMPLICATIONS */
+  hr.section-rule { border:none; border-top:2px solid var(--tote-red); margin:52px 0 28px; }
+
+  /* FOOTER */
+  .report-footer { background:var(--tote-dark); border-top:4px solid var(--tote-red); padding:28px 48px; display:flex; justify-content:space-between; align-items:center; font-size:11px; font-weight:500; letter-spacing:0.5px; color:var(--muted); }
+  .report-footer strong { color:var(--white); }
+</style>
+</head>
+<body>
+
+<!-- COVER -->
+<div class="cover">
+  <div class="cover-bg-text">TA</div>
+  <svg style="width:100px;margin-bottom:28px;display:block;" viewBox="0 0 453 98" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd"><path d="M167.204 79.145c-16.439 0-29.813-13.381-29.813-29.827 0-16.446 13.374-29.827 29.813-29.827 16.438 0 29.812 13.381 29.812 29.827 0 16.446-13.374 29.827-29.812 29.827M167.204 1.085C140.621 1.085 118.993 22.723 118.993 49.318c0 26.596 21.628 48.233 48.211 48.233 26.583 0 48.211-21.637 48.211-48.233 0-26.595-21.628-48.233-48.211-48.233" fill="#FF3426"/><g transform="translate(237 .636)"><path d="M55.354.365H41.574C40.298.365 39.265 1.399 39.265 2.675v36.804H2.478C1.202 39.479.168 40.513.168 41.789v13.786c0 1.276 1.034 2.31 2.31 2.31h36.787v36.804c0 1.276 1.034 2.31 2.31 2.31h13.78c1.275 0 2.309-1.034 2.309-2.31V57.885h36.787c1.276 0 2.309-1.034 2.309-2.31V41.789c0-1.276-1.033-2.31-2.309-2.31H57.663V2.675c0-1.276-1.034-2.31-2.309-2.31" fill="#FFFFFF"/></g><g transform="translate(0 .636)"><path d="M55.186.365H41.406C40.131.365 39.097 1.399 39.097 2.675v36.804H2.31C1.034 39.479 0 40.513 0 41.789v13.786c0 1.276 1.034 2.31 2.31 2.31h36.787v36.804c0 1.276 1.034 2.31 2.31 2.31h13.779c1.275 0 2.309-1.034 2.309-2.31V57.885h36.787c1.276 0 2.309-1.034 2.309-2.31V41.789c0-1.276-1.033-2.31-2.309-2.31H57.495V2.675c0-1.276-1.034-2.31-2.309-2.31" fill="#FFFFFF"/></g><path d="M404.048 19.576c13.23 0 24.472 8.668 28.356 20.624h-56.715c3.885-11.956 15.128-20.624 28.359-20.624m48.217 29.824l-.008-.027C452.242 22.661 430.411.957 403.659 1.17c-26.22.208-47.623 21.627-47.822 47.858-.203 26.767 21.502 48.607 48.211 48.607 2.023 0 4.02-.127 5.979-.372 2.485-.308 4.912-.806 7.265-1.48 1.988-.57 3.924-1.264 5.798-2.074 1.388-.6 1.976-2.253 1.3-3.604l-5.876-11.759c-.612-1.223-2.061-1.792-3.326-1.279-.96.389-1.945.729-2.95 1.016-1.456.417-2.956.725-4.493.916-1.213.15-2.446.229-3.697.229-13.231 0-24.473-8.667-28.359-20.623h73.935c1.459 0 2.641-1.185 2.641-2.645v-6.56z" fill="#FF3426"/></g></svg>
+  <p class="cover-label">Qualitative Research — Reflexive Thematic Analysis</p>
+  <h1>Tote Customer Survey:<br>Thematic Analysis of<br>Qualitative Data</h1>
+  <div class="cover-meta">
+    Following Braun & Clarke (2006, 2019) · n = 3,365 qualitative data extracts · February 2025 · Confidential
+  </div>
+</div>
+
+<div class="page">
+
+  <!-- METHODOLOGICAL NOTE -->
+  <div class="method-box">
+    <h2>Methodological Note</h2>
+    <p>This thematic analysis follows the reflexive approach outlined by Braun and Clarke (2006, 2019). In reflexive thematic analysis, themes are understood as patterns of <em>shared meaning</em> rather than simple topic categories — the analysis seeks to identify latent as well as semantic meaning, and themes are researcher-constructed rather than purely data-emergent. The six phases of analysis were applied: (1) familiarisation with the data, (2) generating initial codes across the dataset, (3) constructing candidate themes from coded data, (4) reviewing and refining themes against the full corpus, (5) defining and naming final themes, and (6) producing the written analysis.</p>
+    <p>The corpus comprised <strong>3,365 usable qualitative responses</strong> across 17 open-text survey questions, covering all four product verticals (Racing, Sports, Casino/Games, Live Casino) as well as product-specific questions on the Placepot, Placepot Turbo, Bet Builder, and document verification processes. Responses ranged from single-phrase answers to detailed multi-sentence accounts.</p>
+    <p>In keeping with Braun and Clarke's guidance, themes are named to convey their analytic meaning rather than simply labelling the topic. Each theme is supported by multiple sub-themes and is representative of a pattern across the dataset. Prevalence is indicated as high, medium, or low, but as Braun and Clarke note, prevalence alone does not determine a theme's significance — some of the most analytically important patterns appear in a minority of responses.</p>
+    <div class="cite">Braun, V. & Clarke, V. (2006). Using thematic analysis in psychology. <em>Qualitative Research in Psychology, 3</em>(2), 77–101. / Braun, V. & Clarke, V. (2019). Reflecting on reflexive thematic analysis. <em>Qualitative Research in Sport, Exercise and Health, 11</em>(4), 589–597.</div>
+  </div>
+
+  <!-- ANALYST MEMO -->
+  <div class="memo-box">
+    <p class="label">Reflexive Analyst Memo</p>
+    <p>What is most striking about this corpus is its <strong>bifurcated emotional register</strong>. A substantial proportion of responses convey genuine warmth and loyalty toward the Tote — customers who have "been doing placepots for many many years," who describe the app as "brilliant" or "nah I love your app." Yet running directly alongside this, often from what appears to be the same segment of older, habitual racing customers, is a thread of <strong>quiet grievance</strong>: a feeling that the relationship has become asymmetric, that effort and spend are no longer reciprocated, that the Tote "does not care about customers" the way it once seemed to.</p>
+    <p>This tension between historical affection and present-day disappointment shapes several of the themes identified below. It is qualitatively different from straightforward product dissatisfaction — customers are not simply unhappy with features. They are expressing something closer to <strong>relational disappointment</strong>: a sense that a trusted institution has changed, that the commercial logic has become more visible and less forgiving.</p>
+    <p>What is notably <em>absent</em> from the data is any strong positive narrative about the Tote as an innovative or exciting brand. Customers appreciate the core product and its usability, but nobody describes the Tote as surprising them in a positive way. The data reflects an established, comfortable relationship — one that risks sliding into neglect if not actively maintained.</p>
+    <p>Analysts should also note a meaningful <strong>literacy gradient</strong> in the data. Responses range from highly sophisticated critiques of pool mechanics and take-out percentages from clearly expert bettors, through to customers who have "never heard of" the Placepot or "don't know what that is." This heterogeneity of knowledge within a single customer base is itself a significant finding, with implications for product communication and onboarding strategy.</p>
+  </div>
+
+  <!-- CORPUS OVERVIEW -->
+  <div class="data-count-badge">
+    <div>Qualitative extracts analysed: <span>3,365</span></div>
+    <div>Survey questions coded: <span>17</span></div>
+    <div>Themes identified: <span>8</span></div>
+    <div>Sub-themes identified: <span>26</span></div>
+  </div>
+
+  <!-- THEMATIC MAP -->
+  <div class="map-section">
+    <p class="section-label">Thematic Map</p>
+    <h2 class="section-title">Eight themes across the customer experience</h2>
+
+    <div class="map-visual">
+      <div class="map-central">
+        <h3>Customer Experience of the Tote</h3>
+        <p>Central organising concept across all qualitative data</p>
+      </div>
+      <div class="map-themes">
+        <div class="map-theme-node">
+          <p class="node-num">01</p>
+          <p class="node-name">Perceived Value Deficit & the Competitive Odds Gap</p>
+        </div>
+        <div class="map-theme-node">
+          <p class="node-num">02</p>
+          <p class="node-name">The Tote as Racing Brand: Identity Constraint & Cross-Sell Invisibility</p>
+        </div>
+        <div class="map-theme-node">
+          <p class="node-num">03</p>
+          <p class="node-name">Frictionful Betting: Technical Barriers & Functional Frustration</p>
+        </div>
+        <div class="map-theme-node">
+          <p class="node-num">04</p>
+          <p class="node-name">Pool Betting Opacity: Unfamiliarity, Mistrust & the Literacy Divide</p>
+        </div>
+        <div class="map-theme-node">
+          <p class="node-num">05</p>
+          <p class="node-name">Structural Constraint & the Asymmetry of Regulatory Experience</p>
+        </div>
+        <div class="map-theme-node">
+          <p class="node-num">06</p>
+          <p class="node-name">Product Architecture Limitations: Bet Type Gaps & Structural Inflexibility</p>
+        </div>
+        <div class="map-theme-node">
+          <p class="node-num">07</p>
+          <p class="node-name">Nostalgia, Distinctiveness & the Loss of the Tote's Unique Voice</p>
+        </div>
+        <div class="map-theme-node">
+          <p class="node-num">08</p>
+          <p class="node-name">Gaming & Casino: Promotional Thinness & the Free-to-Play Gap</p>
+        </div>
+        <div class="map-theme-node" style="background:var(--surface);">
+          <p class="node-num" style="color:#ddd;">+</p>
+          <p class="node-name" style="font-size:11px; color:var(--muted);">Themes are interconnected — see thematic narrative below</p>
+        </div>
+      </div>
+    </div>
+
+    <p style="font-size:14px; color:var(--muted); line-height:1.75; padding: 0 4px;">The eight themes are not independent; they cluster around two overarching narratives. The first is a <strong>value and trust narrative</strong> — running through Themes 1, 5, and 7 — in which customers feel that the commercial relationship has shifted against them. The second is a <strong>product and access narrative</strong> — running through Themes 3, 4, 6, and 8 — in which customers encounter structural barriers to full engagement with the Tote's offering. Theme 2 bridges both: it describes how the Tote's racing identity both limits its commercial reach and anchors its most loyal customers.</p>
+  </div>
+
+  <hr class="section-rule">
+  <p class="section-label">Themes</p>
+  <h2 class="section-title">Developed themes with coded evidence</h2>
+
+  <!-- THEME 1 -->
+  <div class="theme-card">
+    <div class="theme-header">
+      <div class="theme-num">01</div>
+      <div class="theme-header-content">
+        <h3 class="theme-name">Perceived Value Deficit & the Competitive Odds Gap</h3>
+        <div class="theme-meta">
+          <span class="meta-pill pill-high">High Prevalence</span>
+          <span class="meta-pill pill-cross">Cross-cutting</span>
+          <span class="meta-pill pill-racing">Racing</span>
+          <span class="meta-pill pill-sports">Sports</span>
+        </div>
+      </div>
+    </div>
+    <div class="theme-body">
+      <h4>Theme Description</h4>
+      <p class="theme-description">This theme captures the pervasive sense across the data that the Tote does not offer sufficient value relative to the competitive landscape. At its most surface level, it manifests as straightforward requests for better odds — "better odds" is the single most repeated phrase in the entire corpus. But at a deeper, more latent level, this theme encodes a broader perception of <em>unfair exchange</em>: customers feel that what they give to the Tote (spend, loyalty, time) is not adequately returned to them. This is expressed not only in price comparisons with Bet365 or SkyBet, but in complaints about the Tote's pool take-out percentage, in frustration that promotions feel meagre, and in direct statements that the Tote "does not value" its customers. The value deficit is felt most acutely by high-frequency, lower-stakes bettors — the Tote's core demographic — for whom marginal differences in returns accumulate significantly over time.</p>
+
+      <h4>Sub-Themes</h4>
+      <div class="subtheme-list">
+        <div class="subtheme-item">Odds comparison disadvantage — the Tote's prices are routinely described as worse than Bet365, Betfair, and SkyBet, particularly for fixed-odds and accumulator bets</div>
+        <div class="subtheme-item">Pool take-out as hidden cost — more sophisticated customers articulate frustration that the Tote's percentage take reduces dividends below SP, making pool betting economically unattractive</div>
+        <div class="subtheme-item">Promotion thinness — free bets described as infrequent, low-value (50p Placepots), and insufficiently rewarding of spend; comparisons made to weekly free bets at William Hill and Paddy Power</div>
+        <div class="subtheme-item">Promotional friction — customers note that promotions are not automatically applied, require opt-in, or are not credited when expected, compounding the sense of poor value</div>
+      </div>
+
+      <h4>Illustrative Quotes</h4>
+      <div class="quotes-grid">
+        <div class="quote-item"><span>"Simple because of how much money I was playing at Tote and I got zero rewards so I changed bookmakers because of the loyalty bonuses they offer — which you didn't."</span></div>
+        <div class="quote-item"><span>"Tote returns should be better than the SP — generally they're literally the same or worse. Better off with Betfair."</span></div>
+        <div class="quote-item"><span>"Better than the odd free 50p Placepot — make it a pound at least."</span></div>
+        <div class="quote-item"><span>"Your margins are too high! ... Tote take smaller % which would increase payout."</span></div>
+      </div>
+
+      <h4>Tension / Nuance</h4>
+      <div class="tension-box">
+        <strong>Notable complexity:</strong> A minority of experienced Tote customers <em>prefer</em> pool betting precisely because they believe it can return better value than fixed odds for longer-priced horses. This view ("go back to the days when a horse priced 20/1 would pay a decent price on the Tote") sits in direct tension with the dominant narrative. It suggests that the Tote's core pool product has genuine value advocates, but that operational changes (e.g. SP guarantee) have eroded what made pool betting distinctively attractive to this group.
+      </div>
+    </div>
+  </div>
+
+  <!-- THEME 2 -->
+  <div class="theme-card">
+    <div class="theme-header">
+      <div class="theme-num">02</div>
+      <div class="theme-header-content">
+        <h3 class="theme-name">The Tote as Racing Brand: Identity Constraint & Cross-Sell Invisibility</h3>
+        <div class="theme-meta">
+          <span class="meta-pill pill-high">High Prevalence</span>
+          <span class="meta-pill pill-sports">Sports</span>
+          <span class="meta-pill pill-casino">Casino</span>
+          <span class="meta-pill pill-cross">Cross-cutting</span>
+        </div>
+      </div>
+    </div>
+    <div class="theme-body">
+      <h4>Theme Description</h4>
+      <p class="theme-description">This theme documents the powerful role of brand identity in constraining customer behaviour. Across Sports, Casino, and Games, a recurring pattern emerges: customers simply do not think of the Tote as a place to bet on sports, play casino games, or use a Bet Builder. This is not a product failing but an identity constraint — the Tote is so strongly associated with horse racing and pool betting in customers' minds that its other products are cognitively invisible. Multiple responses include explicit statements of self-recognition: "I suppose that's tradition — I associate the Tote with Racing," "FOR SOME REASON I THINK OF HORSE RACING AND THE TOTE," "I see the Tote as a horse racing platform." Crucially, several customers add unprompted corrections to themselves: "I promise next time I'll check the Tote before placing a sports bet." This theme reveals a genuine but largely unrealised opportunity, where customer goodwill and satisfaction with Racing is not automatically translating to cross-vertical engagement because the brand frame itself prevents it.</p>
+
+      <h4>Sub-Themes</h4>
+      <div class="subtheme-list">
+        <div class="subtheme-item">Racing-only mental model — customers describe the Tote as "for racing" or "for placepots" and do not consider it for other bet types, even when generally satisfied</div>
+        <div class="subtheme-item">Habitual routing to established providers — customers default to long-standing accounts at Bet365, SkyBet, or Ladbrokes not because those providers are better, but because of inertia: "I've always done it this way"</div>
+        <div class="subtheme-item">Awareness gap in non-racing products — multiple customers explicitly state they "didn't know" the Tote offered sports betting, Bet Builder, or Live Casino</div>
+        <div class="subtheme-item">Intentional siloing — some customers deliberately separate their racing bets (Tote) from their football bets (other providers) as a form of personal budgeting discipline</div>
+      </div>
+
+      <h4>Illustrative Quotes</h4>
+      <div class="quotes-grid">
+        <div class="quote-item"><span>"Always thought of the Tote as racing only. From being at racecourses got the impression that Tote was only for horse racing."</span></div>
+        <div class="quote-item"><span>"I didn't know you could bet on other sports... didn't know it existed [Sportsbook]."</span></div>
+        <div class="quote-item"><span>"I tend not to use other bookies for sports betting and associate Tote with racing."</span></div>
+        <div class="quote-item"><span>"I like to keep my horse racing bets separate from sports bets."</span></div>
+      </div>
+
+      <h4>Tension / Nuance</h4>
+      <div class="tension-box">
+        <strong>Notable complexity:</strong> The identity constraint is both a barrier <em>and</em> an asset. The same strong brand association that limits cross-sell also means customers feel a genuine attachment to the Tote as a horse racing specialist. A small but vocal minority actively resist the expansion: "Concentrate on horse racing — stop with the football and casino games." Any cross-sell strategy must navigate this tension, positioning new products as complementary rather than diluting to the racing identity.
+      </div>
+    </div>
+  </div>
+
+  <!-- THEME 3 -->
+  <div class="theme-card">
+    <div class="theme-header">
+      <div class="theme-num">03</div>
+      <div class="theme-header-content">
+        <h3 class="theme-name">Frictionful Betting: Technical Barriers & Functional Frustration</h3>
+        <div class="theme-meta">
+          <span class="meta-pill pill-high">High Prevalence</span>
+          <span class="meta-pill pill-cross">Cross-cutting</span>
+          <span class="meta-pill pill-racing">Racing</span>
+          <span class="meta-pill pill-sports">Sports</span>
+        </div>
+      </div>
+    </div>
+    <div class="theme-body">
+      <h4>Theme Description</h4>
+      <p class="theme-description">This theme captures the operational and technical friction that interrupts the betting experience. While many customers describe the basic act of placing a bet as easy and fast — a genuine strength — a significant thread throughout the corpus describes moments where the system fails them: bets that "won't go on," login problems, cards that cannot be added, an app that navigates unexpectedly to the wrong screen, glitches that switch a Placepot to a Jackpot mid-selection, and deposit functions that stop working inside a game. What distinguishes this theme from simple technical complaints is its emotional quality: these incidents are experienced as <em>trust-breaking moments</em>. When a customer needs a system to work — during a race countdown, at a big meeting — and it does not, the damage to confidence extends beyond the technical incident. Several responses indicate customers have abandoned product categories altogether after a single such failure ("I haven't used Tote since").</p>
+
+      <h4>Sub-Themes</h4>
+      <div class="subtheme-list">
+        <div class="subtheme-item">Bet placement failures — bets reverting to homepage, stake entry glitches, apps crashing mid-placement; small in frequency but high in impact</div>
+        <div class="subtheme-item">Payment and account access barriers — inability to add new bank cards, login failures despite biometrics, deposit limits that do not reset when winnings are withdrawn</div>
+        <div class="subtheme-item">Cross-product navigation errors — Sportsbook reverting to Racing page; Placepot switching to Jackpot bet type; website incompatibility with iOS and certain tablets</div>
+        <div class="subtheme-item">In-game friction — Casino deposit function non-functional within active game, requiring session restart; balance updating before spin completes, disrupting engagement flow</div>
+      </div>
+
+      <h4>Illustrative Quotes</h4>
+      <div class="quotes-grid">
+        <div class="quote-item"><span>"Get rid of the app glitch that sometimes switches the Placepot to a Jackpot or Quadpot — sooooo annoying."</span></div>
+        <div class="quote-item"><span>"The app needs to fix the issue that it goes back to the horse racing page instead of the Sportsbook."</span></div>
+        <div class="quote-item"><span>"Have to leave the game to deposit as the deposit option while in a game doesn't work consistently at all. This means I have to stop playing to redeposit and this usually resets the game. It's the most annoying and frustrating part."</span></div>
+        <div class="quote-item"><span>"Not possible to bet with the Tote — unable to add new bank card, your system is poor."</span></div>
+      </div>
+
+      <h4>Tension / Nuance</h4>
+      <div class="tension-box">
+        <strong>Notable complexity:</strong> Technical frustration is not uniformly distributed — it is heavily concentrated in specific interaction points (payment methods, cross-product navigation, Casino in-game deposit). The majority of customers report no technical issues. This means the problem is tractable: targeted fixes to a small number of failure points would address the experiences described by a disproportionately vocal and at-risk group of customers.
+      </div>
+    </div>
+  </div>
+
+  <!-- THEME 4 -->
+  <div class="theme-card">
+    <div class="theme-header">
+      <div class="theme-num">04</div>
+      <div class="theme-header-content">
+        <h3 class="theme-name">Pool Betting Opacity: Unfamiliarity, Mistrust & the Literacy Divide</h3>
+        <div class="theme-meta">
+          <span class="meta-pill pill-medium">Medium Prevalence</span>
+          <span class="meta-pill pill-racing">Racing</span>
+          <span class="meta-pill pill-casino">Casino/Games</span>
+        </div>
+      </div>
+    </div>
+    <div class="theme-body">
+      <h4>Theme Description</h4>
+      <p class="theme-description">This theme identifies a deep and persistent gap in customer understanding of the Tote's core product mechanic. Pool betting is fundamentally different from fixed-odds betting, and a meaningful proportion of the customer base — particularly newer, younger, or casino-first customers — has limited or no understanding of how it works. Responses include customers who have never heard of the Placepot, do not know how to place one, do not understand why their return differs from the displayed odds, or express a general sense that pool betting is "complicated" or "confusing." At a latent level, this theme speaks to an <em>epistemological barrier</em>: the Tote's product offering is premised on a literacy that a significant segment of its registered customer base does not possess. A secondary thread within this theme involves <em>mistrust</em> of pool mechanics among more experienced bettors — suspicions about whether the Tote "bets in its own pools," concerns about opacity in the take-out percentage, and scepticism about dividend calculations.</p>
+
+      <h4>Sub-Themes</h4>
+      <div class="subtheme-list">
+        <div class="subtheme-item">Complete unfamiliarity with Placepot — many customers have "never heard of it," "don't know what it is," or "don't know how to do it online," representing an onboarding and education gap</div>
+        <div class="subtheme-item">Return uncertainty — customers describe frustration at not knowing what they will receive before a race starts; the variability of pool dividends is experienced as discomfiting compared to fixed-odds certainty</div>
+        <div class="subtheme-item">Exotic bet complexity — World Pools, Swingers, Exactas, and Trifectas are described as opaque; customers cannot distinguish between bet types or understand what they are winning</div>
+        <div class="subtheme-item">Structural suspicion — a minority but analytically significant group expresses distrust of the pool model, questioning whether returns are fair or mechanisms transparent</div>
+      </div>
+
+      <h4>Illustrative Quotes</h4>
+      <div class="quotes-grid">
+        <div class="quote-item"><span>"I am totally baffled by World Pools etc. The only one I understand is Placepot."</span></div>
+        <div class="quote-item"><span>"Don't understand how Tote odds are calculated — that's why I use other providers for racing."</span></div>
+        <div class="quote-item"><span>"I hate the fact that the odds might show 1.8 when you place your bet, and you end up getting 1.2."</span></div>
+        <div class="quote-item"><span>"I do not agree with playing in your own pools. I do not like your explanation."</span></div>
+      </div>
+
+      <h4>Tension / Nuance</h4>
+      <div class="tension-box">
+        <strong>Notable complexity:</strong> The literacy divide runs in both directions. While many customers need basic education on pool mechanics, a smaller group of highly expert customers actively values the intellectual challenge of pool betting — selecting against market biases, understanding pools' potential upside for longer-priced horses. Over-simplification risks alienating this group. Communication strategy needs to work across both ends of the literacy spectrum simultaneously.
+      </div>
+    </div>
+  </div>
+
+  <!-- THEME 5 -->
+  <div class="theme-card">
+    <div class="theme-header">
+      <div class="theme-num">05</div>
+      <div class="theme-header-content">
+        <h3 class="theme-name">Structural Constraint & the Asymmetry of Regulatory Experience</h3>
+        <div class="theme-meta">
+          <span class="meta-pill pill-medium">Medium Prevalence</span>
+          <span class="meta-pill pill-cross">Cross-cutting</span>
+          <span class="meta-pill pill-high">High Emotional Intensity</span>
+        </div>
+      </div>
+    </div>
+    <div class="theme-body">
+      <h4>Theme Description</h4>
+      <p class="theme-description">This theme captures the experience of being constrained — by deposit limits, affordability checks, account restrictions, and verification requirements — and the strong emotional responses these experiences generate. While regulatory compliance is an industry-wide reality, what this theme identifies is not simply customer frustration with regulation per se, but the <em>asymmetric way constraints are experienced</em>: customers feel that restrictions are applied to them specifically, that limits fail to reset fairly (particularly when winnings are withdrawn), that affordability checks are more invasive with the Tote than elsewhere, and that the process communicates distrust toward long-standing, loyal customers. The emotional register of responses in this theme is markedly higher than elsewhere in the corpus — customers use language like "outrageous," "disgrace," "treating me like a criminal," and invoke multi-decade relationships to underscore their sense of being wrongly judged. This theme carries significant reputational risk: customers who feel structurally constrained do not simply disengage quietly; they actively use other providers and, in some cases, express this grievance publicly.</p>
+
+      <h4>Sub-Themes</h4>
+      <div class="subtheme-list">
+        <div class="subtheme-item">Deposit limit non-reset on withdrawal — a specific, concrete frustration: winnings withdrawn do not restore the available deposit headroom, meaning customers who win cannot continue to bet</div>
+        <div class="subtheme-item">Affordability check resentment — described as "intrusive," "outrageous," and "none of [other bookmakers'] business"; more intense than document verification frustration, touching questions of autonomy and dignity</div>
+        <div class="subtheme-item">Account-level restrictions — customers describe being limited to "1p bets" after winning at greyhound meetings, feeling punished for profitable betting; reduces engagement dramatically</div>
+        <div class="subtheme-item">Verification delays — lengthy identity verification blocking betting activity for extended periods; described as a barrier to primary product use</div>
+      </div>
+
+      <h4>Illustrative Quotes</h4>
+      <div class="quotes-grid">
+        <div class="quote-item"><span>"Stop applying outrageous affordability checks and threats to people who have bet with you for 60 years."</span></div>
+        <div class="quote-item"><span>"It's my money and I decide what and when I bet. My financial matters should be private. The whole thing is a total disgrace."</span></div>
+        <div class="quote-item"><span>"I could bet £400 in one day and win £1000, cash out and then not be able to bet again on Tote for a month. Ridiculous."</span></div>
+        <div class="quote-item"><span>"I had 2 winning bets whilst at greyhound meetings. Now limited to 1p bets. Ludicrous."</span></div>
+      </div>
+
+      <h4>Tension / Nuance</h4>
+      <div class="tension-box">
+        <strong>Notable complexity:</strong> This theme is the most sensitive in the dataset. Regulatory requirements are not discretionary, and affordability checks are an industry-wide obligation. However, the data reveals that <em>how</em> these requirements are communicated and experienced matters as much as the requirements themselves. Customers at competing operators report less friction from equivalent checks. This suggests the issue is partly one of <strong>process design and communication framing</strong> rather than policy content — an area where improvement is possible without compromising compliance obligations.
+      </div>
+    </div>
+  </div>
+
+  <!-- THEME 6 -->
+  <div class="theme-card">
+    <div class="theme-header">
+      <div class="theme-num">06</div>
+      <div class="theme-header-content">
+        <h3 class="theme-name">Product Architecture Limitations: Bet Type Gaps & Structural Inflexibility</h3>
+        <div class="theme-meta">
+          <span class="meta-pill pill-high">High Prevalence</span>
+          <span class="meta-pill pill-racing">Racing</span>
+          <span class="meta-pill pill-sports">Sports</span>
+        </div>
+      </div>
+    </div>
+    <div class="theme-body">
+      <h4>Theme Description</h4>
+      <p class="theme-description">This theme documents the ways in which the Tote's product architecture fails to accommodate the bet types customers want to place. It differs from Theme 1 (value perception) and Theme 3 (technical friction) in being a <em>structural</em> rather than a transactional issue — the products customers want either do not exist on the platform or are constrained in ways that competitors are not. The most prominent expression of this is the single-meeting restriction on multiples: the Tote's inability to support cross-card accumulators, Yankees, Lucky 15s, and Patent bets across different race meetings is mentioned by more customers than any other specific product request in the corpus. This creates a functional ceiling on Racing customers' engagement — they must go elsewhere for a core bet type that forms a daily part of their betting routine. In Sports, the equivalent structural gap is the Bet Builder's market depth and the absence of Super Sub functionality. These are not edge cases; they represent mainstream betting behaviour that the product cannot currently serve.</p>
+
+      <h4>Sub-Themes</h4>
+      <div class="subtheme-list">
+        <div class="subtheme-item">Cross-meeting multiple bets — the most requested structural change across the entire corpus: doubles, trebles, Yankees, Lucky 15s, Lucky 31s, and accumulators drawn from horses at different meetings</div>
+        <div class="subtheme-item">Each way terms and place count — customers compare unfavourably with bookmakers offering 4 or 5 places in large-field races; felt as a structural competitive disadvantage for each way bettors</div>
+        <div class="subtheme-item">Fixed odds availability — a segment of customers wants the option to take a fixed price rather than relying on pool returns; Best Odds Guaranteed (BOG) specifically and repeatedly requested</div>
+        <div class="subtheme-item">Sports Bet Builder depth — insufficient market options and the absence of player-props features like Super Sub; Bet Builder described as hard to find and under-communicated</div>
+      </div>
+
+      <h4>Illustrative Quotes</h4>
+      <div class="quotes-grid">
+        <div class="quote-item"><span>"Tote only allows you to back at the same meeting — you can't even do a cross-the-card double."</span></div>
+        <div class="quote-item"><span>"I would like to select Yankee or Lucky 15 bets across different meetings, not all from the same meeting."</span></div>
+        <div class="quote-item"><span>"You should be more generous with the number of places in bigger fields. Other bookmakers regularly go for 4 or even 5 places. With Placepot, when your selection is 4th by a nose in a photo finish in a big field, you just lose the whole bet. That's annoying."</span></div>
+        <div class="quote-item"><span>"Bet builders definitely need Super Sub because they're all about player props."</span></div>
+      </div>
+
+      <h4>Tension / Nuance</h4>
+      <div class="tension-box">
+        <strong>Notable complexity:</strong> The cross-meeting multiples gap is particularly nuanced because it sits at the intersection of the Tote's pool betting identity and its fixed-odds sportsbook offering. Pool mechanics make true cross-meeting accumulators structurally complex in ways they are not for fixed-odds bookmakers. The data does not resolve this — customers simply experience the constraint as a gap, without awareness of the underlying operational complexity. Communicating why this limitation exists, or finding a hybrid product solution, would address both the functional gap and the perception issue.
+      </div>
+    </div>
+  </div>
+
+  <!-- THEME 7 -->
+  <div class="theme-card">
+    <div class="theme-header">
+      <div class="theme-num">07</div>
+      <div class="theme-header-content">
+        <h3 class="theme-name">Nostalgia, Distinctiveness & the Loss of the Tote's Unique Voice</h3>
+        <div class="theme-meta">
+          <span class="meta-pill pill-medium">Medium Prevalence</span>
+          <span class="meta-pill pill-racing">Racing</span>
+          <span class="meta-pill pill-high">High Analytic Significance</span>
+        </div>
+      </div>
+    </div>
+    <div class="theme-body">
+      <h4>Theme Description</h4>
+      <p class="theme-description">This is the most analytically distinctive theme in the dataset. While lower in raw prevalence than Themes 1 or 6, it captures a latent but important pattern: a subset of engaged, high-frequency customers who articulate a sense that the Tote has <em>lost something</em> that made it worth preferring. This is not expressed as dissatisfaction with current products, but as a sense of qualitative diminishment — a convergence toward generic bookmaker norms that has eroded the Tote's distinctiveness. The Beat Benson competition and Ten To Follow are invoked not merely as missed features but as symbols of a time when the Tote offered something genuinely different: skill-based engagement, brand personality, products that "challenged and pushed you to really understand each race." The shift toward standard money-back promotions and generic free bet offers is described as "boring" and as evidence that "you are now making it very clear that all that matters is profit." This theme speaks to a deeper question about the Tote's strategic positioning — one that transcends individual product decisions and goes to brand identity.</p>
+
+      <h4>Sub-Themes</h4>
+      <div class="subtheme-list">
+        <div class="subtheme-item">Loss of skill-based engagement — Beat Benson and Ten To Follow are described as unique, differentiating products that rewarded expertise and understanding; their discontinuation is experienced as a loss of the Tote's character</div>
+        <div class="subtheme-item">Generic promotion convergence — money-back offers and standard free bets described as "what everyone else does" — evidence that the Tote has adopted a playbook that makes it indistinguishable from competitors</div>
+        <div class="subtheme-item">Declining reciprocity — long-term customers describe a shift in the felt quality of the relationship: less attentive, less rewarding, more commercially transactional than it once felt</div>
+        <div class="subtheme-item">Racing community nostalgia — calls to revive the Scoop6, increase guaranteed pool sizes, and reinvest in racing; framed as the Tote's duty to the sport it originated in</div>
+      </div>
+
+      <h4>Illustrative Quotes</h4>
+      <div class="quotes-grid">
+        <div class="quote-item"><span>"You used to run excellent betting competitions like 'Beat Benson'. These were great fun and a MASSIVE differentiator. You could win decent prizes by pure skill and expertise. This was really on brand for Tote and was a terrific experience. Now you have very similar 'Money Back' promos which all other bookies have. This is much more boring. I have stopped using Tote for many bets as a result."</span></div>
+        <div class="quote-item"><span>"Stop being so pushy and truly reward loyalty like you used to. It now feels as if you do not care about customers. I realised you are there to make a profit, but you are now making it very clear that this is all that matters and the customer is secondary."</span></div>
+        <div class="quote-item"><span>"It's a very dated model trying hard to evolve but it's just not fashionable."</span></div>
+        <div class="quote-item"><span>"Promotions don't bother me that much, but you guys abandoning the Ten To Follow competition has annoyed the crap out of me. The one thing I used to look forward to all year, and now it's gone."</span></div>
+      </div>
+
+      <h4>Tension / Nuance</h4>
+      <div class="tension-box">
+        <strong>Notable complexity:</strong> This theme contains an inherent paradox. The customers most vocal about the Tote's lost distinctiveness are also its most deeply engaged, highest-frequency users — the segment most valuable to retain. Their nostalgia is not simply backward-looking sentiment; it encodes a substantive critique about strategic direction. The data suggests these customers <em>want</em> the Tote to be differentiated and are frustrated that it is not. This is a strategic asset: a customer base that actively <em>wants</em> the brand to stand for something unique is rare.
+      </div>
+    </div>
+  </div>
+
+  <!-- THEME 8 -->
+  <div class="theme-card">
+    <div class="theme-header">
+      <div class="theme-num">08</div>
+      <div class="theme-header-content">
+        <h3 class="theme-name">Gaming & Casino: Promotional Thinness & the Free-to-Play Gap</h3>
+        <div class="theme-meta">
+          <span class="meta-pill pill-medium">Medium Prevalence</span>
+          <span class="meta-pill pill-casino">Casino / Games</span>
+          <span class="meta-pill pill-cross">Live Casino</span>
+        </div>
+      </div>
+    </div>
+    <div class="theme-body">
+      <h4>Theme Description</h4>
+      <p class="theme-description">This theme documents the specific dynamics of the Casino and Games customer experience, which differs qualitatively from the Racing and Sports themes. Casino customers are generally satisfied with the gameplay mechanics and navigation. What they describe as missing is not functional capability but a <em>promotional and engagement ecosystem</em> — specifically the daily free spins, deposit-match bonuses, daily reward wheels, and free-to-play competitive games that have become standard at competitors including Sky Vegas, Ladbrokes, and LUNA Casino. Free-to-play mechanics are not merely promotional tools in this context; they serve as <em>traffic drivers</em> — customers describe daily logins to claim free spins at competitor platforms, which then lead to real-money play. The Tote's absence from this daily engagement loop means Casino customers have no habitual reason to open the app, depressing organic frequency. A secondary sub-theme involves RTP (Return to Player) transparency — customers express scepticism about whether game RTPs are displayed and whether results are truly random, particularly on slots.</p>
+
+      <h4>Sub-Themes</h4>
+      <div class="subtheme-list">
+        <div class="subtheme-item">Daily free spins as traffic driver — competitors' daily free spin offers create habitual logins; absence of this mechanic at the Tote means no equivalent daily engagement touchpoint</div>
+        <div class="subtheme-item">Deposit-match and welcome bonus benchmarking — LUNA Casino specifically cited for weekly deposit-match promotions; customers experience the Tote's equivalent as inferior</div>
+        <div class="subtheme-item">Game variety and provider range — requests for Playtech (Jackpot King), Slingo, more poker variants; perceived breadth of game range seen as narrower than Sky Vegas or Bet365</div>
+        <div class="subtheme-item">RTP transparency and trust — a minority but notable thread of scepticism about RTP rates and randomness; one customer cites 92% average RTP as specifically off-putting; requests for transparent display of RTP per game</div>
+      </div>
+
+      <h4>Illustrative Quotes</h4>
+      <div class="quotes-grid">
+        <div class="quote-item"><span>"Your promotions there are limited and nothing much you can take interest in! For example promotions with deposit and get free spins — LUNA Casino does this every week."</span></div>
+        <div class="quote-item"><span>"Daily rewards wheel and more promotions for slots will interest me coming and spending money."</span></div>
+        <div class="quote-item"><span>"Once I log in daily to claim my free games etc. at [competitors], I end up playing with them. It just becomes a habit."</span></div>
+        <div class="quote-item"><span>"Average RTP on many Tote games is about 92% — don't need to say any more."</span></div>
+      </div>
+
+      <h4>Tension / Nuance</h4>
+      <div class="tension-box">
+        <strong>Notable complexity:</strong> A small but meaningful number of Casino customers express that they prefer the Tote's Casino precisely because it is <em>less aggressive</em> in its promotional mechanics — describing themselves as trying to "keep gambling in check" and explicitly not wanting a daily free spin. The free-to-play mechanic that drives engagement for one group is experienced as an unwelcome temptation by another. Promotional strategy in this vertical needs to be carefully segmented, with opt-in rather than opt-out mechanics where possible.
+      </div>
+    </div>
+  </div>
+
+  <hr class="section-rule">
+
+  <!-- THEMATIC NARRATIVE -->
+  <p class="section-label">Thematic Narrative</p>
+  <h2 class="section-title">How the themes relate:<br>an overarching analytic story</h2>
+
+  <div style="font-size:15px; line-height:1.8; color:var(--white); margin-bottom:32px;">
+    <p style="margin-bottom:16px;">Read together, the eight themes tell a coherent story about the Tote's relationship with its customers. At its core, this is a story about a brand operating from a position of <strong>earned but fragile trust</strong>. The Tote has a deeply loyal Racing customer base — people who have bet with it for decades, who are genuinely attached to pool betting as a form, and who want the Tote to succeed. This loyalty is real, but it is not unconditional. It is being tested by a perception that the commercial relationship has become less reciprocal (Theme 1), that the platform has structural limitations competitors do not (Theme 6), that regulatory processes are applied in ways that feel punitive (Theme 5), and that the brand has shed the distinctive character that once made it worth defending (Theme 7).</p>
+    <p style="margin-bottom:16px;">Running alongside this Racing loyalty narrative is a separate story about the Tote's <strong>invisible opportunity</strong> (Theme 2). Millions of registered customers who trust the Tote for Racing are not using it for Sports or Games — not because they have rejected it, but because they have never thought to try. The brand's Racing identity is so dominant that other products simply do not enter consideration. This is addressable through communication and product placement, but requires the Tote to actively create new mental associations rather than waiting for customers to discover them.</p>
+    <p style="margin-bottom:16px;">The third strand of the story concerns <strong>access and understanding</strong> (Themes 3, 4, and 8). A meaningful proportion of customers — particularly those who came to the Tote via Casino or Sports rather than Racing — are encountering barriers that prevent them from engaging fully: technical friction, pool betting opacity, and an absence of the free-to-play mechanics that constitute the Casino industry's standard engagement model. These customers are not disloyal; they are under-served.</p>
+    <p>The themes collectively suggest that the Tote's most productive strategic direction is not necessarily acquisition of new customers but <strong>deepening engagement with those it already has</strong>: removing friction for existing users, translating Racing loyalty into cross-vertical engagement, and investing in the distinctive brand voice that its most valuable customers are explicitly asking for.</p>
+  </div>
+
+  <!-- KEY IMPLICATIONS BOX -->
+  <div style="border:1px solid var(--tote-red); padding:36px; margin-bottom:40px; background:var(--surface);">
+    <p class="section-label">Implications for Strategy</p>
+    <h3 style="font-family:'Roboto Condensed',sans-serif; font-size:24px; font-weight:600; margin-bottom:20px;">Five analytic implications from the thematic analysis</h3>
+    <div style="display:flex;flex-direction:column;gap:20px;">
+      <div style="display:flex;gap:16px;">
+        <div style="width:32px;height:32px;background:var(--surface2);color:var(--white);display:flex;align-items:center;justify-content:center;font-family:'Roboto',sans-serif;letter-spacing:0.5px;font-size:12px;flex-shrink:0;">01</div>
+        <div><p style="font-weight:600;margin-bottom:4px;">Address the relational, not just the functional</p><p style="font-size:13px;color:var(--muted);line-height:1.6;">Themes 1, 5, and 7 collectively signal that customer dissatisfaction in this dataset is often relational — about the felt quality of the relationship, not just product features. Product improvements alone will not address this; communication, customer service tone, and visible reciprocity (e.g., recognition of long-standing customers) are equally important.</p></div>
+      </div>
+      <div style="display:flex;gap:16px;">
+        <div style="width:32px;height:32px;background:var(--surface2);color:var(--white);display:flex;align-items:center;justify-content:center;font-family:'Roboto',sans-serif;letter-spacing:0.5px;font-size:12px;flex-shrink:0;">02</div>
+        <div><p style="font-weight:600;margin-bottom:4px;">Treat pool betting literacy as a product problem, not a customer problem</p><p style="font-size:13px;color:var(--muted);line-height:1.6;">Theme 4 reveals that confusion about pool mechanics is widespread and is directly causing non-engagement with core products. The solution is embedded education within the betting interface — explanation at point of decision, not in FAQs or help pages that customers do not visit.</p></div>
+      </div>
+      <div style="display:flex;gap:16px;">
+        <div style="width:32px;height:32px;background:var(--surface2);color:var(--white);display:flex;align-items:center;justify-content:center;font-family:'Roboto',sans-serif;letter-spacing:0.5px;font-size:12px;flex-shrink:0;">03</div>
+        <div><p style="font-weight:600;margin-bottom:4px;">Prioritise cross-meeting multiples as the single highest-impact Racing product change</p><p style="font-size:13px;color:var(--muted);line-height:1.6;">Theme 6 is clear: this is the most requested structural change in the entire dataset, mentioned across multiple question types and articulated by customers across all betting frequencies. The frequency and consistency of this request indicate genuinely unmet demand rather than fringe interest.</p></div>
+      </div>
+      <div style="display:flex;gap:16px;">
+        <div style="width:32px;height:32px;background:var(--surface2);color:var(--white);display:flex;align-items:center;justify-content:center;font-family:'Roboto',sans-serif;letter-spacing:0.5px;font-size:12px;flex-shrink:0;">04</div>
+        <div><p style="font-weight:600;margin-bottom:4px;">Use Theme 7 as a strategic signal, not a nostalgic complaint</p><p style="font-size:13px;color:var(--muted);line-height:1.6;">The customers articulating loss of distinctiveness are the Tote's highest-value Racing customers. Their critique is analytically precise: the Tote has converged toward industry norms at the expense of differentiation. The data suggests appetite for a return to skill-based, Tote-specific products — not replication of what competitors do.</p></div>
+      </div>
+      <div style="display:flex;gap:16px;">
+        <div style="width:32px;height:32px;background:var(--surface2);color:var(--white);display:flex;align-items:center;justify-content:center;font-family:'Roboto',sans-serif;letter-spacing:0.5px;font-size:12px;flex-shrink:0;">05</div>
+        <div><p style="font-weight:600;margin-bottom:4px;">Design Casino engagement around daily habits, not one-off promotions</p><p style="font-size:13px;color:var(--muted);line-height:1.6;">Theme 8 identifies that competitor Casino platforms win daily logins through habitual free-to-play mechanics. The Tote is absent from this daily engagement loop. A daily free spin or reward mechanic would not just drive Casino revenue; it would increase overall platform logins and create cross-vertical discovery opportunities for Racing and Sports products.</p></div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="report-footer">
+  <div><strong>Tote Customer Research</strong> — Thematic Analysis (Braun & Clarke)</div>
+  <div>n = 3,365 qualitative extracts · 8 themes · 26 sub-themes</div>
+  <div>Confidential · February 2025</div>
+</div>
+
+</body>
+</html>
