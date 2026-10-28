@@ -1,0 +1,951 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sportsbook Navigation – Andrew Gaskell</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Lato:wght@400;500;600;700&display=swap"
+    rel="stylesheet"
+  />
+  <link rel="stylesheet" href="tokens.css" />
+  <style>
+    :root {
+      --dark: #302a3f;
+      --text: #57596b;
+      --muted: #878787;
+      --surface: #f7f9fc;
+      --divider: #d8d6e5;
+      --placeholder: #d9d9d9;
+      --black: #090909;
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: "Lato", sans-serif;
+      background: #fff;
+      color: var(--black);
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    img { display: block; max-width: 100%; }
+    a { color: inherit; }
+
+    /* ---------- HEADER ---------- */
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 40px;
+      padding: 24px 60px;
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: saturate(180%) blur(10px);
+      -webkit-backdrop-filter: saturate(180%) blur(10px);
+      border-bottom: 1px solid transparent;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .site-header--scrolled {
+      border-bottom-color: rgba(0, 0, 0, 0.06);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+    }
+
+    .site-header__left {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+    }
+
+    .site-header__logo {
+      font-family: "Bebas Neue", sans-serif;
+      font-size: 24px;
+      color: #000;
+      text-decoration: none;
+    }
+
+    .site-header__links {
+      display: flex;
+      gap: 40px;
+      align-items: center;
+    }
+
+    .header-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      color: var(--dark);
+      font-weight: 700;
+      font-size: 13px;
+      letter-spacing: -0.065px;
+      text-decoration: none;
+    }
+
+    .header-link a {
+      text-decoration: underline;
+      color: var(--dark);
+    }
+
+    /* ---------- BUTTONS ---------- */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: -0.065px;
+      cursor: pointer;
+      text-decoration: none;
+      border: 1px solid transparent;
+      font-family: "Lato", sans-serif;
+      transition: background 0.2s ease, transform 0.1s ease;
+    }
+
+    .btn:hover { transform: translateY(-1px); }
+
+    .btn--secondary {
+      background: #fff;
+      color: #000;
+      border-color: var(--dark);
+    }
+
+    .btn--secondary:hover { background: #f1efee; }
+
+    .btn svg { width: 20px; height: 20px; flex-shrink: 0; }
+    .btn--back svg { transform: rotate(180deg); }
+
+    /* ---------- BODY ---------- */
+    .body-wrap {
+      max-width: 994px;
+      margin: 0 auto;
+      padding: 93px 20px 140px;
+      display: flex;
+      flex-direction: column;
+      gap: 120px;
+    }
+
+    .body-copy {
+      font-size: 16px;
+      color: var(--text);
+      letter-spacing: -0.08px;
+      line-height: 1.34;
+    }
+
+    /* ---------- HERO ---------- */
+    .hero {
+      display: flex;
+      align-items: center;
+      gap: 61px;
+      height: 312px;
+    }
+
+    .hero__media {
+      width: 452px;
+      height: 546px;
+      flex-shrink: 0;
+      object-fit: cover;
+    }
+
+    .hero__title {
+      font-family: "Bebas Neue", sans-serif;
+      font-size: 64px;
+      color: #000;
+      font-weight: 400;
+      line-height: 1.2;
+      text-transform: uppercase;
+      max-width: 409px;
+    }
+
+    /* ---------- LEDE / BIG PARAGRAPH ---------- */
+    .lede {
+      font-size: 32px;
+      font-weight: 500;
+      color: var(--text);
+      letter-spacing: -0.16px;
+      line-height: 1.34;
+    }
+
+    /* ---------- INFO TABLE ---------- */
+    .info-table {
+      display: flex;
+      flex-direction: column;
+      border-top: 1px solid var(--divider);
+    }
+
+    .info-row {
+      display: flex;
+      gap: 123px;
+      align-items: center;
+      padding: 24px 0;
+      border-bottom: 1px solid var(--divider);
+      font-size: 16px;
+      letter-spacing: -0.08px;
+      line-height: 1.34;
+    }
+
+    .info-row__label {
+      width: 210px;
+      color: var(--muted);
+      flex-shrink: 0;
+    }
+
+    .info-row__value {
+      color: var(--text);
+      flex: 1;
+    }
+
+    .info-row__value ul {
+      list-style: disc;
+      padding-left: 24px;
+      max-width: 558px;
+    }
+
+    .info-row__value ul li { line-height: 1.44; }
+
+    /* ---------- SECTION BLOCK ---------- */
+    .section-block {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .section-block--lg { gap: 40px; }
+
+    .section-title {
+      font-family: "Bebas Neue", sans-serif;
+      font-weight: 400;
+      font-size: 32px;
+      color: #000;
+      text-transform: uppercase;
+      line-height: 1.2;
+    }
+
+    .section-subtitle {
+      font-family: "Bebas Neue", sans-serif;
+      font-weight: 400;
+      font-size: 24px;
+      color: #000;
+      text-transform: uppercase;
+      line-height: 1.2;
+    }
+
+    /* ---------- PROBLEM LIST ---------- */
+    .problem-list {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      padding-left: 48px;
+      font-size: 32px;
+      font-weight: 500;
+      color: var(--text);
+      letter-spacing: -0.16px;
+      line-height: 1.34;
+    }
+
+    /* ---------- GOALS ---------- */
+    .goals {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .goals__row {
+      display: flex;
+      gap: 20px;
+      align-items: flex-start;
+    }
+
+    .goals__label {
+      min-width: 115px;
+      flex-shrink: 0;
+    }
+
+    .goals__value { flex: 1; }
+
+    /* ---------- NUMBERED / BULLET LISTS ---------- */
+    .list {
+      padding-left: 24px;
+    }
+
+    .list--numbered { list-style: decimal; }
+    .list--bullet { list-style: disc; }
+
+    /* ---------- FUNNELS ---------- */
+    .funnel {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .funnel--spaced { gap: 9px; }
+
+    .funnel__image {
+      width: 100%;
+      aspect-ratio: 1562 / 555;
+      object-fit: cover;
+    }
+
+    .funnel__caption { font-weight: 700; }
+
+    /* ---------- INSIGHT CARD ---------- */
+    .insight-card {
+      background: var(--surface);
+      border-radius: 8px;
+      padding: 16px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      font-size: 16px;
+      letter-spacing: -0.08px;
+      line-height: 1.34;
+    }
+
+    .insight-card--roomy { gap: 20px; }
+
+    .insight-card__title {
+      color: #000;
+      font-weight: 700;
+    }
+
+    .insight-card__title--lg {
+      font-size: 18px;
+      letter-spacing: -0.09px;
+    }
+
+    .insight-card__body { color: var(--text); }
+
+    .survey-images {
+      display: flex;
+      gap: 20px;
+      align-items: flex-start;
+    }
+
+    .survey-images img {
+      flex: 1;
+      min-width: 0;
+      object-fit: cover;
+      object-position: top;
+    }
+
+    .survey-images .survey-1 { aspect-ratio: 1332 / 792; }
+    .survey-images .survey-2 { aspect-ratio: 447 / 266; }
+
+    /* ---------- HYPOTHESIS ---------- */
+    .hypothesis {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    /* ---------- EXPLORATION ---------- */
+    .existing-functionality {
+      display: flex;
+      gap: 24px;
+      align-items: flex-start;
+    }
+
+    .existing-functionality__video {
+      width: 217px;
+      height: 428px;
+      flex-shrink: 0;
+      background: var(--placeholder);
+    }
+
+    .existing-functionality__notes {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      justify-content: center;
+    }
+
+    .pros-cons {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .pros-cons__title { font-weight: 600; }
+
+    .pros-cons .list {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .stage {
+      display: flex;
+      gap: 24px;
+      align-items: flex-start;
+      padding: 0 12px;
+    }
+
+    .stage__body {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .stage__wireframes {
+      width: 360px;
+      height: 151px;
+      object-fit: cover;
+      object-position: top;
+    }
+
+    .stage__mockup {
+      width: 182px;
+      height: 391.5px;
+      flex-shrink: 0;
+      object-fit: cover;
+    }
+
+    /* ---------- VALIDATION ---------- */
+    .validation-overview {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .ab-image {
+      width: 100%;
+      aspect-ratio: 1444 / 803;
+      object-fit: cover;
+    }
+
+    .ga4-image {
+      width: 100%;
+      aspect-ratio: 1562 / 844;
+      object-fit: cover;
+    }
+
+    /* ---------- RESPONSIVE ---------- */
+    @media (max-width: 900px) {
+      .site-header {
+        padding: 16px 20px;
+        flex-wrap: wrap;
+        gap: 16px;
+      }
+      .site-header__links {
+        gap: 16px;
+        flex-wrap: wrap;
+      }
+      .body-wrap {
+        padding: 48px 20px 80px;
+        gap: 80px;
+      }
+      .hero {
+        flex-direction: column;
+        align-items: flex-start;
+        height: auto;
+        gap: 24px;
+      }
+      .hero__media {
+        width: 100%;
+        height: auto;
+        aspect-ratio: 452 / 546;
+      }
+      .hero__title { font-size: 48px; }
+      .lede, .problem-list { font-size: 22px; }
+      .problem-list { padding-left: 32px; }
+      .info-row { flex-direction: column; align-items: flex-start; gap: 12px; }
+      .info-row__label { width: 100%; }
+      .goals__row { flex-direction: column; gap: 4px; }
+      .survey-images { flex-direction: column; }
+      .survey-images img { width: 100%; }
+      .existing-functionality { flex-direction: column; }
+      .existing-functionality__video { width: 100%; max-width: 217px; }
+      .stage { flex-wrap: wrap; padding: 0; }
+      .stage__body { flex-basis: 100%; }
+      .stage__wireframes { width: 100%; max-width: 360px; height: auto; aspect-ratio: 360 / 151; }
+      .stage__mockup { width: calc(50% - 12px); height: auto; aspect-ratio: 182 / 391.5; }
+    }
+  </style>
+</head>
+<body>
+  <!-- HEADER -->
+  <header class="site-header">
+    <div class="site-header__left">
+      <a class="btn btn--secondary btn--back" href="index.html">
+        <svg viewBox="0 0 20 20" fill="none" aria-hidden="true">
+          <path d="M7.5 5l5 5-5 5" stroke="#302a3f" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+        Back
+      </a>
+      <a class="site-header__logo" href="index.html">Andrew Gaskell</a>
+    </div>
+
+    <div class="site-header__links">
+      <a class="header-link" href="mailto:andygaskell10@outlook.com">
+        <svg width="20" height="18" viewBox="0 0 20 18" fill="none" aria-hidden="true">
+          <rect x="1" y="2" width="18" height="14" rx="2" stroke="#302a3f" stroke-width="1.5" />
+          <path d="M2 3.5l8 6.5 8-6.5" stroke="#302a3f" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+        <span>andygaskell10@outlook.com</span>
+      </a>
+
+      <span class="header-link">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="#302a3f" aria-hidden="true">
+          <path d="M4.98 3.5A2.49 2.49 0 002.5 6a2.5 2.5 0 105 0 2.49 2.49 0 00-2.52-2.5zM3 8.5h4v10H3v-10zM9 8.5h3.8v1.37h.05c.53-1 1.83-2.07 3.77-2.07 4.03 0 4.78 2.65 4.78 6.1v5.1h-4v-4.52c0-1.08-.02-2.47-1.5-2.47-1.5 0-1.73 1.17-1.73 2.39v4.6h-4V8.5z"/>
+        </svg>
+        <a
+          href="https://www.linkedin.com/in/andrew-gaskell-4092a5191?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app"
+          target="_blank"
+          rel="noopener"
+        >Click here for my profile</a>
+      </span>
+    </div>
+  </header>
+
+  <main class="body-wrap">
+    <!-- HERO -->
+    <section class="hero">
+      <img
+        class="hero__media"
+        src="images/sportsbook-hero.png"
+        alt="Sportsbook cross-sell widget on the Tote homepage"
+      />
+      <h1 class="hero__title">Sportsbook Navigation</h1>
+    </section>
+
+    <!-- INTRO LEDE -->
+    <section>
+      <p class="lede">
+        Introduced a data-led approach to our sportsbook product, where I
+        benchmarked the existing experience and identified a significant drop
+        off between the homepage and sports page. Analysis showed awareness as
+        a key factors for customers not betting with the Tote sportsbook. A/B
+        testing showed that the sportsbook widget cohort reduced their number
+        of bets by 3.9%, which informed us not to push to 100% despite
+        stakeholder pressure.
+      </p>
+    </section>
+
+    <!-- INFO TABLE -->
+    <section>
+      <dl class="info-table">
+        <div class="info-row">
+          <div class="info-row__label">ROLE</div>
+          <div class="info-row__value">Lead Designer, Researcher.</div>
+        </div>
+        <div class="info-row">
+          <div class="info-row__label">RESPONSIBILITIES</div>
+          <div class="info-row__value">
+            <ul>
+              <li>Benchmarked the existing experience.</li>
+              <li>Surveyed customers to identify pain points and present to stakeholders.</li>
+              <li>Communicated with stakeholders where we can make the biggest impact to the funnel with very limited resource.</li>
+              <li>Collaborated with engineers to reuse existing functionality from a different part of the website to create a cross-sell widget.</li>
+              <li>Established KPI and definitions of success to measure the cross-sell against.</li>
+              <li>Presented a long term homepage strategy to pivot towards a cross product offering.</li>
+            </ul>
+          </div>
+        </div>
+        <div class="info-row">
+          <div class="info-row__label">COLLABORATORS</div>
+          <div class="info-row__value">Product, Engineering, Operations, BI, Analyst.</div>
+        </div>
+        <div class="info-row">
+          <div class="info-row__label">TIMELINE</div>
+          <div class="info-row__value">Sep 2026</div>
+        </div>
+      </dl>
+    </section>
+
+    <!-- THE PROBLEM -->
+    <section class="section-block">
+      <h2 class="section-title">The Problem</h2>
+      <ol class="problem-list list--numbered">
+        <li>Sportsbook average spend per user is below target.</li>
+        <li>Customers can’t find our sportsbook markets.</li>
+        <li>
+          There is no back-end resource and our current sportsbook providers is
+          a hard coded third party with limited integration functionality.
+        </li>
+      </ol>
+    </section>
+
+    <!-- GOALS & SUCCESS METRICS -->
+    <section class="section-block">
+      <h2 class="section-title">Goals &amp; Success Metrics</h2>
+      <div class="goals body-copy">
+        <div class="goals__row">
+          <div class="goals__label">Design Goal:</div>
+          <div class="goals__value">
+            Create a long term vision for a multi product homepage offering,
+            pivoting from a horse racing only view as we have increased our
+            product portfolio.
+          </div>
+        </div>
+        <div class="goals__row">
+          <div class="goals__label">Business Goal:</div>
+          <div class="goals__value">
+            Increase average spend per user and reach profitability targets.
+          </div>
+        </div>
+        <div class="goals__row">
+          <div class="goals__label">Success Metrics:</div>
+          <div class="goals__value">
+            Average stake per bet &amp; number of sportsbook bets placed.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- RESEARCH & DISCOVERY -->
+    <section class="section-block">
+      <h2 class="section-title">Research &amp; Discovery</h2>
+
+      <figure class="funnel">
+        <img
+          class="funnel__image"
+          src="images/sportsbook-funnel-homepage.png"
+          alt="Funnel from homepage to sportsbook bet placed"
+        />
+        <figcaption class="funnel__caption body-copy">
+          Homepage to sportsbook bet placed funnel, there is a 70% drop off
+          between the homepage and sportsbook page.
+        </figcaption>
+      </figure>
+
+      <figure class="funnel funnel--spaced">
+        <img
+          class="funnel__image"
+          src="images/sportsbook-funnel-quicklinks.png"
+          alt="Funnel from homepage event quicklinks to bet placed"
+        />
+        <figcaption class="funnel__caption body-copy">
+          Event quicklinks on the homepage to bet placed converts 23% higher.
+        </figcaption>
+      </figure>
+
+      <div class="insight-card insight-card--roomy">
+        <p class="insight-card__title insight-card__title--lg">
+          Stakeholder: “Why should I care about conversions when I know our
+          betslip is not up to standard?”
+        </p>
+        <p class="insight-card__body">
+          I showed how the sportsbook betslip converted at 77%, meaning we were
+          reasonably happy with it’s performance, especially against the cost
+          imposed by the third party to make any improvements due to the hard
+          coded nature of their platform.
+        </p>
+        <p class="insight-card__body">
+          My approach was to introduce more customer research methods to
+          increase buy in to the findings:
+        </p>
+        <ol class="list list--numbered insight-card__body">
+          <li>Customer Survey with 798 responses.</li>
+          <li>
+            Behavioural data report, covering all sportsbook customer journey’s
+            conversion rates.
+          </li>
+        </ol>
+        <div class="survey-images">
+          <img
+            class="survey-1"
+            src="images/sportsbook-survey-1.png"
+            alt="Customer survey results"
+          />
+          <img
+            class="survey-2"
+            src="images/sportsbook-survey-2.png"
+            alt="Sportsbook behavioural data report"
+          />
+        </div>
+      </div>
+
+      <div class="hypothesis">
+        <h3 class="section-subtitle">Hypothesis</h3>
+        <p class="lede">
+          Improving customer awareness of sportsbook markets by displaying
+          markets on the homepage will increase the number of bets placed on
+          the sportsbook.
+        </p>
+      </div>
+    </section>
+
+    <!-- EXPLORATION -->
+    <section class="section-block section-block--lg">
+      <h2 class="section-title">Exploration</h2>
+
+      <div class="insight-card insight-card--roomy">
+        <p class="insight-card__title insight-card__title--lg">
+          Designing with limited development support
+        </p>
+        <div class="existing-functionality">
+          <div
+            class="existing-functionality__video"
+            role="img"
+            aria-label="Existing cross-sell functionality on the bet receipt"
+          ></div>
+          <div class="existing-functionality__notes body-copy">
+            <p>
+              There was no backend developers available, so any improvements
+              had to be made with existing functionality. I knew there was a
+              cross-sell component on the bet receipt but it was hidden from
+              customers as they had to make a purchase and then scroll down the
+              page to see it. I believed we could move this functionality from
+              the receipt to the homepage to improve customer awareness.
+            </p>
+            <div class="pros-cons">
+              <p class="pros-cons__title">Pros</p>
+              <ul class="list list--bullet">
+                <li>Existing cross-sell functionality exists and converts at 67%.</li>
+                <li>Our operations team will have control over what markets customers see.</li>
+              </ul>
+            </div>
+            <div class="pros-cons">
+              <p class="pros-cons__title">Cons</p>
+              <ul class="list list--bullet">
+                <li>
+                  There is an unnecessary extra step for customers as the CTA
+                  takes them to the sportsbook page rather than straight to the
+                  betslip.
+                </li>
+                <li>
+                  It is difficult to track customer drop offs when on the
+                  sports page because there is limited behavioural tagging in
+                  our partner’s product.
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="stage">
+        <div class="stage__body">
+          <h3 class="section-subtitle">Stage 1</h3>
+          <ol class="list list--numbered body-copy">
+            <li>
+              Explored wether to display a singular boost or by having several.
+              The issue with having several listed was that it would be pushing
+              content further beneath the scroll.
+            </li>
+            <li>
+              Stakeholders suggested adding £10.00 stake returns X amount, as
+              based on their experience it increases the customer’s stake
+              amount.
+            </li>
+            <li>
+              Biggest feedback was to concentrate on cross selling bet builders
+              rather than the mega boost, as there was significant investment
+              in the former whereas the latter is a loss-lead.
+            </li>
+          </ol>
+          <img
+            class="stage__wireframes"
+            src="images/sportsbook-stage1-wireframes.png"
+            alt="Stage 1 wireframes"
+          />
+        </div>
+        <img
+          class="stage__mockup"
+          src="images/sportsbook-stage1-mockup-1.png"
+          alt="Stage 1 mockup – single boost"
+        />
+        <img
+          class="stage__mockup"
+          src="images/sportsbook-stage1-mockup-2.png"
+          alt="Stage 1 mockup – multiple boosts"
+        />
+      </div>
+
+      <div class="stage">
+        <div class="stage__body">
+          <h3 class="section-subtitle">Stage 2</h3>
+          <ol class="list list--numbered body-copy">
+            <li>
+              Pivoted to a card with a horizontal scroll, which are common place
+              in the industry.
+            </li>
+            <li>
+              Explored multiple formats and landed on one that I felt was most
+              scaleable and can be used more multiple bet types
+            </li>
+            <li>
+              Changed from the yellow cta to our secondary buttons, as our
+              yellow brand guidelines says it should only be applied when there
+              is a promotion or a special offer to our customers.
+            </li>
+            <li>
+              Discussion with our operations teams meant that bet builders were
+              not technologically available. We pivoted and gave full control
+              to the ops team whereby they can customise the title and build
+              their own bets rather than using the third party feed.
+            </li>
+          </ol>
+        </div>
+        <img
+          class="stage__mockup"
+          src="images/sportsbook-stage2-mockup-1.png"
+          alt="Stage 2 mockup – horizontal scroll cards"
+        />
+        <img
+          class="stage__mockup"
+          src="images/sportsbook-stage2-mockup-2.png"
+          alt="Stage 2 mockup – final card format"
+        />
+      </div>
+    </section>
+
+    <!-- VALIDATION -->
+    <section class="section-block section-block--lg">
+      <div class="validation-overview">
+        <h2 class="section-title">Validation</h2>
+        <div class="validation-overview body-copy">
+          <p>
+            Conducted an A/B test where our sportsbook customers (defined by
+            placing a bet on the sportsbook within the past month) were split
+            50:50, with group A seeing the widget once they had logged in.
+            There was overall 14,000 customers involved in the experiement.
+            The key success metrics were:
+          </p>
+          <ol class="list list--numbered">
+            <li>No. of sportsbook bets placed</li>
+            <li>Avg. stake</li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="section-block">
+        <h3 class="section-subtitle">Results</h3>
+        <img
+          class="ab-image"
+          src="images/sportsbook-ab-results.png"
+          alt="A/B test results for the sportsbook cross-sell widget"
+        />
+        <p class="lede">
+          Customers who saw the cross-sell component had a decrease in number
+          of bets by 3.9% and a decrease in stake size by 8.40%.
+        </p>
+        <img
+          class="ga4-image"
+          src="images/sportsbook-ga4-funnel.png"
+          alt="GA4 funnel for the cross-sell component"
+        />
+        <p class="lede">
+          Bet placed conversion rate for the component is 89.2%.
+        </p>
+      </div>
+    </section>
+
+    <!-- REFLECTIONS -->
+    <section class="section-block">
+      <h3 class="section-subtitle">Reflections and Learnings</h3>
+      <div class="insight-card">
+        <p class="insight-card__title">Customer needs vs business goals</p>
+        <p class="insight-card__body">
+          The mega boosts are more popular with customers than what the end
+          product of the widget became. The commercials behind the decision was
+          the profit margins for accumulators were far greater than the
+          ‘megaboost’ so that is what we want customers to bet on.
+        </p>
+        <p class="insight-card__body">
+          However, the A/B test shows that customers rejected using the bet
+          types that we surfaced for them, as they did not align with their
+          goals.
+        </p>
+      </div>
+      <div class="insight-card">
+        <p class="insight-card__title">Fail faster</p>
+        <p class="insight-card__body">
+          Overall, the development work was completed within two weeks, however
+          if we had leveraged AI into creating a workable prototype that could
+          have been shared with a focus group, we may have got more insight
+          into what customers wanted to see on the homepage.
+        </p>
+      </div>
+      <div class="insight-card">
+        <p class="insight-card__title">Data led approach</p>
+        <p class="insight-card__body">
+          Stakeholders wanted to invest a lot of resources into the betslip,
+          when in fact the biggest drop off was earlier in the funnel. Using a
+          data led approach allowed me to influence the roadmap and get buyin
+          to the customer research proposals rather than stakeholder
+          assumptions. Furthermore, despite the result of the A/B, stakeholders
+          wanted to roll out to 100%, to which I responded with the data to
+          suggest more consideration around our next steps.
+        </p>
+      </div>
+    </section>
+
+    <!-- NEXT STEPS -->
+    <section class="section-block">
+      <h3 class="section-subtitle">Next Steps</h3>
+      <div class="insight-card">
+        <p class="insight-card__title">Personalisation</p>
+        <p class="insight-card__body">
+          The functionality of the cross sell widget performs highly, but the
+          content we are displaying in front of the customers are not working.
+        </p>
+        <p class="insight-card__body">
+          Based off customer historical betting behaviour, surfacing bets that
+          are appealing to them would increase engagement, otherwise we are
+          displaying irrelevant content to customers.
+        </p>
+      </div>
+      <div class="insight-card">
+        <p class="insight-card__title">Learn more about our Sportsbook Customers</p>
+        <p class="insight-card__body">
+          We looked to increase bet-builder bets, however with the fact that
+          the Tote has an older demographic than competitors may attribute to
+          why 45% of customers do not bet on bet builders as they are not
+          interested in the bet, rather than them not being able to find the
+          bet type.
+        </p>
+      </div>
+      <div class="insight-card">
+        <p class="insight-card__title">Further testing</p>
+        <p class="insight-card__body">
+          Look at cross-selling the mega boosts rather than the bet
+          boosts/specials that are currently being surfaced.
+        </p>
+        <p class="insight-card__body">
+          Explore further testing a list layout rather than a card layout.
+        </p>
+        <p class="insight-card__body">
+          Interview sportsbook customers to understand better their behaviours
+          and opinions when using the Tote to place a sports bet.
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    (function () {
+      var header = document.querySelector('.site-header');
+      if (!header) return;
+      var toggle = function () {
+        if (window.scrollY > 8) {
+          header.classList.add('site-header--scrolled');
+        } else {
+          header.classList.remove('site-header--scrolled');
+        }
+      };
+      toggle();
+      window.addEventListener('scroll', toggle, { passive: true });
+    })();
+  </script>
+</body>
+</html>
