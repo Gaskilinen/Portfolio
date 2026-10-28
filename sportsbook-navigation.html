@@ -365,6 +365,7 @@
       height: 428px;
       flex-shrink: 0;
       background: var(--placeholder);
+      object-fit: cover;
     }
 
     .existing-functionality__notes {
@@ -693,11 +694,16 @@
           Designing with limited development support
         </p>
         <div class="existing-functionality">
-          <div
+          <video
             class="existing-functionality__video"
-            role="img"
+            controls
+            preload="metadata"
+            playsinline
             aria-label="Existing cross-sell functionality on the bet receipt"
-          ></div>
+          >
+            <source src="media/existing-functionality.mp4" type="video/mp4" />
+            Your browser does not support the video tag.
+          </video>
           <div class="existing-functionality__notes body-copy">
             <p>
               There was no backend developers available, so any improvements
